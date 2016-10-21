@@ -7,31 +7,52 @@ import java.awt.GridLayout;
 import java.awt.event.*;
 import javax.swing.*;
 
+/**
+ * This class creates the GUI that the user uses to create nodes,
+ * create connections, and run the random routing simulator
+ * 
+ * @author Team GetterDone
+ *
+ */
 public class Master extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
-	public List<Node> allNodes = new ArrayList<Node>();
+	// Holds all nodes that are made
+	public List<Node> allNodes = new ArrayList<Node>();	
+	// Variables used to make GUI
 	public static final int WIDTH = 400;
 	public static final int HEIGHT = 250;
 	private JTextField nameTextField, conNameTextField, conNodeTextField;
+	// Generates the index of the next node
 	private Random rand = new Random();
+	//Counts the number of packets required to reach the end
+	private int randomPackets = 0;
 	
+	/**
+	 * Generates the GUI
+	 */
 	public Master() {
+		// Creates basic JFrame with container
 		setSize(WIDTH,HEIGHT);
 		setTitle("Address Book");
 		Container contentPane = getContentPane();
 		contentPane.setBackground(Color.PINK);
 		contentPane.setLayout(new GridLayout(8,2));
 		
+		// Creates JMenu bar
         JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
+        
+        // Adds Run Test Method to JMenuBar
         JMenuItem newItem = new JMenuItem("Run Test Method", 'R');
         newItem.addActionListener(this);
         fileMenu.add(newItem);
         
+        // Adds Display Method to JMenuBar
         JMenuItem displayItem = new JMenuItem("Display Nodes and Connections", 'D');
         displayItem.addActionListener(this);
         fileMenu.add(displayItem);
         
+        // Adds Random Search Method to JMenuBar
         JMenuItem randomItem = new JMenuItem("Random Search", 'R');
         randomItem.addActionListener(this);
         fileMenu.add(randomItem);
@@ -39,6 +60,7 @@ public class Master extends JFrame implements ActionListener {
         menuBar.add(fileMenu);
         setJMenuBar(menuBar);
 		
+        // Creates Text Field and Button to Make New Node
 		JLabel nameLabel = new JLabel("Name: ");
 		contentPane.add(nameLabel);
 	    nameTextField = new JTextField(25);
@@ -51,6 +73,7 @@ public class Master extends JFrame implements ActionListener {
 		JLabel conLabel = new JLabel("");
 		contentPane.add(conLabel);
 		
+		// Creates Text Fields and Button to Make Connection To a Node
 		JLabel con1Label = new JLabel("		Given node name to: ");
 		contentPane.add(con1Label);
 		conNodeTextField = new JTextField(25);
@@ -64,46 +87,67 @@ public class Master extends JFrame implements ActionListener {
 		JButton conButton = new JButton("Create connections for node");
 		conButton.addActionListener(this);
 		contentPane.add(conButton);
-
+		
+		// Makes it so the program closes when you close the GUI
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 	
+	/**
+	 * Creates a new node and adds it to the list of all nodes
+	 * 
+	 * @param nodeName (String)
+	 * @return Node
+	 */
 	public Node newNode(String nodeName) {
 		Node n = new Node(nodeName);
 		allNodes.add(n);
 		return n;
 	}
 	
+	/**
+	 * Gets a node given its name
+	 * 
+	 * @param name (String)
+	 * @return Node
+	 */
 	public Node getNode(String name){
+		// Goes through all nodes made
 		for (int i = 0; i < allNodes.size(); i++){
+			// Returns node with the given name
 			if (allNodes.get(i).getName().equals(name)) {
 				return allNodes.get(i);
 			}
 		}
+		// Returns null if the node name doesn't exist
 		return null;
 	}
 	
+	/**
+	 * Creates connections for the given node using given connections
+	 * 
+	 * @param node (Node)
+	 * @param connections (String)
+	 */
 	public void nodeConnections(Node node, String connections) {
+		// Separates all connections into individual strings
 		String[] nodeConnections = connections.split(" ");
 		
+		// Adds the connections to the node
 		node.addConnections(nodeConnections);
-		/*
-		for (Node t : allNodes){
-			if (t.equals(node)) {
-				for (int i = 0; i < nodeConnections.length; i++){
-					t.addConnection(nodeConnections[i]);
-				}
-			}
-		}*/
 	}
 	
+	/**
+	 * Creates the nodes with connections as shown in the projects specifications (for test)
+	 */
 	public void runTest(){
+		// Creates all nodes.
 		Node A = newNode("A");
 		Node B = newNode("B");
 		Node C = newNode("C");
 		Node D = newNode("D");
 		Node E = newNode("E");
 		
-		// Move to list of nodes, rather than list of node names later
+		// Adds all connections to the nodes.
 		nodeConnections(A, "B C");
 		nodeConnections(B, "A D E");
 		nodeConnections(C, "A D");
@@ -111,9 +155,18 @@ public class Master extends JFrame implements ActionListener {
 		nodeConnections(E, "A B");
 	}
 	
-	public void receiveRandomMessage(Node node, String incomingMessage) {
+	/**
+	 * Random routing simulator
+	 * 
+	 * @param node (Node)
+	 * @param incomingMessage (String)
+	 * @param destination (Node)
+	 */
+	public void receiveRandomMessage(Node node, String incomingMessage, Node destination) {
+		// Sets the message and increaments the number of packets sent
 		node.setMessage(incomingMessage);
-		
+		randomPackets++;
+		if(node.equals(destination)) return;
 		
 		// Delay to see things as they're happening.
 		try {
@@ -127,16 +180,28 @@ public class Master extends JFrame implements ActionListener {
 		int nextNodeIndex = rand.nextInt(cons.size());
 		Node nextNode = getNode(cons.get(nextNodeIndex));
 		
+		// Prints the change name as well as the next node that the message will be sent to.
 		System.out.println("Changed node: " + node.getName() + " with message: " + incomingMessage);
 		System.out.println("Next node: " + nextNode.getName());
-		receiveRandomMessage(nextNode, incomingMessage);
+		
+		// Sends message to the next node
+		receiveRandomMessage(nextNode, incomingMessage, destination);
 	}
 
+	/**
+	 * Displays all nodes information
+	 */
 	public void displayNodes(){
 		for (Node n : allNodes){
 			n.displayNode();
 		}
 	}
+	
+	/**
+	 * Creates new master program, making the GUI
+	 * 
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		Master m = new Master();
 		m.setVisible(true);
@@ -146,25 +211,31 @@ public class Master extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		String actionCommand = e.getActionCommand();
 		
+		// User created new node in container(no connections yet)
 		if(actionCommand.equals("Create Node")) {
 			allNodes.add(new Node(nameTextField.getText()));
 		}
+		// User added connections to the node
 		else if(actionCommand.equals("Create connections for node")) {
 			Node n =  getNode(conNodeTextField.getText());
 			nodeConnections(n, conNameTextField.getText());
 		}
+		// User runs test method that creates text nodes with connections
 		else if(actionCommand.equals("Run Test Method")) {
 			runTest();
 		}
+		// User wants to display all the nodes with their connections
 		else if(actionCommand.equals("Display Nodes and Connections")) {
 			displayNodes();
 		}
+		// User wants to run the random routing simulator
 		else if(actionCommand.equals("Random Search")) {
 			if (allNodes.size() == 0){
 				System.out.println("Need to run tests first");
 				return;
 			}
-			receiveRandomMessage(getNode("A"), "Test");
+			receiveRandomMessage(getNode("A"), "Test", getNode("E"));
+			System.out.println("Total number of random packets sent: " + randomPackets);
 		}
 	}
 }
