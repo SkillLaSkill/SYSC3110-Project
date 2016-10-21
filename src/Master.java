@@ -32,7 +32,7 @@ public class Master extends JFrame implements ActionListener {
 	 */
 	public Master() {
 		// Creates basic JFrame with container
-		setSize(WIDTH,HEIGHT);
+		setSize(WIDTH,HEIGHT); 
 		setTitle("Address Book");
 		Container contentPane = getContentPane();
 		contentPane.setBackground(Color.PINK);
