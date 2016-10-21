@@ -32,7 +32,7 @@ public class Master extends JFrame implements ActionListener {
 	 */
 	public Master() {
 		// Creates basic JFrame with container
-		setSize(WIDTH,HEIGHT);
+		setSize(WIDTH,HEIGHT); 
 		setTitle("Address Book");
 		Container contentPane = getContentPane();
 		contentPane.setBackground(Color.PINK);
@@ -166,7 +166,6 @@ public class Master extends JFrame implements ActionListener {
 		// Sets the message and increaments the number of packets sent
 		node.setMessage(incomingMessage);
 		randomPackets++;
-		if(node.equals(destination)) return;
 		
 		// Delay to see things as they're happening.
 		try {
@@ -180,8 +179,9 @@ public class Master extends JFrame implements ActionListener {
 		int nextNodeIndex = rand.nextInt(cons.size());
 		Node nextNode = getNode(cons.get(nextNodeIndex));
 		
-		// Prints the change name as well as the next node that the message will be sent to.
+		// Prints the change name as well as the next node that the message will be sent to as long as it didn't reach the destinations
 		System.out.println("Changed node: " + node.getName() + " with message: " + incomingMessage);
+		if(node.equals(destination)) return;
 		System.out.println("Next node: " + nextNode.getName());
 		
 		// Sends message to the next node
@@ -194,7 +194,7 @@ public class Master extends JFrame implements ActionListener {
 	public void displayNodes(){
 		for (Node n : allNodes){
 			n.displayNode();
-		} //hi
+		} 
 	}
 	
 	/**
