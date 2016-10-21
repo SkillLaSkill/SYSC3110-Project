@@ -39,4 +39,18 @@ public class Node {
 	public void addConnection(String con){
 		connections.add(con);
 	}
+	public void addConnections(String[] cons) {
+		for (String con : cons) {
+			addConnection(con);
+		}
+	}
+	@Override
+	public boolean equals(Object o) {
+		if (o == null) return false;
+		if (!(o instanceof Node)) {
+			return false;
+		}
+		Node n = (Node)o;
+		return this.name.equals(n.name);
+	}
 }

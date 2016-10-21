@@ -67,64 +67,69 @@ public class Master extends JFrame implements ActionListener {
 
 	}
 	
-	public void newNode(String nodeName) {
-		allNodes.add(new Node(nodeName));
+	public Node newNode(String nodeName) {
+		Node n = new Node(nodeName);
+		allNodes.add(n);
+		return n;
 	}
 	
 	public Node getNode(String name){
 		for (int i = 0; i < allNodes.size(); i++){
-			if (allNodes.get(i).getName() == name) {
+			if (allNodes.get(i).getName().equals(name)) {
 				return allNodes.get(i);
 			}
 		}
 		return null;
 	}
 	
-	public void nodeConnections(String node, String connections) {
+	public void nodeConnections(Node node, String connections) {
 		String[] nodeConnections = connections.split(" ");
 		
+		node.addConnections(nodeConnections);
+		/*
 		for (Node t : allNodes){
-			if (t.getName() == node) {
+			if (t.equals(node)) {
 				for (int i = 0; i < nodeConnections.length; i++){
 					t.addConnection(nodeConnections[i]);
 				}
 			}
-		}
+		}*/
 	}
 	
 	public void runTest(){
-		newNode("A");
-		newNode("B");
-		newNode("C");
-		newNode("D");
-		newNode("E");
+		Node A = newNode("A");
+		Node B = newNode("B");
+		Node C = newNode("C");
+		Node D = newNode("D");
+		Node E = newNode("E");
 		
-		nodeConnections("A", "B C");
-		nodeConnections("B", "A D E");
-		nodeConnections("C", "A D");
-		nodeConnections("D", "B C");
-		nodeConnections("E", "A B");
+		// Move to list of nodes, rather than list of node names later
+		nodeConnections(A, "B C");
+		nodeConnections(B, "A D E");
+		nodeConnections(C, "A D");
+		nodeConnections(D, "B C");
+		nodeConnections(E, "A B");
 	}
 	
-	public void receiveRandomMessage(String node, String incoming) {
-		for(Node n : allNodes){
-			if (n.getName().equals(node)) {
-				n.setMessage(incoming);
-				List<String> cons = n.getConnections();
-				int nextNode = rand.nextInt(cons.size());
-			
-				try {
-					Thread.sleep(1000);                 
-				} catch(InterruptedException ex) {
-					Thread.currentThread().interrupt();
-				}
+	public void receiveRandomMessage(Node node, String incomingMessage) {
+		node.setMessage(incomingMessage);
 		
-				String s = cons.get(nextNode);
-				System.out.println("Changed node: " + node + " with message: " + incoming);
-				System.out.println("Next node: " + s);
-				receiveRandomMessage(s,incoming);
-			}
+		
+		// Delay to see things as they're happening.
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
+		
+		// Get the next (random) node from node's list of connections
+		List<String> cons = node.getConnections();
+		int nextNodeIndex = rand.nextInt(cons.size());
+		Node nextNode = getNode(cons.get(nextNodeIndex));
+		
+		System.out.println("Changed node: " + node.getName() + " with message: " + incomingMessage);
+		System.out.println("Next node: " + nextNode.getName());
+		receiveRandomMessage(nextNode, incomingMessage);
 	}
 
 	public void displayNodes(){
@@ -145,7 +150,8 @@ public class Master extends JFrame implements ActionListener {
 			allNodes.add(new Node(nameTextField.getText()));
 		}
 		else if(actionCommand.equals("Create connections for node")) {
-			nodeConnections(conNodeTextField.getText(), conNameTextField.getText());
+			Node n =  getNode(conNodeTextField.getText());
+			nodeConnections(n, conNameTextField.getText());
 		}
 		else if(actionCommand.equals("Run Test Method")) {
 			runTest();
@@ -154,7 +160,11 @@ public class Master extends JFrame implements ActionListener {
 			displayNodes();
 		}
 		else if(actionCommand.equals("Random Search")) {
-			receiveRandomMessage("A", "Test");
+			if (allNodes.size() == 0){
+				System.out.println("Need to run tests first");
+				return;
+			}
+			receiveRandomMessage(getNode("A"), "Test");
 		}
 	}
 }
