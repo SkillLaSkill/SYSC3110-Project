@@ -19,7 +19,7 @@ public class Master extends JFrame implements ActionListener {
 		setSize(WIDTH,HEIGHT);
 		setTitle("Address Book");
 		Container contentPane = getContentPane();
-		contentPane.setBackground(Color.RED);
+		contentPane.setBackground(Color.PINK);
 		contentPane.setLayout(new GridLayout(8,2));
 		
         JMenuBar menuBar = new JMenuBar();
@@ -100,7 +100,7 @@ public class Master extends JFrame implements ActionListener {
 		newNode("E");
 		
 		nodeConnections("A", "B C");
-		nodeConnections("B", "B D E");
+		nodeConnections("B", "A D E");
 		nodeConnections("C", "A D");
 		nodeConnections("D", "B C");
 		nodeConnections("E", "A B");
@@ -108,19 +108,23 @@ public class Master extends JFrame implements ActionListener {
 	
 	public void receiveRandomMessage(String node, String incoming) {
 		for(Node n : allNodes){
-			if (n.getName() == node) n.setMessage(incoming);
-			List<String> cons = n.getConnections();
-			int nextNode = rand.nextInt(cons.size());
-			delay(100);
-			for(Node next : allNodes){
-				if (next.getName() == cons.get(nextNode)) receiveRandomMessage(next.getName(), incoming);
+			if (n.getName() == node) {
+				n.setMessage(incoming);
+				List<String> cons = n.getConnections();
+				int nextNode = rand.nextInt(cons.size());
+			
+				try {
+					Thread.sleep(1000);                 
+				} catch(InterruptedException ex) {
+					Thread.currentThread().interrupt();
+				}
+		
+				String s = cons.get(nextNode);
+				System.out.println(s);
+				System.out.println("Changed node: " + node + " with message: " + incoming);
+				receiveRandomMessage(s,incoming);
 			}
 		}
-	}
-	
-	private void delay(int i) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	public void displayNodes(){
@@ -148,6 +152,9 @@ public class Master extends JFrame implements ActionListener {
 		}
 		else if(actionCommand.equals("Display Nodes and Connections")) {
 			displayNodes();
+		}
+		else if(actionCommand.equals("Random Search")) {
+			receiveRandomMessage("A", "Test");
 		}
 	}
 }
