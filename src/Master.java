@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.GridLayout;
@@ -21,9 +20,8 @@ public class Master extends JFrame implements ActionListener {
 	// Variables used to make GUI
 	public static final int WIDTH = 400;
 	public static final int HEIGHT = 250;
-	private JTextField nameTextField, conNameTextField, conNodeTextField/*, srcNodeTextField, destNodeTextField*/;
-	// Generates the index of the next node
-	private Random rand = new Random();
+	private JTextField nameTextField, conNameTextField, conNodeTextField;
+	private Simulation sim;
 	
 	/**
 	 * Generates the GUI
@@ -31,10 +29,10 @@ public class Master extends JFrame implements ActionListener {
 	public Master() {
 		// Creates basic JFrame with container
 		setSize(WIDTH,HEIGHT); 
-		setTitle("Address Book");
+		setTitle("Network Simulator");
 		Container contentPane = getContentPane();
 		contentPane.setBackground(Color.PINK);
-		contentPane.setLayout(new GridLayout(8,2));
+		contentPane.setLayout(new GridLayout(6,2));
 		
 		// Creates JMenu bar
         JMenuBar menuBar = new JMenuBar();
@@ -45,8 +43,8 @@ public class Master extends JFrame implements ActionListener {
         displayItem.addActionListener(this);
         fileMenu.add(displayItem);
         
-        // Adds Run Test Method to JMenuBar
-        JMenuItem newItem = new JMenuItem("Run Test Method");
+        // Adds Setup Test Nodes to JMenuBar
+        JMenuItem newItem = new JMenuItem("Setup Test Nodes");
         newItem.addActionListener(this);
         fileMenu.add(newItem);
          
@@ -92,19 +90,11 @@ public class Master extends JFrame implements ActionListener {
 		
 		JButton simStartButton = new JButton("Start Simulation");
 		simStartButton.addActionListener(this);
-		
-		/*
-		JLabel srcLabel = new JLabel("Source Node:");
-		contentPane.add(srcLabel);
-		srcNodeTextField = new JTextField();
-		contentPane.add(srcNodeTextField);
-		
-		JLabel destLabel = new JLabel("Destination Node:");
-		contentPane.add(destLabel);
-		destNodeTextField = new JTextField();
-		contentPane.add(destNodeTextField);*/
+		JButton simStopButton = new JButton("Stop Simulation");
+		simStopButton.addActionListener(this);
 		
 		contentPane.add(simStartButton);
+		contentPane.add(simStopButton);
 		
 		// Makes it so the program closes when you close the GUI
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -116,7 +106,7 @@ public class Master extends JFrame implements ActionListener {
 	 * @param nodeName (String)
 	 * @return Node
 	 */
-	public Node newNode(String nodeName) {
+	private Node newNode(String nodeName) {
 		Node n = new Node(nodeName);
 		allNodes.add(n);
 		return n;
@@ -128,7 +118,7 @@ public class Master extends JFrame implements ActionListener {
 	 * @param name (String)
 	 * @return Node
 	 */
-	public Node getNode(String name){
+	private Node getNode(String name){
 		// Goes through all nodes made
 		for (int i = 0; i < allNodes.size(); i++){
 			// Returns node with the given name
@@ -146,7 +136,7 @@ public class Master extends JFrame implements ActionListener {
 	 * @param node (Node)
 	 * @param connections (String)
 	 */
-	public void nodeConnections(Node node, String connections) {
+	private void nodeConnections(Node node, String connections) {
 		// Separates all connections into individual strings
 		String[] nodeConnections = connections.split(" ");
 		for (String con : nodeConnections) {
@@ -155,8 +145,12 @@ public class Master extends JFrame implements ActionListener {
 				System.out.println("There were non-existent nodes in the connections list.");
 				return;
 			}
+		}
+		
+		// Separate loop because we don't want to add connections if the list was faulty.
+		for (String con : nodeConnections) {
 			// To keep the graph undirected, need to make sure all nodes have connections backwards.
-			n.addConnection(node.getName());
+			getNode(con).addConnection(node.getName());
 		}
 		// Adds the connections to the node
 		node.addConnections(nodeConnections);
@@ -165,7 +159,7 @@ public class Master extends JFrame implements ActionListener {
 	/**
 	 * Creates the nodes with connections as shown in the projects specifications (for test)
 	 */
-	public void runTest(){
+	private void runTest(){
 		// Creates all nodes.
 		Node A = newNode("A");
 		Node B = newNode("B");
@@ -179,16 +173,14 @@ public class Master extends JFrame implements ActionListener {
 		nodeConnections(C, "A D");
 		nodeConnections(D, "B C");
 		nodeConnections(E, "A B");
-		
-		int hops = receiveRandomMessage(A, "Test", E);
-		System.out.println("Total number of hops for node " + A.getName() + " to get to " + E.getName() + " was " + hops + ".");
 	}
 	
 
 	/**
 	 * Displays all nodes information
 	 */
-	public void displayNodes(){
+	private void displayNodes(){
+		System.out.println("\nList of nodes and their connections:");
 		if (allNodes.size() == 0) {
 			System.out.println("No nodes.");
 		}
@@ -213,7 +205,8 @@ public class Master extends JFrame implements ActionListener {
 		
 		// User created new node in container(no connections yet)
 		if(actionCommand.equals("Create Node")) {
-			if (nameTextField.getText().isEmpty()) {
+			if (nameTextField.getText().isEmpty() || nameTextField.getText().contains(" ")) {
+				System.out.println("Invalid node name.");
 				return;
 			}
 			Node n = new Node(nameTextField.getText());
@@ -244,7 +237,7 @@ public class Master extends JFrame implements ActionListener {
 			conNameTextField.setText("");
 		}
 		// User runs test method that creates text nodes with connections
-		else if(actionCommand.equals("Run Test Method")) {
+		else if(actionCommand.equals("Setup Test Nodes")) {
 			runTest();
 		}
 		// User wants to display all the nodes with their connections
@@ -257,27 +250,17 @@ public class Master extends JFrame implements ActionListener {
 				System.out.println("Need to set up nodes and connections.");
 				return;
 			}
-			Simulation s = new Simulation(allNodes);
-			s.start();
-			
-			while (true) {
-				
-				
-				/*if (src == null || dest == null) {
-					System.out.println("Source and Destination nodes must exist.");
-					return;
-				}*/
-				
-			}
-			
+			sim = new Simulation(allNodes);
+			sim.start();			
+		}
+		else if (actionCommand.equals("Stop Simulation")){
+			sim.setSimulating(false);
 		}
 		else if (actionCommand.equals("Reset")) {
 			allNodes.clear();
 			nameTextField.setText("");
 			conNameTextField.setText(""); 
 			conNodeTextField.setText("");
-			/*srcNodeTextField.setText("");
-			destNodeTextField.setText("");*/
 		}
 	}
 }
