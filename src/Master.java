@@ -194,7 +194,7 @@ public class Master extends JFrame implements ActionListener {
 	public void displayNodes(){
 		for (Node n : allNodes){
 			n.displayNode();
-		}
+		} //hi
 	}
 	
 	/**
