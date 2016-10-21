@@ -11,7 +11,6 @@ public class Node {
 		name = n;
 		message = "";
 	}
-	
 	public String getName() {
 		return name;
 	}
