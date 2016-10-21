@@ -108,7 +108,7 @@ public class Master extends JFrame implements ActionListener {
 	
 	public void receiveRandomMessage(String node, String incoming) {
 		for(Node n : allNodes){
-			if (n.getName() == node) {
+			if (n.getName().equals(node)) {
 				n.setMessage(incoming);
 				List<String> cons = n.getConnections();
 				int nextNode = rand.nextInt(cons.size());
@@ -120,8 +120,8 @@ public class Master extends JFrame implements ActionListener {
 				}
 		
 				String s = cons.get(nextNode);
-				System.out.println(s);
 				System.out.println("Changed node: " + node + " with message: " + incoming);
+				System.out.println("Next node: " + s);
 				receiveRandomMessage(s,incoming);
 			}
 		}
