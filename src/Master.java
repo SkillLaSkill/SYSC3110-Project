@@ -1,4 +1,6 @@
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.GridLayout;
@@ -7,25 +9,32 @@ import javax.swing.*;
 
 public class Master extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
-	public List<Node> allNodes;
+	public List<Node> allNodes = new ArrayList<Node>();
 	public static final int WIDTH = 400;
 	public static final int HEIGHT = 250;
 	private JTextField nameTextField, conNameTextField, conNodeTextField;
+	private Random rand = new Random();
 	
 	public Master() {
-		allNodes = null;
 		setSize(WIDTH,HEIGHT);
 		setTitle("Address Book");
 		Container contentPane = getContentPane();
 		contentPane.setBackground(Color.RED);
 		contentPane.setLayout(new GridLayout(8,2));
 		
-		 
         JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
         JMenuItem newItem = new JMenuItem("Run Test Method", 'R');
         newItem.addActionListener(this);
         fileMenu.add(newItem);
+        
+        JMenuItem displayItem = new JMenuItem("Display Nodes and Connections", 'D');
+        displayItem.addActionListener(this);
+        fileMenu.add(displayItem);
+        
+        JMenuItem randomItem = new JMenuItem("Random Search", 'R');
+        randomItem.addActionListener(this);
+        fileMenu.add(randomItem);
         
         menuBar.add(fileMenu);
         setJMenuBar(menuBar);
@@ -38,7 +47,6 @@ public class Master extends JFrame implements ActionListener {
 		JButton nameButton = new JButton("Create Node");
 		nameButton.addActionListener(this);
 		contentPane.add(nameButton);
-		
 		
 		JLabel conLabel = new JLabel("");
 		contentPane.add(conLabel);
@@ -73,30 +81,53 @@ public class Master extends JFrame implements ActionListener {
 	}
 	
 	public void nodeConnections(String node, String connections) {
-		Node n = getNode(node);
 		String[] nodeConnections = connections.split(" ");
 		
-		for (int i = 0; i < nodeConnections.length; i++){
-			for (Node t : allNodes){
-				if (t.getName() == nodeConnections[i]) t.addConnection(n);
+		for (Node t : allNodes){
+			if (t.getName() == node) {
+				for (int i = 0; i < nodeConnections.length; i++){
+					t.addConnection(nodeConnections[i]);
+				}
 			}
 		}
 	}
 	
 	public void runTest(){
 		newNode("A");
-		/*newNode("B");
+		newNode("B");
 		newNode("C");
 		newNode("D");
 		newNode("E");
 		
 		nodeConnections("A", "B C");
-		nodeConnections("B", "B D, E");
+		nodeConnections("B", "B D E");
 		nodeConnections("C", "A D");
 		nodeConnections("D", "B C");
-		nodeConnections("E", "A B");*/
+		nodeConnections("E", "A B");
 	}
 	
+	public void receiveRandomMessage(String node, String incoming) {
+		for(Node n : allNodes){
+			if (n.getName() == node) n.setMessage(incoming);
+			List<String> cons = n.getConnections();
+			int nextNode = rand.nextInt(cons.size());
+			delay(100);
+			for(Node next : allNodes){
+				if (next.getName() == cons.get(nextNode)) receiveRandomMessage(next.getName(), incoming);
+			}
+		}
+	}
+	
+	private void delay(int i) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void displayNodes(){
+		for (Node n : allNodes){
+			n.displayNode();
+		}
+	}
 	public static void main(String[] args) {
 		Master m = new Master();
 		m.setVisible(true);
@@ -107,13 +138,16 @@ public class Master extends JFrame implements ActionListener {
 		String actionCommand = e.getActionCommand();
 		
 		if(actionCommand.equals("Create Node")) {
-			newNode(nameTextField.getText());
+			allNodes.add(new Node(nameTextField.getText()));
 		}
 		else if(actionCommand.equals("Create connections for node")) {
 			nodeConnections(conNodeTextField.getText(), conNameTextField.getText());
 		}
 		else if(actionCommand.equals("Run Test Method")) {
 			runTest();
+		}
+		else if(actionCommand.equals("Display Nodes and Connections")) {
+			displayNodes();
 		}
 	}
 }

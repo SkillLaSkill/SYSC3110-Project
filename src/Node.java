@@ -1,30 +1,42 @@
 import java.util.*;
 
 public class Node {
-	private List<Node> connections;
+	private List<String> connections = new ArrayList<String>();
 	private String message;
 	private String name;
-	private Random rand = new Random();
 	
 	public Node(String n){
-		connections = null;
 		name = n;
 		message = "";
 	}
+	
 	public String getName() {
 		return name;
+	}
+	
+	public List<String> getConnections(){
+		return connections;
 	}
 	
 	public String getMessage() {
 		return message;
 	}
 	
-	public void receiveRandomMessage(String incoming) {
-		message = incoming;
-		connections.get(rand.nextInt(connections.size())).receiveRandomMessage(incoming);
+	public void setMessage(String m){
+		message = m;
 	}
 	
-	public void addConnection(Node con){
+	public void displayNode() {
+		System.out.println("Node " + name + ":");
+		System.out.println("Message: " + message);
+		System.out.print("Connections: ");
+		for (String n : connections) {
+			System.out.print(n + ", ");
+		}
+		System.out.println("");
+	}
+	
+	public void addConnection(String con){
 		connections.add(con);
 	}
 }
