@@ -79,7 +79,10 @@ public class Node {
 	 * @param con (String)
 	 */
 	public void addConnection(String con){
-		connections.add(con);
+		// Don't allow duplicates or self as a possible connection, i.e. keep graph simple.
+		if (!connections.contains(con) && !con.equals(this.getName())){
+			connections.add(con);	
+		}	
 	}
 	
 	/**
@@ -100,7 +103,7 @@ public class Node {
 	public boolean equals(Object o) {
 		// Parameter is empty
 		if (o == null) return false;
-		// Parameter isnt a node
+		// Parameter isn't a node
 		if (!(o instanceof Node)) {
 			return false;
 		}

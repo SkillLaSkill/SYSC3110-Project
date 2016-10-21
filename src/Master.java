@@ -21,11 +21,9 @@ public class Master extends JFrame implements ActionListener {
 	// Variables used to make GUI
 	public static final int WIDTH = 400;
 	public static final int HEIGHT = 250;
-	private JTextField nameTextField, conNameTextField, conNodeTextField, srcNodeTextField, destNodeTextField;
+	private JTextField nameTextField, conNameTextField, conNodeTextField/*, srcNodeTextField, destNodeTextField*/;
 	// Generates the index of the next node
 	private Random rand = new Random();
-	//Counts the number of packets required to reach the end
-	private int randomPackets = 0;
 	
 	/**
 	 * Generates the GUI
@@ -42,26 +40,27 @@ public class Master extends JFrame implements ActionListener {
         JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
         
-        // Adds Run Test Method to JMenuBar
-        JMenuItem newItem = new JMenuItem("Run Test Method", 'R');
-        newItem.addActionListener(this);
-        fileMenu.add(newItem);
-        
         // Adds Display Method to JMenuBar
         JMenuItem displayItem = new JMenuItem("Display Nodes and Connections", 'D');
         displayItem.addActionListener(this);
         fileMenu.add(displayItem);
         
+        // Adds Run Test Method to JMenuBar
+        JMenuItem newItem = new JMenuItem("Run Test Method");
+        newItem.addActionListener(this);
+        fileMenu.add(newItem);
+         
+        
         // Adds Random Search Method to JMenuBar
-        JMenuItem randomItem = new JMenuItem("Random Search", 'R');
-        randomItem.addActionListener(this);
-        fileMenu.add(randomItem);
+        JMenuItem reset = new JMenuItem("Reset", 'R');
+        reset.addActionListener(this);
+        fileMenu.add(reset);
         
         menuBar.add(fileMenu);
         setJMenuBar(menuBar);
 		
         // Creates Text Field and Button to Make New Node
-		JLabel nameLabel = new JLabel("Name: ");
+		JLabel nameLabel = new JLabel("New node name: ");
 		contentPane.add(nameLabel);
 	    nameTextField = new JTextField(25);
 		contentPane.add(nameTextField);
@@ -74,17 +73,17 @@ public class Master extends JFrame implements ActionListener {
 		contentPane.add(conLabel);
 		
 		// Creates Text Fields and Button to Make Connection To a Node
-		JLabel con1Label = new JLabel("		Given node name to: ");
+		JLabel con1Label = new JLabel("Node to set connections:");
 		contentPane.add(con1Label);
 		conNodeTextField = new JTextField(25);
 		contentPane.add(conNodeTextField);
 		
-		JLabel con2Label = new JLabel("		Connected to: ");
+		JLabel con2Label = new JLabel("List of connections: ");
 		contentPane.add(con2Label);
 	    conNameTextField = new JTextField(25);
 		contentPane.add(conNameTextField);
 		
-		JButton conButton = new JButton("Create connections for node");
+		JButton conButton = new JButton("Establish Connections");
 		conButton.addActionListener(this);
 		contentPane.add(conButton);
 		
@@ -94,6 +93,7 @@ public class Master extends JFrame implements ActionListener {
 		JButton simStartButton = new JButton("Start Simulation");
 		simStartButton.addActionListener(this);
 		
+		/*
 		JLabel srcLabel = new JLabel("Source Node:");
 		contentPane.add(srcLabel);
 		srcNodeTextField = new JTextField();
@@ -102,7 +102,7 @@ public class Master extends JFrame implements ActionListener {
 		JLabel destLabel = new JLabel("Destination Node:");
 		contentPane.add(destLabel);
 		destNodeTextField = new JTextField();
-		contentPane.add(destNodeTextField);
+		contentPane.add(destNodeTextField);*/
 		
 		contentPane.add(simStartButton);
 		
@@ -149,7 +149,15 @@ public class Master extends JFrame implements ActionListener {
 	public void nodeConnections(Node node, String connections) {
 		// Separates all connections into individual strings
 		String[] nodeConnections = connections.split(" ");
-		
+		for (String con : nodeConnections) {
+			Node n = getNode(con);
+			if (n == null) {
+				System.out.println("There were non-existent nodes in the connections list.");
+				return;
+			}
+			// To keep the graph undirected, need to make sure all nodes have connections backwards.
+			n.addConnection(node.getName());
+		}
 		// Adds the connections to the node
 		node.addConnections(nodeConnections);
 	}
@@ -171,45 +179,19 @@ public class Master extends JFrame implements ActionListener {
 		nodeConnections(C, "A D");
 		nodeConnections(D, "B C");
 		nodeConnections(E, "A B");
+		
+		int hops = receiveRandomMessage(A, "Test", E);
+		System.out.println("Total number of hops for node " + A.getName() + " to get to " + E.getName() + " was " + hops + ".");
 	}
 	
-	/**
-	 * Random routing simulator
-	 * 
-	 * @param node (Node)
-	 * @param incomingMessage (String)
-	 * @param destination (Node)
-	 */
-	public void receiveRandomMessage(Node node, String incomingMessage, Node destination) {
-		// Sets the message and increments the number of packets sent
-		node.setMessage(incomingMessage);
-		randomPackets++;
-		
-		// Delay to see things as they're happening.
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		
-		// Get the next (random) node from node's list of connections
-		List<String> cons = node.getConnections();
-		int nextNodeIndex = rand.nextInt(cons.size());
-		Node nextNode = getNode(cons.get(nextNodeIndex));
-		
-		// Prints the change name as well as the next node that the message will be sent to as long as it didn't reach the destinations
-		System.out.println("Changed node: " + node.getName() + " with message: " + incomingMessage);
-		if(node.equals(destination)) return;
-		System.out.println("Next node: " + nextNode.getName());
-		
-		// Sends message to the next node
-		receiveRandomMessage(nextNode, incomingMessage, destination);
-	}
 
 	/**
 	 * Displays all nodes information
 	 */
 	public void displayNodes(){
+		if (allNodes.size() == 0) {
+			System.out.println("No nodes.");
+		}
 		for (Node n : allNodes){
 			n.displayNode();
 		} 
@@ -231,12 +213,35 @@ public class Master extends JFrame implements ActionListener {
 		
 		// User created new node in container(no connections yet)
 		if(actionCommand.equals("Create Node")) {
-			allNodes.add(new Node(nameTextField.getText()));
+			if (nameTextField.getText().isEmpty()) {
+				return;
+			}
+			Node n = new Node(nameTextField.getText());
+			
+			if (allNodes.contains(n)) {
+				System.out.println("Cannot add duplicate nodes.");
+				return;
+			}
+			allNodes.add(n);
+			nameTextField.setText("");
 		}
 		// User added connections to the node
-		else if(actionCommand.equals("Create connections for node")) {
-			Node n =  getNode(conNodeTextField.getText());
-			nodeConnections(n, conNameTextField.getText());
+		else if(actionCommand.equals("Establish Connections")) {
+			String s = conNodeTextField.getText();
+			if (s.isEmpty()) return;
+			
+			Node n =  getNode(s);
+			if (n == null) {
+				System.out.println("Node \"" + s + "\" does not exist.");
+				return;
+			}
+			
+			String connList = conNameTextField.getText();
+			
+			nodeConnections(n, connList);
+			
+			conNodeTextField.setText("");
+			conNameTextField.setText("");
 		}
 		// User runs test method that creates text nodes with connections
 		else if(actionCommand.equals("Run Test Method")) {
@@ -246,24 +251,33 @@ public class Master extends JFrame implements ActionListener {
 		else if(actionCommand.equals("Display Nodes and Connections")) {
 			displayNodes();
 		}
-		// User wants to run the random routing simulator
-		else if(actionCommand.equals("Random Search")) {
-			if (allNodes.size() == 0){
-				System.out.println("Need to run tests first");
+		
+		else if(actionCommand.equals("Start Simulation")) {
+			if (allNodes.size() == 0) {
+				System.out.println("Need to set up nodes and connections.");
 				return;
 			}
-			receiveRandomMessage(getNode("A"), "Test", getNode("E"));
-			System.out.println("Total number of random packets sent: " + randomPackets);
-		}
-		else if(actionCommand.equals("Start Simulation")) {
-			Node src = getNode(srcNodeTextField.getText());		
-			Node dest = getNode(destNodeTextField.getText());
+			Simulation s = new Simulation(allNodes);
+			s.start();
 			
-			if (src == null || dest == null) {
-				System.out.println("Source and Destination nodes must exist.");
+			while (true) {
+				
+				
+				/*if (src == null || dest == null) {
+					System.out.println("Source and Destination nodes must exist.");
+					return;
+				}*/
+				
 			}
 			
-			receiveRandomMessage(src, "msg", dest);
+		}
+		else if (actionCommand.equals("Reset")) {
+			allNodes.clear();
+			nameTextField.setText("");
+			conNameTextField.setText(""); 
+			conNodeTextField.setText("");
+			/*srcNodeTextField.setText("");
+			destNodeTextField.setText("");*/
 		}
 	}
 }
