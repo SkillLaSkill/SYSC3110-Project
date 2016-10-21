@@ -21,7 +21,7 @@ public class Master extends JFrame implements ActionListener {
 	// Variables used to make GUI
 	public static final int WIDTH = 400;
 	public static final int HEIGHT = 250;
-	private JTextField nameTextField, conNameTextField, conNodeTextField;
+	private JTextField nameTextField, conNameTextField, conNodeTextField, srcNodeTextField, destNodeTextField;
 	// Generates the index of the next node
 	private Random rand = new Random();
 	//Counts the number of packets required to reach the end
@@ -87,6 +87,24 @@ public class Master extends JFrame implements ActionListener {
 		JButton conButton = new JButton("Create connections for node");
 		conButton.addActionListener(this);
 		contentPane.add(conButton);
+		
+		JLabel con3Label = new JLabel("");
+		contentPane.add(con3Label);
+		
+		JButton simStartButton = new JButton("Start Simulation");
+		simStartButton.addActionListener(this);
+		
+		JLabel srcLabel = new JLabel("Source Node:");
+		contentPane.add(srcLabel);
+		srcNodeTextField = new JTextField();
+		contentPane.add(srcNodeTextField);
+		
+		JLabel destLabel = new JLabel("Destination Node:");
+		contentPane.add(destLabel);
+		destNodeTextField = new JTextField();
+		contentPane.add(destNodeTextField);
+		
+		contentPane.add(simStartButton);
 		
 		// Makes it so the program closes when you close the GUI
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -163,7 +181,7 @@ public class Master extends JFrame implements ActionListener {
 	 * @param destination (Node)
 	 */
 	public void receiveRandomMessage(Node node, String incomingMessage, Node destination) {
-		// Sets the message and increaments the number of packets sent
+		// Sets the message and increments the number of packets sent
 		node.setMessage(incomingMessage);
 		randomPackets++;
 		if(node.equals(destination)) return;
@@ -236,6 +254,16 @@ public class Master extends JFrame implements ActionListener {
 			}
 			receiveRandomMessage(getNode("A"), "Test", getNode("E"));
 			System.out.println("Total number of random packets sent: " + randomPackets);
+		}
+		else if(actionCommand.equals("Start Simulation")) {
+			Node src = getNode(srcNodeTextField.getText());		
+			Node dest = getNode(destNodeTextField.getText());
+			
+			if (src == null || dest == null) {
+				System.out.println("Source and Destination nodes must exist.");
+			}
+			
+			receiveRandomMessage(src, "msg", dest);
 		}
 	}
 }
