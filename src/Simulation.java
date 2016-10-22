@@ -79,7 +79,7 @@ public class Simulation extends Thread {
 	 * @param incomingMessage (String)
 	 * @param destination (Node)
 	 * 
-	 * @return int
+	 * @return integer
 	 */
 	private int randomTransferAlgorithm(Node node, String incomingMessage, Node destination) {
 		if (!simulating) {

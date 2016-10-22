@@ -209,6 +209,9 @@ public class Master extends JFrame implements ActionListener {
 		m.setVisible(true);
 	}
 
+	/**
+	 * Determines the type of action the user wishes and acts accordingly
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String actionCommand = e.getActionCommand();
