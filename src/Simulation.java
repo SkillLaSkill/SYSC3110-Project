@@ -5,7 +5,7 @@ public class Simulation extends Thread {
 
 	private List<Node> allNodes;
 	private Random rand;
-	private int trasnfers = 0;
+	private int transfers = 0;
 	private double averageHops = 0;
 	
 	private boolean simulating = false;
@@ -39,10 +39,10 @@ public class Simulation extends Thread {
 			System.out.println("Starting transfer from " + src.getName() + " to " + dest.getName() + " with message: " + msg + ".");
 			int hops = randomTransferAlgorithm(src, msg, dest);
 			averageHops += hops;
-			trasnfers++;
+			transfers++;
 			System.out.println("Total number of hops for node " + src.getName() + " to get to " + dest.getName() + " was " + hops + ".\n");
 		}
-		averageHops /= trasnfers;
+		averageHops /= transfers;
 		
 		System.out.println("Average number of hops was " + averageHops + ".");
 	}

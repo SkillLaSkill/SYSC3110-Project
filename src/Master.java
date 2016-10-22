@@ -16,7 +16,7 @@ import javax.swing.*;
 public class Master extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	// Holds all nodes that are made
-	public List<Node> allNodes = new ArrayList<Node>();	
+	private List<Node> allNodes = new ArrayList<Node>();	
 	// Variables used to make GUI
 	public static final int WIDTH = 400;
 	public static final int HEIGHT = 250;
