@@ -10,9 +10,9 @@ Thomas Carriere
 <<<Usage>>>
 Running the JAR will launch our Network Simulator window.
 In the menubar - under File, there are three options:
-Display Nodes and Connections - Provides a list of all created nodes and their connections in the console.
+Display Nodes and Connections - Provides a list of all created nodes and their connections in the display area.
 Setup Test Nodes - Creates the nodes and connections based on the image in the project.pdf file.
-Reset - Clears all nodes, does not stop an ongoing simulation.
+Reset - Clears all nodes, simulation must be stopped before this can be done.
 
 To create a new node, enter the node's name in the textfield next to "New node name:", then press the Create Node button.
 It will not allow you to create duplicate nodes (nodes with the exact same name).
@@ -29,10 +29,10 @@ And the input is "A C D D"
 The resulting connection (for node A) will be "B C D"
 
 Pressing the Start Simulation button will start the simulation, which takes a random node from the created nodes as the source and
-another random node as the destination, and applies the random routing algorithm, outputting each step to the console with 1s intervals.
+another random node as the destination, and applies the random routing algorithm, outputting each step to the display area with 1s intervals.
 
 Pressing the Stop Simulation button will cause the simulation to stop once it's finish it's current routing. After the simulation is stopped it will
-display the average hops to the console.
+display the average hops to the display area.
 
 <<<Changes made since last milestone>>>
 N/A

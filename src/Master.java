@@ -22,6 +22,7 @@ public class Master extends JFrame implements ActionListener {
 	public static final int HEIGHT = 250;
 	private JTextField nameTextField, conNameTextField, conNodeTextField;
 	private Simulation sim;
+	public static JTextArea output;
 	
 	/**
 	 * Generates the GUI
@@ -30,10 +31,14 @@ public class Master extends JFrame implements ActionListener {
 		// Creates basic JFrame with container
 		setSize(WIDTH,HEIGHT); 
 		setTitle("Network Simulator");
-		Container contentPane = getContentPane();
+		Container outPane = getContentPane();
+		Container contentPane = new Container();
+		outPane.setBackground(Color.PINK);
+		outPane.setLayout(new GridLayout(2, 1));
 		contentPane.setBackground(Color.PINK);
-		contentPane.setLayout(new GridLayout(6,2));
+		contentPane.setLayout(new GridLayout(6, 2));
 		
+		outPane.add(contentPane);
 		// Creates JMenu bar
         JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
@@ -96,6 +101,11 @@ public class Master extends JFrame implements ActionListener {
 		contentPane.add(simStartButton);
 		contentPane.add(simStopButton);
 		
+		output = new JTextArea();
+		output.setEditable(false);
+		JScrollPane scrollPane = new JScrollPane(output);
+		outPane.add(scrollPane);
+		
 		// Makes it so the program closes when you close the GUI
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
@@ -142,7 +152,7 @@ public class Master extends JFrame implements ActionListener {
 		for (String con : nodeConnections) {
 			Node n = getNode(con);
 			if (n == null) {
-				System.out.println("There were non-existent nodes in the connections list.");
+				Master.output.append("There were non-existent nodes in the connections list.");
 				return;
 			}
 		}
@@ -180,9 +190,9 @@ public class Master extends JFrame implements ActionListener {
 	 * Displays all nodes information
 	 */
 	private void displayNodes(){
-		System.out.println("\nList of nodes and their connections:");
+		Master.output.append("\nList of nodes and their connections:\n");
 		if (allNodes.size() == 0) {
-			System.out.println("No nodes.");
+			Master.output.append("No nodes.\n");
 		}
 		for (Node n : allNodes){
 			n.displayNode();
@@ -206,13 +216,13 @@ public class Master extends JFrame implements ActionListener {
 		// User created new node in container(no connections yet)
 		if(actionCommand.equals("Create Node")) {
 			if (nameTextField.getText().isEmpty() || nameTextField.getText().contains(" ")) {
-				System.out.println("Invalid node name.");
+				Master.output.append("Invalid node name.\n");
 				return;
 			}
 			Node n = new Node(nameTextField.getText());
 			
 			if (allNodes.contains(n)) {
-				System.out.println("Cannot add duplicate nodes.");
+				Master.output.append("Cannot add duplicate nodes.\n");
 				return;
 			}
 			allNodes.add(n);
@@ -225,7 +235,7 @@ public class Master extends JFrame implements ActionListener {
 			
 			Node n =  getNode(s);
 			if (n == null) {
-				System.out.println("Node \"" + s + "\" does not exist.");
+				Master.output.append("Node \"" + s + "\" does not exist\n.");
 				return;
 			}
 			
@@ -247,7 +257,7 @@ public class Master extends JFrame implements ActionListener {
 		
 		else if(actionCommand.equals("Start Simulation")) {
 			if (allNodes.size() == 0) {
-				System.out.println("Need to set up nodes and connections.");
+				Master.output.append("Need to set up nodes and connections.\n");
 				return;
 			}
 			sim = new Simulation(allNodes);
@@ -257,6 +267,10 @@ public class Master extends JFrame implements ActionListener {
 			sim.setSimulating(false);
 		}
 		else if (actionCommand.equals("Reset")) {
+			if (sim.isSimulating()) {
+				Master.output.append("Need to stop simulation before resetting.\n");
+				return;
+			}
 			allNodes.clear();
 			nameTextField.setText("");
 			conNameTextField.setText(""); 

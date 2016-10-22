@@ -62,15 +62,15 @@ public class Node {
 	 * Displays the nodes information (name, message, and all connections)
 	 */
 	public void displayNode() {
-		System.out.println("Node " + name + ":");
-		System.out.println("Message: " + message);
-		System.out.print("Connections: ");
+		Master.output.append("Node " + name + ":\n");
+		Master.output.append("Message: " + message + "\n");
+		Master.output.append("Connections: ");
 		
 		// Goes through all connections and prints their names
 		for (String n : connections) {
-			System.out.print(n + ", ");
+			Master.output.append(n + ", ");
 		}
-		System.out.println("");
+		Master.output.append("\n");
 	}
 	
 	/**
