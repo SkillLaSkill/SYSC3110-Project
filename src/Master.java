@@ -244,7 +244,7 @@ public class Master extends JFrame implements ActionListener {
 		else if(actionCommand.equals("Display Nodes and Connections")) {
 			displayNodes();
 		}
-		
+		// User wants to start the simulation
 		else if(actionCommand.equals("Start Simulation")) {
 			if (allNodes.size() == 0) {
 				System.out.println("Need to set up nodes and connections.");
@@ -253,9 +253,11 @@ public class Master extends JFrame implements ActionListener {
 			sim = new Simulation(allNodes);
 			sim.start();			
 		}
+		// User wants to stop the simulation
 		else if (actionCommand.equals("Stop Simulation")){
 			sim.setSimulating(false);
 		}
+		// User wants to reset the GUI and all nodes
 		else if (actionCommand.equals("Reset")) {
 			allNodes.clear();
 			nameTextField.setText("");

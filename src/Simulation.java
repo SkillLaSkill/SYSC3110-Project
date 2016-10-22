@@ -1,25 +1,46 @@
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Creates an Simulation thread that will run the different types of algorithms
+ * (Only random transfer algorithm right now)
+ * 
+ * @author Team Getterdone
+ *
+ */
 public class Simulation extends Thread {
 
 	private List<Node> allNodes;
 	private Random rand;
 	private int transfers = 0;
 	private double averageHops = 0;
-	
 	private boolean simulating = false;
 	
+	/**
+	 * Checks if the simulator is running
+	 * 
+	 * @return boolean
+	 */
 	public boolean isSimulating() {
 		return simulating;
 	}
 
 
+	/**
+	 * Sets the simulator to running
+	 * 
+	 * @param simulating (boolean)
+	 */
 	public void setSimulating(boolean simulating) {
 		this.simulating = simulating;
 	}
 
 
+	/**
+	 * Creates a new simulator
+	 * 
+	 * @param allNodes (List<Node>)
+	 */
 	public Simulation(List<Node> allNodes) {
 		this.allNodes = allNodes;
 		rand = new Random();
@@ -47,6 +68,15 @@ public class Simulation extends Thread {
 		System.out.println("Average number of hops was " + averageHops + ".");
 	}
 	
+	/**
+	 * Begins the random transfer algorithm
+	 * 
+	 * @param node (Node)
+	 * @param incomingMessage (String)
+	 * @param destination (Node)
+	 * 
+	 * @return int
+	 */
 	private int randomTransferAlgorithm(Node node, String incomingMessage, Node destination) {
 		// Sets the message and increments the number of packets sent
 		node.setMessage(incomingMessage);
@@ -76,6 +106,13 @@ public class Simulation extends Thread {
 		return 1 + randomTransferAlgorithm(nextNode, incomingMessage, destination);
 	}
 	
+	/**
+	 * Gets the node given its name
+	 * 
+	 * @param name (String)
+	 * 
+	 * @return Node
+	 */
 	private Node getNode(String name){
 		// Goes through all nodes made
 		for (int i = 0; i < allNodes.size(); i++){
