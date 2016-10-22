@@ -4,13 +4,15 @@ project-teamgetterdone created by GitHub Classroom
 SYSC 3110 Fall 2016
 Professor Babak Esfandiari
 
-<<<Group Members>>>
+<B>Group Members </B>
+
 Ben Palko 100964652
 Dan Mihailescu	100972565
 Josh Seguin	100964276
 Thomas Carriere 
 
-<<<Usage>>>
+<B>Usage</B>
+
 Running the JAR will launch our Network Simulator window.
 In the menubar - under File, there are three options:
 Display Nodes and Connections - Provides a list of all created nodes and their connections in the display area.
@@ -37,10 +39,12 @@ another random node as the destination, and applies the random routing algorithm
 Pressing the Stop Simulation button will cause the simulation to stop once it's finish it's current routing. After the simulation is stopped it will
 display the average hops to the display area.
 
-<<<Changes made since last milestone>>>
+<B>Changes made since last milestone</B>
+
 N/A
 
-<<<Known issues>>>
+<B>Known Issues </B>
+
 Cannot specify sendrate.
 Cannot have multiple transfers going through simulation simultaneously.
 GUI code is "smelly" in certain places.
