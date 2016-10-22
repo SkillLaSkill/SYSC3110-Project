@@ -7,8 +7,11 @@ Professor Babak Esfandiari
 <B>Group Members </B>
 
 Ben Palko 100964652
+
 Dan Mihailescu	100972565
+
 Josh Seguin	100964276
+
 Thomas Carriere 
 
 <B>Usage</B>
@@ -46,6 +49,9 @@ N/A
 <B>Known Issues </B>
 
 Cannot specify sendrate.
+
 Cannot have multiple transfers going through simulation simultaneously.
+
 GUI code is "smelly" in certain places.
+
 No way to force stop a simulation if it gets in an infinite loop.
