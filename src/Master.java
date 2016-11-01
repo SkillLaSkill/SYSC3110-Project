@@ -37,8 +37,8 @@ public class Master extends JFrame implements ActionListener {
 		outPane.setLayout(new GridLayout(2, 1));
 		contentPane.setBackground(Color.PINK);
 		contentPane.setLayout(new GridLayout(6, 2));
-		
 		outPane.add(contentPane);
+		
 		// Creates JMenu bar
         JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
@@ -116,6 +116,8 @@ public class Master extends JFrame implements ActionListener {
 	 * @param nodeName (String)
 	 * @return Node
 	 */
+	
+	// Move
 	private Node newNode(String nodeName) {
 		Node n = new Node(nodeName);
 		allNodes.add(n);
@@ -128,6 +130,7 @@ public class Master extends JFrame implements ActionListener {
 	 * @param name (String)
 	 * @return Node
 	 */
+	// Move
 	private Node getNode(String name){
 		// Goes through all nodes made
 		for (int i = 0; i < allNodes.size(); i++){
@@ -146,6 +149,8 @@ public class Master extends JFrame implements ActionListener {
 	 * @param node (Node)
 	 * @param connections (String)
 	 */
+	
+	// Move
 	private void nodeConnections(Node node, String connections) {
 		// Separates all connections into individual strings
 		String[] nodeConnections = connections.split(" ");
@@ -169,6 +174,8 @@ public class Master extends JFrame implements ActionListener {
 	/**
 	 * Creates the nodes with connections as shown in the projects specifications (for test)
 	 */
+	
+	// Move
 	private void runTest(){
 		// Creates all nodes.
 		Node A = newNode("A");
@@ -189,6 +196,7 @@ public class Master extends JFrame implements ActionListener {
 	/**
 	 * Displays all nodes information
 	 */
+	// Move
 	private void displayNodes(){
 		Master.output.append("\nList of nodes and their connections:\n");
 		if (allNodes.size() == 0) {
@@ -213,6 +221,7 @@ public class Master extends JFrame implements ActionListener {
 	 * Determines the type of action the user wishes and acts accordingly
 	 */
 	@Override
+	// Move to action class
 	public void actionPerformed(ActionEvent e) {
 		String actionCommand = e.getActionCommand();
 		
