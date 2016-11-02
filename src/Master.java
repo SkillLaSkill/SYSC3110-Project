@@ -15,8 +15,10 @@ import javax.swing.*;
  */
 public class Master extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
-	// Holds all nodes that are made
-	private List<Node> allNodes = new ArrayList<Node>();	
+	
+	//Graph Containing Nodes
+	private Graph graph = new Graph();
+	
 	// Variables used to make GUI
 	public static final int WIDTH = 400;
 	public static final int HEIGHT = 250;
@@ -110,66 +112,6 @@ public class Master extends JFrame implements ActionListener {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 	
-	/**
-	 * Creates a new node and adds it to the list of all nodes
-	 * 
-	 * @param nodeName (String)
-	 * @return Node
-	 */
-	
-	// Move
-	private Node newNode(String nodeName) {
-		Node n = new Node(nodeName);
-		allNodes.add(n);
-		return n;
-	}
-	
-	/**
-	 * Gets a node given its name
-	 * 
-	 * @param name (String)
-	 * @return Node
-	 */
-	// Move
-	private Node getNode(String name){
-		// Goes through all nodes made
-		for (int i = 0; i < allNodes.size(); i++){
-			// Returns node with the given name
-			if (allNodes.get(i).getName().equals(name)) {
-				return allNodes.get(i);
-			}
-		}
-		// Returns null if the node name doesn't exist
-		return null;
-	}
-	
-	/**
-	 * Creates connections for the given node using given connections
-	 * 
-	 * @param node (Node)
-	 * @param connections (String)
-	 */
-	
-	// Move
-	private void nodeConnections(Node node, String connections) {
-		// Separates all connections into individual strings
-		String[] nodeConnections = connections.split(" ");
-		for (String con : nodeConnections) {
-			Node n = getNode(con);
-			if (n == null) {
-				Master.output.append("There were non-existent nodes in the connections list.");
-				return;
-			}
-		}
-		
-		// Separate loop because we don't want to add connections if the list was faulty.
-		for (String con : nodeConnections) {
-			// To keep the graph undirected, need to make sure all nodes have connections backwards.
-			getNode(con).addConnection(node.getName());
-		}
-		// Adds the connections to the node
-		node.addConnections(nodeConnections);
-	}
 	
 	/**
 	 * Creates the nodes with connections as shown in the projects specifications (for test)
@@ -178,34 +120,22 @@ public class Master extends JFrame implements ActionListener {
 	// Move
 	private void runTest(){
 		// Creates all nodes.
-		Node A = newNode("A");
-		Node B = newNode("B");
-		Node C = newNode("C");
-		Node D = newNode("D");
-		Node E = newNode("E");
+		Node A = graph.newNodeReturn("A");
+		Node B = graph.newNodeReturn("B");
+		Node C = graph.newNodeReturn("C");
+		Node D = graph.newNodeReturn("D");
+		Node E = graph.newNodeReturn("E");
 		
 		// Adds all connections to the nodes.
-		nodeConnections(A, "B C");
-		nodeConnections(B, "A D E");
-		nodeConnections(C, "A D");
-		nodeConnections(D, "B C");
-		nodeConnections(E, "A B");
+		graph.nodeConnections(A, "B C");
+		graph.nodeConnections(B, "A D E");
+		graph.nodeConnections(C, "A D");
+		graph.nodeConnections(D, "B C");
+		graph.nodeConnections(E, "A B");
 	}
 	
 
-	/**
-	 * Displays all nodes information
-	 */
-	// Move
-	private void displayNodes(){
-		Master.output.append("\nList of nodes and their connections:\n");
-		if (allNodes.size() == 0) {
-			Master.output.append("No nodes.\n");
-		}
-		for (Node n : allNodes){
-			n.displayNode();
-		} 
-	}
+
 	
 	/**
 	 * Creates new master program, making the GUI
@@ -233,11 +163,11 @@ public class Master extends JFrame implements ActionListener {
 			}
 			Node n = new Node(nameTextField.getText());
 			
-			if (allNodes.contains(n)) {
+			if (graph.contains(n)) {
 				Master.output.append("Cannot add duplicate nodes.\n");
 				return;
 			}
-			allNodes.add(n);
+			graph.addNode(n);
 			nameTextField.setText("");
 		}
 		// User added connections to the node
@@ -245,7 +175,7 @@ public class Master extends JFrame implements ActionListener {
 			String s = conNodeTextField.getText();
 			if (s.isEmpty()) return;
 			
-			Node n =  getNode(s);
+			Node n =  graph.getNode(s);
 			if (n == null) {
 				Master.output.append("Node \"" + s + "\" does not exist\n.");
 				return;
@@ -253,7 +183,7 @@ public class Master extends JFrame implements ActionListener {
 			
 			String connList = conNameTextField.getText();
 			
-			nodeConnections(n, connList);
+			graph.nodeConnections(n, connList);
 			
 			conNodeTextField.setText("");
 			conNameTextField.setText("");
@@ -264,15 +194,15 @@ public class Master extends JFrame implements ActionListener {
 		}
 		// User wants to display all the nodes with their connections
 		else if(actionCommand.equals("Display Nodes and Connections")) {
-			displayNodes();
+			graph.displayNodes();
 		}
 		// User wants to start the simulation
 		else if(actionCommand.equals("Start Simulation")) {
-			if (allNodes.size() == 0) {
+			if (graph.size() == 0) {
 				Master.output.append("Need to set up nodes and connections.\n");
 				return;
 			}
-			sim = new Simulation(allNodes);
+			sim = new Simulation(graph.getNodes());
 			sim.start();			
 		}
 		// User wants to stop the simulation
@@ -285,7 +215,7 @@ public class Master extends JFrame implements ActionListener {
 				Master.output.append("Need to stop simulation before resetting.\n");
 				return;
 			}
-			allNodes.clear();
+			graph.clear();
 			nameTextField.setText("");
 			conNameTextField.setText(""); 
 			conNodeTextField.setText("");
