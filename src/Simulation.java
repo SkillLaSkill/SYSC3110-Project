@@ -13,10 +13,9 @@ public class Simulation extends Thread {
 
 	private Graph graph;
 	private Random rand;
-	private ArrayList<Transfer> transferList = new ArrayList<Transfer>();
-	private int steps;
+	private ArrayList<Transfer> transferList;
+	private int stepCounter;
 	private boolean simulating = false;
-	private boolean isSetup = false;
 	
 	/**
 	 * Checks if the simulator is running
@@ -36,32 +35,6 @@ public class Simulation extends Thread {
 		this.simulating = simulating;
 	}
 	
-	/**
-	 * Checks if the simulator is setup
-	 * 
-	 * @return boolean
-	 */
-	
-	public boolean isSetup() {
-		return isSetup;
-	}
-	
-	/**
-	 * Sets the status of isSetup
-	 * 
-	 * @return boolean
-	 */
-	
-	public void setIsSetup(boolean isSetup) {
-		this.isSetup = isSetup;
-	}
-	
-	public void reset()
-	{
-		steps = 0;
-		transferList.clear();
-		graph.clear();
-	}
 
 	/**
 	 * Creates a new simulator
@@ -71,8 +44,8 @@ public class Simulation extends Thread {
 	public Simulation(Graph graph) {
 		this.graph = graph;
 		rand = new Random();
-		isSetup = true;
-		steps = 0;
+		stepCounter = 0;
+		transferList = new ArrayList<Transfer>();
 	}
 
 
@@ -82,26 +55,26 @@ public class Simulation extends Thread {
 			
 	}
 	
-	public void simulate(int step) {
+	public void simulate(int steps) {
 		simulating = true;
 		
 		/** Continue simulating until another object tells us to stop.
 		*   Creates a new transfer every 3rd step, or at beginning
 		*/
-		while (simulating == true && step-- > 0) {
+		while (simulating == true && steps-- > 0) {
 			simulateStep();
 		}
 		simulating = false;
 	}
 	
 	public void simulateStep() {
-		if(steps == 0 || (steps % 3) == 0){
+		if(stepCounter == 0 || (stepCounter % 3) == 0){
 			Transfer transfer1 = new Transfer(graph);
 			transferList.add(transfer1);
 			Master.output.append("Transfer" + Integer.toString(transfer1.getId())+ " starting from " + transfer1.getPosition().getName() + " to " + transfer1.getDestination().getName() + " with message: " + transfer1.getMessage() + ".\n");
 		}
 		randomTransferAlgorithm();
-		steps++;
+		stepCounter++;
 	}
 		
 	/**
@@ -140,7 +113,7 @@ public class Simulation extends Thread {
 			
 			// Prints the change name as well as the next node that the message will be sent to as long as it didn't reach the destinations
 			if(trans.getPosition().equals(trans.getDestination())) {
-				Master.output.append("Reached destination. Number of hops taken: " + trans.getHops() + "\n");
+				Master.output.append("Transfer" + Integer.toString(trans.getId()) + " has reached its destination. Number of hops taken: " + trans.getHops() + "\n");
 				completedTransfers.add(trans);
 			}
 			

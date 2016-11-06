@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-import java.util.List;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.GridLayout;
@@ -245,7 +243,7 @@ public class Master extends JFrame implements ActionListener {
 			}
 			
 			if(sim == null) {
-				Master.output.append("Need to setup simulation");
+				Master.output.append("Need to setup simulation.\n");
 				return;
 			}
 			sim.simulate(1);
@@ -265,8 +263,7 @@ public class Master extends JFrame implements ActionListener {
 			nameTextField.setText("");
 			conNameTextField.setText(""); 
 			conNodeTextField.setText("");
-			sim.reset();
-			sim.setIsSetup(false);
+			sim = null;
 		}
 	}
 }
