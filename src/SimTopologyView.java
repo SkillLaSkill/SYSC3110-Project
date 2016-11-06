@@ -99,9 +99,9 @@ public class SimTopologyView implements ViewStrategy{
 	}
 	
 	
-	public void addNode(Node n) {
+	public void addNode(String n) {
 		// Find where x, y should be.
-		nodeNames.add(n.getName());
+		nodeNames.add(n);
 		
 		int[] loc = findGoodXY();
 		nodes.add(new Ellipse2D.Double(loc[0], loc[1], radius, radius));
@@ -118,7 +118,7 @@ public class SimTopologyView implements ViewStrategy{
 		if (idx != -1) nodes.remove(idx);
 	}
 
-	public void addConnection(Node A, Node B) {
+	public void addConnection(String A, String B) {
 		double[] nodeACoords = getEllipseCoords(A);
 		double[] nodeBCoords = getEllipseCoords(B);
 	
@@ -127,7 +127,7 @@ public class SimTopologyView implements ViewStrategy{
 		
 		connections.add(new Line2D.Double(nodeACoords[0], nodeACoords[1], nodeBCoords[0], nodeBCoords[1]));
 	}
-	public void removeConnection(Node A, Node B) {
+	public void removeConnection(String A, String B) {
 		double[] nodeACoords = getEllipseCoords(A);
 		double[] nodeBCoords = getEllipseCoords(B);
 		
@@ -142,11 +142,11 @@ public class SimTopologyView implements ViewStrategy{
 		}
 	}
 	
-	private double[] getEllipseCoords(Node n) {
+	private double[] getEllipseCoords(String n) {
 		int idx = -1;
 		
 		for (int i = 0; i < nodeNames.size(); i++) {
-			if (nodeNames.get(i).equals(n.getName())) {
+			if (nodeNames.get(i).equals(n)) {
 				idx = i;
 				break;
 			}
@@ -190,18 +190,14 @@ public class SimTopologyView implements ViewStrategy{
 	
 	public static void main(String[] args) {
 		SimTopologyView sView = new SimTopologyView();
-		Node A = new Node("A");
-		Node B = new Node("B");
-		Node C = new Node("C");
-		Node D = new Node("D");
 		
-		sView.addNode(A);
-		sView.addNode(B);
-		sView.addNode(C);
-		sView.addNode(D);
-		sView.addConnection(A, B);
-		sView.addConnection(A, D);
-		sView.addConnection(C, D);
+		sView.addNode("A");
+		sView.addNode("B");
+		sView.addNode("C");
+		sView.addNode("D");
+		sView.addConnection("A", "B");
+		sView.addConnection("A", "D");
+		sView.addConnection("C", "D");
 
 		
 	}

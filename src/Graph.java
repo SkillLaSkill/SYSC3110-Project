@@ -72,16 +72,16 @@ public class Graph {
 	
 	public void removeNodes(Node n)
 	{
-		for(Node node: connections.get(n))
+		for(Node node: nodeInformation.get(n))
 		{
 			getConnections(node).remove(n);
 		}
-		connections.remove(n);
+		nodeInformation.remove(n);
 	}
 	
 	public void removeNode(String name)
 	{
-		for(Node node: connections.keySet())
+		for(Node node: nodeInformation.keySet())
 		{
 			if(node.getName() == name)
 			{
@@ -113,7 +113,7 @@ public class Graph {
 	 */
 	public Node getNode(String name){
 		// Goes through all nodes made
-		for (Node n : connections.keySet()) {
+		for (Node n : nodeInformation.keySet()) {
 			if (n.getName().equals(name)) {
 				return n;
 			}
@@ -125,11 +125,11 @@ public class Graph {
 	
 	public List<Node> getNodes()
 	{
-		return new ArrayList<Node>(connections.keySet());
+		return new ArrayList<Node>(nodeInformation.keySet());
 	}
 	
 	public List<Node> getConnections(Node n) {
-		return connections.get(n);
+		return nodeInformation.get(n);
 	}
 	/**
 	 * Creates connections for the given node using given connections

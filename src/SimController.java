@@ -10,7 +10,7 @@ public class SimController implements ActionListener {
 	private void createNode(String name)
 	{
 		Node node = new Node(name);
-		view.addNode(node);
+		view.addNode(name);
 		model.getGraph().addNode(node);
 	}
 	
