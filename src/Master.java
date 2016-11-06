@@ -229,11 +229,12 @@ public class Master extends JFrame implements ActionListener {
 			}
 			
 			if(sim == null) {
-				Master.output.append("Need to setup simulation");
+				Master.output.append("Need to setup simulation\n");
 				return;
 			}
 			
 			sim.run();
+			sim.simulate(50);
 		}
 		
 		//User wants to take 1 step into the simulation
