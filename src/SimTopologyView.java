@@ -96,8 +96,6 @@ public class SimTopologyView implements ViewStrategy{
 		optionsPane.add(conButton);
 		JLabel tmp2 = new JLabel("");	
 		optionsPane.add(tmp2);
-		
-		
 	}
 	
 	
@@ -173,7 +171,22 @@ public class SimTopologyView implements ViewStrategy{
 		return new int[] {xval, yval};
 	}
 	
-	
+	public String getNewNodeName() {
+		String s = newNodeNameTF.getText();
+		newNodeNameTF.setText("");
+		return s;
+		
+	}
+	public String getNewConnectionNodeName() {
+		String s = nodeToConnectTF.getText();
+		nodeToConnectTF.setText("");
+		return s;
+	}
+	public String getConnectionList() {
+		String s = newConnectionsTF.getText();
+		newConnectionsTF.setText("");
+		return s;
+	}
 	
 	public static void main(String[] args) {
 		SimTopologyView sView = new SimTopologyView();
