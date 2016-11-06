@@ -47,11 +47,6 @@ public class Simulation extends Thread {
 		this.simulating = simulating;
 	}
 
-	
-	public Graph getGraph()
-	{
-		return graph;
-	}
 	/**
 	 * Returns the graph information
 	 * 
