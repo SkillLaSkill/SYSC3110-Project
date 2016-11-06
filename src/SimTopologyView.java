@@ -1,14 +1,20 @@
 import javax.swing.*;
 
+import java.awt.BorderLayout;
+import java.awt.Container;
+import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridLayout;
+import java.awt.Label;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SimTopologyView implements ViewStrategy{
-	JFrame mainFrame;;
+	private JFrame mainFrame;
+	private JPanel optionsPane;
 	private NodeDisplayPanel topologyCanvas;
 	private List<Ellipse2D> nodes = new ArrayList<>();
 	private List<String> nodeNames = new ArrayList<>();
@@ -17,18 +23,81 @@ public class SimTopologyView implements ViewStrategy{
 	private int yval = 0;
 	private final int radius = 40;
 	
+	// Text fields used for creation of nodes/connections
+	private JTextField newNodeNameTF;
+	private JTextField nodeToConnectTF;
+	private JTextField newConnectionsTF;
+	
+	
 	public SimTopologyView() {
 		initializeComponents();
 	}
 	private void initializeComponents() {
 		mainFrame = new JFrame("Topology View");
+		optionsPane = new JPanel();
 		topologyCanvas = new NodeDisplayPanel();
-		mainFrame.add(topologyCanvas);
 		
-		mainFrame.setSize(600, 500);
+		
+		setupMenuBar();
+		setupOptionsPane();
+		setupNodeView();
+		
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+		mainFrame.setSize(1200, 400);
+		mainFrame.setResizable(false);
+		//mainFrame.pack();
 		mainFrame.setVisible(true);
+	}
+	
+	private void setupNodeView() {
+		topologyCanvas.setSize(400, 400);
+		mainFrame.getContentPane().add(topologyCanvas, BorderLayout.CENTER);
+	}
+	private void setupMenuBar() {
+		JMenuBar menuBar = new JMenuBar();
+        JMenu fileMenu = new JMenu("File");
+        
+        menuBar.add(fileMenu);
+           
+        mainFrame.setJMenuBar(menuBar);
+	}
+	private void setupOptionsPane() {
+		mainFrame.getContentPane().add(optionsPane, BorderLayout.LINE_START);	
+		
+		optionsPane.setLayout(new GridLayout(5, 2));
+		
+        // Creates Text Field and Button to Make New Node
+		JLabel nameLabel = new JLabel("New node name: ");
+		optionsPane.add(nameLabel);
+		
+	    newNodeNameTF = new JTextField(25);
+	    optionsPane.add(newNodeNameTF);
+		
+		JButton nameButton = new JButton("Create Node");
+		//nameButton.addActionListener(this);
+		optionsPane.add(nameButton);
+		
+		JLabel tmp1 = new JLabel("");
+		optionsPane.add(tmp1);
+		
+		// Creates Text Fields and Button to Make Connection To a Node
+		JLabel connectionLabel = new JLabel("Node to set connections:");
+		optionsPane.add(connectionLabel);
+		nodeToConnectTF = new JTextField(25);
+		optionsPane.add(nodeToConnectTF);
+				
+		JLabel conLabel = new JLabel("List of connections: ");
+		optionsPane.add(conLabel);
+		newConnectionsTF = new JTextField(25);
+		optionsPane.add(newConnectionsTF);
+		
+		JButton conButton = new JButton("Establish Connections");
+		//conButton.addActionListener(this);
+		optionsPane.add(conButton);
+		JLabel tmp2 = new JLabel("");	
+		optionsPane.add(tmp2);
+		
+		
 	}
 	
 	
@@ -96,7 +165,7 @@ public class SimTopologyView implements ViewStrategy{
 	private int[] findGoodXY() {
 		// Later make sure not on / inbetween nodes 
 		xval += 150;
-		if (mainFrame.getWidth() - xval < 150) {
+		if (topologyCanvas.getWidth() - xval < 150) {
 			yval += 150; 
 			xval = 150;
 		}
