@@ -1,4 +1,4 @@
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -10,11 +10,12 @@ import java.util.Random;
  */
 public class Simulation extends Thread {
 
-	private List<Node> allNodes;
+	private Graph graph;
 	private Random rand;
-	private int transfers = 0;
-	private double averageHops = 0;
+	private ArrayList<Transfer> transferList = new ArrayList<Transfer>();
+	private int steps;
 	private boolean simulating = false;
+	private boolean isSetup = false;
 	
 	/**
 	 * Checks if the simulator is running
@@ -25,7 +26,6 @@ public class Simulation extends Thread {
 		return simulating;
 	}
 
-
 	/**
 	 * Sets the simulator to running
 	 * 
@@ -34,16 +34,44 @@ public class Simulation extends Thread {
 	public void setSimulating(boolean simulating) {
 		this.simulating = simulating;
 	}
-
+	
+	/**
+	 * Checks if the simulator is setup
+	 * 
+	 * @return boolean
+	 */
+	
+	public boolean isSetup() {
+		return isSetup;
+	}
+	
+	/**
+	 * Sets the status of isSetup
+	 * 
+	 * @return boolean
+	 */
+	
+	public void setIsSetup(boolean isSetup) {
+		this.isSetup = isSetup;
+	}
+	
+	public void reset()
+	{
+		steps = 0;
+		transferList.clear();
+		graph.clear();
+	}
 
 	/**
 	 * Creates a new simulator
 	 * 
-	 * @param allNodes (List<Node>)
+	 * @param graph (Graph)
 	 */
-	public Simulation(List<Node> allNodes) {
-		this.allNodes = allNodes;
+	public Simulation(Graph graph) {
+		this.graph = graph;
 		rand = new Random();
+		isSetup = true;
+		steps = 0;
 	}
 
 
@@ -51,27 +79,24 @@ public class Simulation extends Thread {
 	public void run() {
 		simulating = true;
 		
-		// Continue simulating until another object tells us to stop.
-		while (simulating) {
-			Node src = allNodes.get(rand.nextInt(allNodes.size()));		
-			Node dest = allNodes.get(rand.nextInt(allNodes.size()));	
-			String msg = "msg";
-			
-			Master.output.append("Starting transfer from " + src.getName() + " to " + dest.getName() + " with message: " + msg + ".\n");
-			int hops = randomTransferAlgorithm(src, msg, dest);
-			if (hops != -1) {
-				averageHops += hops;
-				transfers++;
-				Master.output.append("Total number of hops for node " + src.getName() + " to get to " + dest.getName() + " was " + hops + ".\n\n");
+		/** Continue simulating until another object tells us to stop.
+		*   Creates a new transfer every 3rd step, or at beginning
+		*/
+		int x = 20;
+		while (simulating == true && x> 0) {
+			if(steps == 0 || (steps % 3) == 0){
+				Transfer transfer1 = new Transfer(graph);
+				transferList.add(transfer1);
+				Master.output.append("Transfer" + Integer.toString(transfer1.getId())+ " starting from " + transfer1.getPosition().getName() + " to " + transfer1.getDestination().getName() + " with message: " + transfer1.getMessage() + ".\n");
 			}
-			
+			randomTransferAlgorithm();
+			x--;
+			steps++;
 		}
-		if (transfers == 0) transfers = 1;
-		averageHops /= transfers;
-		
-		Master.output.append("Average number of hops was " + averageHops + ".\n");
+		simulating = false;
+			
 	}
-	
+		
 	/**
 	 * Begins the random transfer algorithm
 	 * 
@@ -81,58 +106,40 @@ public class Simulation extends Thread {
 	 * 
 	 * @return integer
 	 */
-	private int randomTransferAlgorithm(Node node, String incomingMessage, Node destination) {
+	private void randomTransferAlgorithm() {
+		ArrayList<Transfer> completedTransfers = new ArrayList<Transfer>();
+		
 		if (!simulating) {
 			Master.output.append("Simulation ended early, will not count towards statistics.\n");
-			return -1;
+			return;
 		}
-		
-		// Sets the message and increments the number of packets sent
-		node.setMessage(incomingMessage);
-		
-		// Delay to see things as they're happening.
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		
-		// Get the next (random) node from node's list of connections
-		List<String> cons = node.getConnections();
-		int nextNodeIndex = rand.nextInt(cons.size());
-		Node nextNode = getNode(cons.get(nextNodeIndex));
-		
-		// Prints the change name as well as the next node that the message will be sent to as long as it didn't reach the destinations
-		Master.output.append("Current Node: " + node.getName() + ", with message: " + incomingMessage + "\n");
-		
-		if(node.equals(destination)) {
-			Master.output.append("Reached destination.\n");
-			return 0;
-		}
-		Master.output.append("Next node: " + nextNode.getName() + "\n");
-		
-		// Sends message to the next node, return the depth to the caller for statistics.
-		int x = randomTransferAlgorithm(nextNode, incomingMessage, destination);
-		if (x == -1) return -1;
-		else return x + 1;
-	}
-	
-	/**
-	 * Gets the node given its name
-	 * 
-	 * @param name (String)
-	 * 
-	 * @return Node
-	 */
-	private Node getNode(String name){
-		// Goes through all nodes made
-		for (int i = 0; i < allNodes.size(); i++){
-			// Returns node with the given name
-			if (allNodes.get(i).getName().equals(name)) {
-				return allNodes.get(i);
+		for(Transfer trans : transferList)
+		{
+			// Delay to see things as they're happening.
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
+					
+			//Set a new random position node for the transfer
+			ArrayList<String> cons = trans.getPosition().getConnections();
+			int nextNodeIndex = rand.nextInt(cons.size());
+			trans.setPosition(graph.getNode(cons.get(nextNodeIndex)));
+			trans.incrementHops();
+			Master.output.append("Transfer" + Integer.toString(trans.getId()) + " sent to: " + trans.getPosition().getName() + ", with message: " + trans.getMessage() + "\n");
+
+			
+			// Prints the change name as well as the next node that the message will be sent to as long as it didn't reach the destinations
+			if(trans.getPosition().equals(trans.getDestination())) {
+				Master.output.append("Reached destination. Number of hops taken: " + trans.getHops() + "\n");
+				completedTransfers.add(trans);
+			}
+			
 		}
-		// Returns null if the node name doesn't exist
-		return null;
+		if(completedTransfers.isEmpty() == false) {
+			transferList.removeAll(completedTransfers);
+		}
+	
 	}
 }

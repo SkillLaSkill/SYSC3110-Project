@@ -8,7 +8,7 @@ import java.util.*;
  *
  */
 public class Node {
-	private List<String> connections = new ArrayList<String>();
+	private ArrayList<String> connections = new ArrayList<String>();
 	private String message;
 	private String name;
 	
@@ -36,7 +36,7 @@ public class Node {
 	 * 
 	 * @return List<String>
 	 */
-	public List<String> getConnections(){
+	public ArrayList<String> getConnections(){
 		return connections;
 	}
 	

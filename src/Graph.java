@@ -1,9 +1,8 @@
 import java.util.ArrayList;
-import java.util.List;
 
 public class Graph {
 	
-	private List<Node> Nodes = new ArrayList<Node>();
+	private ArrayList<Node> Nodes = new ArrayList<Node>();
 
 	/**
 	 * Creates a new node and adds it to the list of all nodes and returns the node
@@ -44,7 +43,7 @@ public class Graph {
 		return null;
 	}
 	
-	public List<Node> getNodes()
+	public ArrayList<Node> getNodes()
 	{
 		return Nodes;
 	}

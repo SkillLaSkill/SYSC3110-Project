@@ -45,6 +45,16 @@ public class Master extends JFrame implements ActionListener {
         JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
         
+        // Adds Setup Simulation Method to JMenuBar
+        JMenuItem setupItem = new JMenuItem("Setup Simulation", 'S');
+        setupItem.addActionListener(this);
+        fileMenu.add(setupItem);
+        
+        // Adds Step Simulation Method to JMenuBar
+        JMenuItem stepItem = new JMenuItem("Step into Simulation", 'I');
+        stepItem.addActionListener(this);
+        fileMenu.add(stepItem);
+        
         // Adds Display Method to JMenuBar
         JMenuItem displayItem = new JMenuItem("Display Nodes and Connections", 'D');
         displayItem.addActionListener(this);
@@ -170,6 +180,12 @@ public class Master extends JFrame implements ActionListener {
 			graph.addNode(n);
 			nameTextField.setText("");
 		}
+		
+		//User initializes the simulation based on the current graph
+		else if(actionCommand.equals("Setup Simulation")) {
+			sim = new Simulation(graph);
+		}
+		
 		// User added connections to the node
 		else if(actionCommand.equals("Establish Connections")) {
 			String s = conNodeTextField.getText();
@@ -188,23 +204,45 @@ public class Master extends JFrame implements ActionListener {
 			conNodeTextField.setText("");
 			conNameTextField.setText("");
 		}
+		
 		// User runs test method that creates text nodes with connections
 		else if(actionCommand.equals("Setup Test Nodes")) {
 			runTest();
 		}
+		
 		// User wants to display all the nodes with their connections
 		else if(actionCommand.equals("Display Nodes and Connections")) {
 			graph.displayNodes();
 		}
+		
 		// User wants to start the simulation
 		else if(actionCommand.equals("Start Simulation")) {
 			if (graph.size() == 0) {
 				Master.output.append("Need to set up nodes and connections.\n");
 				return;
 			}
-			sim = new Simulation(graph.getNodes());
-			sim.start();			
+			
+			if(sim == null) {
+				Master.output.append("Need to setup simulation");
+				return;
+			}
+			
+			sim.run();
 		}
+		
+		//User wants to take 1 step into the simulation
+		else if(actionCommand.equals("Step into Simulation")) {
+			if (graph.size() == 0) {
+				Master.output.append("Need to set up nodes and connections.\n");
+				return;
+			}
+			
+			if(sim == null) {
+				Master.output.append("Need to setup simulation");
+				return;
+			}
+		}
+		
 		// User wants to stop the simulation
 		else if (actionCommand.equals("Stop Simulation")){
 			sim.setSimulating(false);
@@ -219,6 +257,8 @@ public class Master extends JFrame implements ActionListener {
 			nameTextField.setText("");
 			conNameTextField.setText(""); 
 			conNodeTextField.setText("");
+			sim.reset();
+			sim.setIsSetup(false);
 		}
 	}
 }
