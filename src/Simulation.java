@@ -50,7 +50,7 @@ public class Simulation extends Thread {
 	 * Sets the status of isSetup
 	 * 
 	 * @return boolean
-	 */
+	 * /
 	
 	public void setIsSetup(boolean isSetup) {
 		this.isSetup = isSetup;
