@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -122,10 +123,11 @@ public class Simulation extends Thread {
 				e.printStackTrace();
 			}
 					
-			//Set a new random position node for the transfer
-			ArrayList<String> cons = trans.getPosition().getConnections();
+			//Set a new random position node for the transfer	
+			List<Node> cons = graph.getConnections(trans.getPosition());
+			
 			int nextNodeIndex = rand.nextInt(cons.size());
-			trans.setPosition(graph.getNode(cons.get(nextNodeIndex)));
+			trans.setPosition(cons.get(nextNodeIndex));
 			trans.incrementHops();
 			Master.output.append("Transfer" + Integer.toString(trans.getId()) + " sent to: " + trans.getPosition().getName() + ", with message: " + trans.getMessage() + "\n");
 

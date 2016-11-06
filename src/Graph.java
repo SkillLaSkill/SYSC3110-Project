@@ -1,29 +1,15 @@
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class Graph {
 	
-	private ArrayList<Node> Nodes = new ArrayList<Node>();
-
-	/**
-	 * Creates a new node and adds it to the list of all nodes and returns the node
-	 * 
-	 * @param nodeName (String)
-	 * @return Node
-	 */
-	public Node newNodeReturn(String nodeName) {
-		Node n = new Node(nodeName);
-		Nodes.add(n);
-		return n;
-	}
-	
-	public void newNode(String nodeName)
-	{
-		Nodes.add(new Node(nodeName));
-	}
+	//private List<Node> Nodes = new ArrayList<Node>();
+	private HashMap<Node, List<Node>> connections = new HashMap<>();
 	
 	public void addNode(Node n)
 	{
-		Nodes.add(n);
+		connections.put(n, null);
 	}
 	/**
 	 * Gets a node given its name
@@ -33,19 +19,23 @@ public class Graph {
 	 */
 	public Node getNode(String name){
 		// Goes through all nodes made
-		for (int i = 0; i < Nodes.size(); i++){
-			// Returns node with the given name
-			if (Nodes.get(i).getName().equals(name)) {
-				return Nodes.get(i);
+		for (Node n : connections.keySet()) {
+			if (n.getName().equals(name)) {
+				return n;
 			}
 		}
 		// Returns null if the node name doesn't exist
 		return null;
 	}
 	
-	public ArrayList<Node> getNodes()
+	
+	public List<Node> getNodes()
 	{
-		return Nodes;
+		return new ArrayList<Node>(connections.keySet());
+	}
+	
+	public List<Node> getConnections(Node n) {
+		return connections.get(n);
 	}
 	/**
 	 * Creates connections for the given node using given connections
@@ -54,25 +44,48 @@ public class Graph {
 	 * @param connections (String)
 	 */
 	
+	public void addConnection(Node A, Node B) {
+		if (A.equals(B)) return; // Don't add self as a connection.
+		
+		if (connections.get(A) == null) {
+			connections.put(A, new ArrayList<Node>());
+		}
+		if (connections.get(B) == null) {
+			connections.put(B, new ArrayList<Node>());
+		}
+		
+		List<Node> conListA = connections.get(A);
+		List<Node> conListB = connections.get(B);
+		
+		// Don't add duplicates to connection list to keep graph simple.
+		if (!conListA.contains(B) ) {
+			conListA.add(B);
+			conListB.add(A);
+		}
+	}
+	
+	public void addNodeConnections(Node A, List<Node> nodesToAdd) {
+		for (Node n : nodesToAdd) {
+			addConnection(A, n);
+		}
+	}
+	
 	// Move
-	public void nodeConnections(Node node, String connections) {
+	public boolean addNodeConnectionsByName(Node node, String connections) {
 		// Separates all connections into individual strings
 		String[] nodeConnections = connections.split(" ");
+		List<Node> nodesToAdd = new ArrayList<Node>();
 		for (String con : nodeConnections) {
 			Node n = getNode(con);
 			if (n == null) {
-				Master.output.append("There were non-existent nodes in the connections list.");
-				return;
-			}
+				return false;
+			} 
+			
+			nodesToAdd.add(n);
 		}
 		
-		// Separate loop because we don't want to add connections if the list was faulty.
-		for (String con : nodeConnections) {
-			// To keep the graph undirected, need to make sure all nodes have connections backwards.
-			getNode(con).addConnection(node.getName());
-		}
-		// Adds the connections to the node
-		node.addConnections(nodeConnections);
+		addNodeConnections(node, nodesToAdd);
+		return true;
 	}
 	
 	/**
@@ -81,24 +94,24 @@ public class Graph {
 	// Move
 	public void displayNodes(){
 		Master.output.append("\nList of nodes and their connections:\n");
-		if (Nodes.size() == 0) {
+		if (size() == 0) {
 			Master.output.append("No nodes.\n");
 		}
-		for (Node n : Nodes){
-			n.displayNode();
+		for (Node n : connections.keySet()){
+			//n.displayNode();
 		} 
 	}
 	
 	public boolean contains(Node n)
 	{
-		return Nodes.contains(n);
+		return connections.containsKey(n);
 	}
 	public int size()
 	{
-		return Nodes.size();
+		return connections.keySet().size();
 	}
 	public void clear()
 	{
-		Nodes = new ArrayList<Node>();
+		connections.clear();
 	}
 }

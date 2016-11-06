@@ -130,18 +130,24 @@ public class Master extends JFrame implements ActionListener {
 	// Move
 	private void runTest(){
 		// Creates all nodes.
-		Node A = graph.newNodeReturn("A");
-		Node B = graph.newNodeReturn("B");
-		Node C = graph.newNodeReturn("C");
-		Node D = graph.newNodeReturn("D");
-		Node E = graph.newNodeReturn("E");
+		Node A = new Node("A");
+		Node B = new Node("B");
+		Node C = new Node("C");
+		Node D = new Node("D");
+		Node E = new Node("E");
+		
+		graph.addNode(A);
+		graph.addNode(B);
+		graph.addNode(C);
+		graph.addNode(D);
+		graph.addNode(E);
 		
 		// Adds all connections to the nodes.
-		graph.nodeConnections(A, "B C");
-		graph.nodeConnections(B, "A D E");
-		graph.nodeConnections(C, "A D");
-		graph.nodeConnections(D, "B C");
-		graph.nodeConnections(E, "A B");
+		graph.addNodeConnectionsByName(A, "B C");
+		graph.addNodeConnectionsByName(B, "A D E");
+		graph.addNodeConnectionsByName(C, "A D");
+		graph.addNodeConnectionsByName(D, "B C");
+		graph.addNodeConnectionsByName(E, "A B");
 	}
 	
 
@@ -199,7 +205,7 @@ public class Master extends JFrame implements ActionListener {
 			
 			String connList = conNameTextField.getText();
 			
-			graph.nodeConnections(n, connList);
+			graph.addNodeConnectionsByName(n, connList);
 			
 			conNodeTextField.setText("");
 			conNameTextField.setText("");

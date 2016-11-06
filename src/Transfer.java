@@ -1,6 +1,8 @@
 
 import java.util.Random;
+import java.util.Set;
 import java.util.ArrayList;
+import java.util.List;
 /**
  * This class creates and manipulates Transfers, which store the current node position, the destination and the message
  * 
@@ -25,8 +27,9 @@ public class Transfer {
 	{
 		rand = new Random();
 		int x = rand.nextInt(graph.getNodes().size());
-		ArrayList<Node> nodes = graph.getNodes();
+		List<Node> nodes = graph.getNodes();
 		position = nodes.get(x);
+
 		
 		nodes.remove(x);
 		destination = nodes.get(rand.nextInt(graph.getNodes().size()));
