@@ -48,10 +48,6 @@ public class Simulation extends Thread {
 	}
 
 	
-	public Graph getGraph()
-	{
-		return graph;
-	}
 	/**
 	 * Returns the graph information
 	 * 
