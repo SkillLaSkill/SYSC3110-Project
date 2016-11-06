@@ -83,7 +83,7 @@ public class Simulation extends Thread {
 		/** Continue simulating until another object tells us to stop.
 		*   Creates a new transfer every 3rd step, or at beginning
 		*/
-		int x = 20;
+		int x = 30;
 		while (simulating == true && x> 0) {
 			if(steps == 0 || (steps % 3) == 0){
 				Transfer transfer1 = new Transfer(graph);
@@ -130,7 +130,7 @@ public class Simulation extends Thread {
 			trans.setPosition(cons.get(nextNodeIndex));
 			trans.incrementHops();
 			Master.output.append("Transfer" + Integer.toString(trans.getId()) + " sent to: " + trans.getPosition().getName() + ", with message: " + trans.getMessage() + "\n");
-
+			
 			
 			// Prints the change name as well as the next node that the message will be sent to as long as it didn't reach the destinations
 			if(trans.getPosition().equals(trans.getDestination())) {

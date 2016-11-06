@@ -26,13 +26,12 @@ public class Transfer {
 	public Transfer(Graph graph)
 	{
 		rand = new Random();
-		int x = rand.nextInt(graph.getNodes().size());
+		int x = rand.nextInt(graph.size());
 		List<Node> nodes = graph.getNodes();
 		position = nodes.get(x);
 
-		
 		nodes.remove(x);
-		destination = nodes.get(rand.nextInt(graph.getNodes().size()));
+		destination = nodes.get(rand.nextInt(nodes.size()));
 		message = "Hi";
 		id = count++;
 		
