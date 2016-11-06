@@ -5,3 +5,6 @@
 /Transfer.class
 /SimController.class
 /SimTopologyView.class
+/ViewStrategy.class
+/SimTopologyView$drawablePanel.class
+/SimTopologyView$NodeDisplayPanel.class
