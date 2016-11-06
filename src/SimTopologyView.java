@@ -39,10 +39,10 @@ public class SimTopologyView implements ViewStrategy{
 		int[] loc = findGoodXY();
 		nodes.add(new Ellipse2D.Double(loc[0], loc[1], radius, radius));
 	}
-	public void removeNode(Node n) {
+	public void removeNode(String name) {
 		int idx = -1;
 		for (int i = 0; i < nodeNames.size(); i++) {
-			if (nodeNames.get(i).equals(n.getName())) {
+			if (nodeNames.get(i).equals(name)) {
 				idx = i;
 				nodeNames.remove(idx);
 				break;

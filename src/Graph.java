@@ -4,13 +4,93 @@ import java.util.List;
 
 public class Graph {
 	
-	//private List<Node> Nodes = new ArrayList<Node>();
+
 	private HashMap<Node, List<Node>> connections = new HashMap<>();
 	
 	public void addNode(Node n)
 	{
 		connections.put(n, null);
 	}
+
+	
+	public void addConnection(Node A, Node B) {
+		if (A.equals(B)) return; // Don't add self as a connection.
+		
+		if (connections.get(A) == null) {
+			connections.put(A, new ArrayList<Node>());
+		}
+		if (connections.get(B) == null) {
+			connections.put(B, new ArrayList<Node>());
+		}
+		
+		List<Node> conListA = connections.get(A);
+		List<Node> conListB = connections.get(B);
+		
+		// Don't add duplicates to connection list to keep graph simple.
+		if (!conListA.contains(B) ) {
+			conListA.add(B);
+			conListB.add(A);
+		}
+	}
+	
+	public void addNodeConnections(Node A, List<Node> nodesToAdd) {
+		for (Node n : nodesToAdd) {
+			addConnection(A, n);
+		}
+	}
+	
+	public boolean addNodeConnectionsByName(Node node, String connections) {
+		// Separates all connections into individual strings
+		String[] nodeConnections = connections.split(" ");
+		List<Node> nodesToAdd = new ArrayList<Node>();
+		for (String con : nodeConnections) {
+			Node n = getNode(con);
+			if (n == null) {
+				return false;
+			} 
+			
+			nodesToAdd.add(n);
+		}
+		
+		addNodeConnections(node, nodesToAdd);
+		return true;
+	}
+	
+	public void removeNodes(Node n)
+	{
+		for(Node node: connections.get(n))
+		{
+			getConnections(node).remove(n);
+		}
+		connections.remove(n);
+	}
+	
+	public void removeNode(String name)
+	{
+		for(Node node: connections.keySet())
+		{
+			if(node.getName() == name)
+			{
+				removeNodes(node);
+				System.out.println("Node has been removed!");
+			}
+		}
+		System.out.println("No node with that name was found!");
+	}
+	
+	/**
+	 * Displays all nodes information
+	 */
+	public void displayNodes(){
+		Master.output.append("\nList of nodes and their connections:\n");
+		if (size() == 0) {
+			Master.output.append("No nodes.\n");
+		}
+		for (Node n : connections.keySet()){
+			//n.displayNode();
+		} 
+	}
+	
 	/**
 	 * Gets a node given its name
 	 * 
@@ -44,64 +124,6 @@ public class Graph {
 	 * @param connections (String)
 	 */
 	
-	public void addConnection(Node A, Node B) {
-		if (A.equals(B)) return; // Don't add self as a connection.
-		
-		if (connections.get(A) == null) {
-			connections.put(A, new ArrayList<Node>());
-		}
-		if (connections.get(B) == null) {
-			connections.put(B, new ArrayList<Node>());
-		}
-		
-		List<Node> conListA = connections.get(A);
-		List<Node> conListB = connections.get(B);
-		
-		// Don't add duplicates to connection list to keep graph simple.
-		if (!conListA.contains(B) ) {
-			conListA.add(B);
-			conListB.add(A);
-		}
-	}
-	
-	public void addNodeConnections(Node A, List<Node> nodesToAdd) {
-		for (Node n : nodesToAdd) {
-			addConnection(A, n);
-		}
-	}
-	
-	// Move
-	public boolean addNodeConnectionsByName(Node node, String connections) {
-		// Separates all connections into individual strings
-		String[] nodeConnections = connections.split(" ");
-		List<Node> nodesToAdd = new ArrayList<Node>();
-		for (String con : nodeConnections) {
-			Node n = getNode(con);
-			if (n == null) {
-				return false;
-			} 
-			
-			nodesToAdd.add(n);
-		}
-		
-		addNodeConnections(node, nodesToAdd);
-		return true;
-	}
-	
-	/**
-	 * Displays all nodes information
-	 */
-	// Move
-	public void displayNodes(){
-		Master.output.append("\nList of nodes and their connections:\n");
-		if (size() == 0) {
-			Master.output.append("No nodes.\n");
-		}
-		for (Node n : connections.keySet()){
-			//n.displayNode();
-		} 
-	}
-	
 	public boolean contains(Node n)
 	{
 		return connections.containsKey(n);
@@ -113,5 +135,27 @@ public class Graph {
 	public void clear()
 	{
 		connections.clear();
+	}
+	
+	public void buildGraph(){
+		// Creates all nodes.
+		Node A = new Node("A");
+		Node B = new Node("B");
+		Node C = new Node("C");
+		Node D = new Node("D");
+		Node E = new Node("E");
+		
+		addNode(A);
+		addNode(B);
+		addNode(C);
+		addNode(D);
+		addNode(E);
+		
+		// Adds all connections to the nodes.
+		addNodeConnectionsByName(A, "B C");
+		addNodeConnectionsByName(B, "A D E");
+		addNodeConnectionsByName(C, "A D");
+		addNodeConnectionsByName(D, "B C");
+		addNodeConnectionsByName(E, "A B");
 	}
 }
