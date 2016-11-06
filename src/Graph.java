@@ -5,26 +5,34 @@ import java.util.List;
 public class Graph {
 	
 
-	private HashMap<Node, List<Node>> connections = new HashMap<>();
+	private HashMap<Node, List<Node>> nodeInformation = new HashMap<>();
 	
 	public void addNode(Node n)
 	{
-		connections.put(n, null);
+		nodeInformation.put(n, null);
 	}
+	
 
 	
+	/**
+	 * Returns all the nodeInformation of a node
+	 * 
+	 * @param n (Node)
+	 * 
+	 * @return List<Node> (the nodeInformation)
+	 */
 	public void addConnection(Node A, Node B) {
 		if (A.equals(B)) return; // Don't add self as a connection.
 		
-		if (connections.get(A) == null) {
-			connections.put(A, new ArrayList<Node>());
+		if (nodeInformation.get(A) == null) {
+			nodeInformation.put(A, new ArrayList<Node>());
 		}
-		if (connections.get(B) == null) {
-			connections.put(B, new ArrayList<Node>());
+		if (nodeInformation.get(B) == null) {
+			nodeInformation.put(B, new ArrayList<Node>());
 		}
 		
-		List<Node> conListA = connections.get(A);
-		List<Node> conListB = connections.get(B);
+		List<Node> conListA = nodeInformation.get(A);
+		List<Node> conListB = nodeInformation.get(B);
 		
 		// Don't add duplicates to connection list to keep graph simple.
 		if (!conListA.contains(B) ) {
@@ -33,6 +41,12 @@ public class Graph {
 		}
 	}
 	
+	/**
+	 * Adds multiple nodeInformation to the given Node 
+	 * 
+	 * @param A (Node)
+	 * @param nodesToAdd (List<Node>)
+	 */
 	public void addNodeConnections(Node A, List<Node> nodesToAdd) {
 		for (Node n : nodesToAdd) {
 			addConnection(A, n);
@@ -82,12 +96,12 @@ public class Graph {
 	 * Displays all nodes information
 	 */
 	public void displayNodes(){
-		Master.output.append("\nList of nodes and their connections:\n");
+		Master.output.append("\nList of nodes and their nodeInformation:\n");
 		if (size() == 0) {
 			Master.output.append("No nodes.\n");
 		}
-		for (Node n : connections.keySet()){
-			//n.displayNode();
+		for (Node n : nodeInformation.keySet()){
+			n.displayNode();
 		} 
 	}
 	
@@ -126,15 +140,25 @@ public class Graph {
 	
 	public boolean contains(Node n)
 	{
-		return connections.containsKey(n);
+		return nodeInformation.containsKey(n);
 	}
+	
+	/**
+	 * Gets the number of nodes
+	 *  
+	 * @return integer
+	 */
 	public int size()
 	{
-		return connections.keySet().size();
+		return nodeInformation.keySet().size();
 	}
+	
+	/** 
+	 * Removes all of the nodes
+	 */
 	public void clear()
 	{
-		connections.clear();
+		nodeInformation.clear();
 	}
 	
 	public void buildGraph(){

@@ -18,6 +18,18 @@ public class Simulation extends Thread {
 	private boolean simulating = false;
 	
 	/**
+	 * Creates a new simulator
+	 * 
+	 * @param graph (Graph)
+	 */
+	public Simulation(Graph graph) {
+		this.graph = graph;
+		rand = new Random();
+		stepCounter = 0;
+		transferList = new ArrayList<Transfer>();
+	}
+	
+	/**
 	 * Checks if the simulator is running
 	 * 
 	 * @return boolean
@@ -40,19 +52,14 @@ public class Simulation extends Thread {
 	{
 		return graph;
 	}
-
 	/**
-	 * Creates a new simulator
+	 * Returns the graph information
 	 * 
-	 * @param graph (Graph)
+	 * @return Graph
 	 */
-	public Simulation(Graph graph) {
-		this.graph = graph;
-		rand = new Random();
-		stepCounter = 0;
-		transferList = new ArrayList<Transfer>();
+	public Graph getGraph() {
+		return graph;
 	}
-
 
 	@Override
 	public void run() {

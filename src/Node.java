@@ -29,8 +29,6 @@ public class Node {
 		return name;
 	}
 	
-	
-	
 	/**
 	 * Returns the message that the node holds
 	 * 
@@ -49,7 +47,9 @@ public class Node {
 		message = m;
 	}
 	
-	
+	public void displayNode(){
+		
+	}
 	/**
 	 * Checks if the nodes have the name names
 	 */
