@@ -219,7 +219,7 @@ public class Master extends JFrame implements ActionListener {
 			graph.displayNodes();
 		}
 		
-		// User wants to start the simulation
+		// User wants to start the simulation. Can specify # of steps and the Send Rate.
 		else if(actionCommand.equals("Start Simulation")) {
 			if (graph.size() == 0) {
 				Master.output.append("Need to set up nodes and connections.\n");
@@ -232,10 +232,10 @@ public class Master extends JFrame implements ActionListener {
 			}
 			
 			//sim.run();
-			sim.simulate(50);
+			sim.simulate(50, 3);
 		}
 		
-		//User wants to take 1 step into the simulation
+		//User wants to take 1 step into the simulation. Can specify # of steps and the Send Rate.
 		else if(actionCommand.equals("Step into Simulation")) {
 			if (graph.size() == 0) {
 				Master.output.append("Need to set up nodes and connections.\n");
@@ -246,7 +246,7 @@ public class Master extends JFrame implements ActionListener {
 				Master.output.append("Need to setup simulation.\n");
 				return;
 			}
-			sim.simulate(1);
+			sim.simulate(1, 3);
 		}
 		
 		// User wants to stop the simulation

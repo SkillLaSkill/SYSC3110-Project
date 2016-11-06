@@ -54,8 +54,13 @@ public class Simulation extends Thread {
 		
 			
 	}
-	
-	public void simulate(int steps) {
+	/**
+	 * Runs the simulation based on given number of steps and given send rate.
+	 * 
+	 * @param steps (Integer)
+	 * @param sendRate (Integer)
+	 */
+	public void simulate(int steps, int sendRate) {
 		simulating = true;
 		
 		/** Continue simulating until another object tells us to stop.
@@ -78,13 +83,10 @@ public class Simulation extends Thread {
 	}
 		
 	/**
-	 * Begins the random transfer algorithm
+	 * Begins the random transfer algorithm.
+	 * Performs one step into the simulation for each transfer.
 	 * 
-	 * @param node (Node)
-	 * @param incomingMessage (String)
-	 * @param destination (Node)
 	 * 
-	 * @return integer
 	 */
 	private void randomTransferAlgorithm() {
 		ArrayList<Transfer> completedTransfers = new ArrayList<Transfer>();
