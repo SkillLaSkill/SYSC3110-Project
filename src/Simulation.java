@@ -46,7 +46,12 @@ public class Simulation extends Thread {
 	public void setSimulating(boolean simulating) {
 		this.simulating = simulating;
 	}
+
 	
+	public Graph getGraph()
+	{
+		return graph;
+	}
 	/**
 	 * Returns the graph information
 	 * 

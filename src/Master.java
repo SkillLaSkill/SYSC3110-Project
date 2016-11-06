@@ -126,27 +126,7 @@ public class Master extends JFrame implements ActionListener {
 	 */
 	
 	// Move
-	private void runTest(){
-		// Creates all nodes.
-		Node A = new Node("A");
-		Node B = new Node("B");
-		Node C = new Node("C");
-		Node D = new Node("D");
-		Node E = new Node("E");
-		
-		graph.addNode(A);
-		graph.addNode(B);
-		graph.addNode(C);
-		graph.addNode(D);
-		graph.addNode(E);
-		
-		// Adds all connections to the nodes.
-		graph.addNodeConnectionsByName(A, "B C");
-		graph.addNodeConnectionsByName(B, "A D E");
-		graph.addNodeConnectionsByName(C, "A D");
-		graph.addNodeConnectionsByName(D, "B C");
-		graph.addNodeConnectionsByName(E, "A B");
-	}
+	
 	
 
 
@@ -211,7 +191,7 @@ public class Master extends JFrame implements ActionListener {
 		
 		// User runs test method that creates text nodes with connections
 		else if(actionCommand.equals("Setup Test Nodes")) {
-			runTest();
+			//runTest();
 		}
 		
 		// User wants to display all the nodes with their connections
