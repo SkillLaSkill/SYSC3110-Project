@@ -7,7 +7,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 /**
- * This class creates the GUI that the user uses to create nodes,
+ * Thiis class creates the GUI that the user uses to create nodes,
  * create connections, and run the random routing simulator
  * 
  * @author Team GetterDone
