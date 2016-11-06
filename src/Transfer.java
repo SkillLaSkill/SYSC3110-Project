@@ -20,7 +20,6 @@ public class Transfer {
 	 * Creates new transfer based on the given graph.
 	 * @param graph (Graph)
 	 */
-	
 	public Transfer(Graph graph)
 	{
 		rand = new Random();
