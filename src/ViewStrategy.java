@@ -1,3 +1,4 @@
+import java.awt.event.ActionListener;
 
 public interface ViewStrategy {
 	public void addNode(String n);
@@ -7,5 +8,6 @@ public interface ViewStrategy {
 	public String getNewNodeName();
 	public String getNewConnectionNodeName();
 	public String getConnectionList();
+	public void setActionListener(ActionListener listener);
 	
 }

@@ -1,12 +1,10 @@
 import javax.swing.*;
 
 import java.awt.BorderLayout;
-import java.awt.Container;
-import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
-import java.awt.Label;
+import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
@@ -27,6 +25,8 @@ public class SimTopologyView implements ViewStrategy{
 	private JTextField newNodeNameTF;
 	private JTextField nodeToConnectTF;
 	private JTextField newConnectionsTF;
+	
+	private ActionListener listener;
 	
 	
 	public SimTopologyView() {
@@ -74,7 +74,7 @@ public class SimTopologyView implements ViewStrategy{
 	    optionsPane.add(newNodeNameTF);
 		
 		JButton nameButton = new JButton("Create Node");
-		//nameButton.addActionListener(this);
+		nameButton.addActionListener(listener);
 		optionsPane.add(nameButton);
 		
 		JLabel tmp1 = new JLabel("");
@@ -92,7 +92,7 @@ public class SimTopologyView implements ViewStrategy{
 		optionsPane.add(newConnectionsTF);
 		
 		JButton conButton = new JButton("Establish Connections");
-		//conButton.addActionListener(this);
+		conButton.addActionListener(listener);
 		optionsPane.add(conButton);
 		JLabel tmp2 = new JLabel("");	
 		optionsPane.add(tmp2);
@@ -197,9 +197,7 @@ public class SimTopologyView implements ViewStrategy{
 		sView.addNode("D");
 		sView.addConnection("A", "B");
 		sView.addConnection("A", "D");
-		sView.addConnection("C", "D");
-
-		
+		sView.addConnection("C", "D");	
 	}
 
 	private class NodeDisplayPanel extends JPanel {	
@@ -219,5 +217,11 @@ public class SimTopologyView implements ViewStrategy{
 				g2d.draw(l);
 			}
 		}
+	}
+
+	@Override
+	public void setActionListener(ActionListener listener) {
+		this.listener = listener;
+		
 	}
 }
