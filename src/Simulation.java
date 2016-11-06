@@ -82,20 +82,20 @@ public class Simulation extends Thread {
 			
 	}
 	
-	public void simulate(int steps) {
+	public void simulate(int step) {
 		simulating = true;
 		
 		/** Continue simulating until another object tells us to stop.
 		*   Creates a new transfer every 3rd step, or at beginning
 		*/
-		while (simulating == true && steps-- > 0) {
-			simulateStep(steps);
+		while (simulating == true && step-- > 0) {
+			simulateStep();
 		}
 		simulating = false;
 	}
 	
-	public void simulateStep(int step) {
-		if(step == 0 || (step % 3) == 0){
+	public void simulateStep() {
+		if(steps == 0 || (steps % 3) == 0){
 			Transfer transfer1 = new Transfer(graph);
 			transferList.add(transfer1);
 			Master.output.append("Transfer" + Integer.toString(transfer1.getId())+ " starting from " + transfer1.getPosition().getName() + " to " + transfer1.getDestination().getName() + " with message: " + transfer1.getMessage() + ".\n");

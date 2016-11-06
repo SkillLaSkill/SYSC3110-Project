@@ -233,7 +233,7 @@ public class Master extends JFrame implements ActionListener {
 				return;
 			}
 			
-			sim.run();
+			//sim.run();
 			sim.simulate(50);
 		}
 		
@@ -248,6 +248,7 @@ public class Master extends JFrame implements ActionListener {
 				Master.output.append("Need to setup simulation");
 				return;
 			}
+			sim.simulate(1);
 		}
 		
 		// User wants to stop the simulation
