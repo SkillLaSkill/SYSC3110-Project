@@ -12,6 +12,11 @@ public interface ViewStrategy {
 	public void removeMessage(String message, String node);
 	public void updateMessage(String message, String currentNode, String newNode);
 	
+	/**
+	 * Needs to be called at the end of a simulation step.
+	 */
+	public void simStepComplete();
+	
 	public void setActionListener(ActionListener listener);
 
 	

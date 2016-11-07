@@ -1,6 +1,7 @@
 import javax.swing.*;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
@@ -18,6 +19,7 @@ public class SimTopologyView implements ViewStrategy {
 	private List<String> nodeNames = new ArrayList<>();
 	private List<List<String>> nodeMessages = new ArrayList<>();
 	private List<Line2D> connections = new ArrayList<>();
+	private List<Color> connectionColors = new ArrayList<>();
 	private int xval = 0;
 	private int yval = 0;
 	private final int radius = 40;
@@ -102,7 +104,7 @@ public class SimTopologyView implements ViewStrategy {
 		// Find where x, y should be.
 		nodeNames.add(n);
 		
-		int[] loc = findGoodXY();
+		double[] loc = findGoodXY();
 		nodes.add(new Ellipse2D.Double(loc[0], loc[1], radius, radius));
 		nodeMessages.add(new ArrayList<String>());
 	}
@@ -122,48 +124,21 @@ public class SimTopologyView implements ViewStrategy {
 	}
 
 	public void addConnection(String A, String B) {
-		double[] nodeACoords = getEllipseCoords(A);
-		double[] nodeBCoords = getEllipseCoords(B);
-	
-		//System.out.println("x1y1: " + nodeACoords[0] + " " + nodeACoords[1]);
-		//System.out.println("x2y2: " + nodeBCoords[0] + " " + nodeBCoords[1]);
+		Ellipse2D eA = findNode(A);
+		Ellipse2D eB = findNode(B);
 		
-		connections.add(new Line2D.Double(nodeACoords[0], nodeACoords[1], nodeBCoords[0], nodeBCoords[1]));
+		connections.add(new Line2D.Double(eA.getCenterX(), eA.getCenterY(), eB.getCenterX(), eB.getCenterY()));
+		connectionColors.add(Color.BLACK);
 	}
 	public void removeConnection(String A, String B) {
-		double[] nodeACoords = getEllipseCoords(A);
-		double[] nodeBCoords = getEllipseCoords(B);
+		Line2D line = findConnection(A, B);
 		
-		for (Line2D line : connections) {
-			if (line.getX1() == nodeACoords[0] &&
-				line.getX2() == nodeBCoords[0] &&
-				line.getY1() == nodeACoords[1] &&
-				line.getY2() == nodeBCoords[1]) {
-				connections.remove(line);
-				break;
-			}
-		}
+		connectionColors.remove(connections.indexOf(line));
+		connections.remove(line);
 	}
 	
-	private double[] getEllipseCoords(String n) {
-		int idx = -1;
-		
-		for (int i = 0; i < nodeNames.size(); i++) {
-			if (nodeNames.get(i).equals(n)) {
-				idx = i;
-				break;
-			}
-			
-		}
-		if (idx != -1) {
-			double x = nodes.get(idx).getCenterX();
-			double y = nodes.get(idx).getCenterY();
-			return new double[] {x, y};
-		}
-		else return null;
-	}
 	
-	private int[] findGoodXY() {
+	private double[] findGoodXY() {
 		// Later make sure not on / inbetween nodes 
 		xval += 150;
 		if (topologyCanvas.getWidth() - xval < 150) {
@@ -171,7 +146,7 @@ public class SimTopologyView implements ViewStrategy {
 			xval = 150;
 		}
 		
-		return new int[] {xval, yval};
+		return new double[] {xval, yval};
 	}
 	
 	public String getNewNodeName() {
@@ -204,6 +179,47 @@ public class SimTopologyView implements ViewStrategy {
 	public void updateMessage(String message, String currentNode, String newNode) {
 		removeMessage(message, currentNode);
 		addMessage(message, newNode);
+		Line2D connection = findConnection(currentNode, newNode);
+		int idx = connections.indexOf(connection);
+		connectionColors.set(idx, Color.RED);
+	}
+	
+	/**
+	 * Needs to be called at the end of a simulation step.
+	 */
+	public void simStepComplete() {
+		for (int i = 0; i < connectionColors.size(); i++) {
+			connectionColors.set(i, Color.BLACK);
+		}
+	}
+	
+	
+	private Line2D findConnection(String A, String B) {
+		Ellipse2D nA = findNode(A);
+		Ellipse2D nB = findNode(B);
+		double x1 = nA.getCenterX();
+		double y1 = nA.getCenterY();
+		double x2 = nB.getCenterX();
+		double y2 = nB.getCenterY();
+		
+		// Find connection by its line end points.
+		for (Line2D l : connections) {
+			if (Math.abs(l.getX1() - x1) < 1 &&
+				Math.abs(l.getY1() - y1) < 1 &&
+				Math.abs(l.getX2() - x2) < 1 &&
+				Math.abs(l.getY2() - y2) < 1) {
+				return l;
+			}
+		}
+		return null;
+	}
+	private Ellipse2D findNode(String node) {
+		for (int i = 0; i < nodeNames.size(); i++) {
+			if (nodeNames.get(i).equals(node)) {
+				return nodes.get(i);
+			}
+		}
+		return null;
 	}
 	
 	public static void main(String[] args) {
@@ -213,25 +229,44 @@ public class SimTopologyView implements ViewStrategy {
 		sView.addNode("B");
 		sView.addNode("C");
 		sView.addNode("D");
+		sView.addMessage("TEST", "A");
+		sView.addMessage("ABC", "A");
+		sView.addMessage("CAT", "D");
 		sView.addConnection("A", "B");
 		sView.addConnection("A", "D");
-		sView.addConnection("C", "D");	
+		sView.addConnection("C", "D");
+		sView.updateMessage("TEST", "A", "D");
+		//sView.simStepComplete();
 	}
 
+	
+	
 	private class NodeDisplayPanel extends JPanel {	
 		
 		@Override 
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
 			Graphics2D g2d = (Graphics2D) g;
+			g2d.setColor(Color.black);
 			for (int i = 0; i < nodes.size(); i++) {
 				g2d.draw(nodes.get(i));
 				double nameX = nodes.get(i).getCenterX();
 				double nameY = nodes.get(i).getCenterY();
 				g2d.drawString(nodeNames.get(i), (int)nameX, (int)nameY);
+				
+				StringBuilder sb = new StringBuilder();
+				for (int j = 0; j < nodeMessages.get(i).size(); j++) {
+					sb.append(nodeMessages.get(i).get(j) + ", ");
+				}
+				if (sb.length() != 0) {
+					sb.deleteCharAt(sb.length()-1);
+					sb.deleteCharAt(sb.length()-1);
+					g2d.drawString(sb.toString(), (int)nameX + radius/2, (int)nameY);
+				}			
 			}
-			
-			for (Line2D l : connections) {
+			for (int i = 0; i < connections.size(); i++) {
+				Line2D l = connections.get(i);
+				g2d.setColor(connectionColors.get(i));
 				g2d.draw(l);
 			}
 		}
