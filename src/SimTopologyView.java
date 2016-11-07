@@ -223,8 +223,13 @@ public class SimTopologyView implements ViewStrategy {
 	}
 	
 	public static void main(String[] args) {
-		SimTopologyView sView = new SimTopologyView();
 		
+		SimTopologyView sView = new SimTopologyView();
+		Simulation model = new Simulation();
+		SimController c = new SimController(sView, model);
+		
+		sView.setActionListener(c);
+		/*
 		sView.addNode("A");
 		sView.addNode("B");
 		sView.addNode("C");
@@ -237,6 +242,8 @@ public class SimTopologyView implements ViewStrategy {
 		sView.addConnection("C", "D");
 		sView.updateMessage("TEST", "A", "D");
 		//sView.simStepComplete();
+		 * 
+		 */
 	}
 
 	

@@ -1,5 +1,7 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SimController implements ActionListener {
 	
@@ -16,8 +18,11 @@ public class SimController implements ActionListener {
 	private void createNode(String name)
 	{
 		Node node = new Node(name);
-		view.addNode(name);
-		model.getGraph().addNode(node);
+		
+		if (!model.getGraph().contains(node)) {
+			model.getGraph().addNode(node);
+			view.addNode(node.getName());
+		}
 	}
 	
 	private void removeNode(String name)
@@ -25,17 +30,22 @@ public class SimController implements ActionListener {
 		view.removeNode(name);
 		model.getGraph().removeNode(name);
 	}
-	
+	/*
 	private void setupTestGraph()
 	{
 		if(model != null && model.getGraph() != null) model.getGraph().buildGraph();
 		else System.out.println("Could not setup graph!");
-	}
+	}*/
 	
 	private void makeConnection(Node A, Node B)
 	{
-		view.addConnection(A, B);
+		view.addConnection(A.getName(), B.getName());
 		model.getGraph().addConnection(A, B);
+	}
+	private void makeConnections(Node node, List<Node> conList) {
+		for (Node toCon : conList) {
+			makeConnection(node, toCon);
+		}		
 	}
 	
 	private void setupSim()
@@ -75,9 +85,24 @@ public class SimController implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		String actionCommand = e.getActionCommand();
+		String actionCommand = arg0.getActionCommand();
 		
-		if()
+		if(actionCommand.equals("Create Node")) {
+			createNode(view.getNewNodeName());
+		}
+		else if (actionCommand.equals("Establish Connections")) {
+			String nodeStr = view.getNewConnectionNodeName();
+			Node n = model.getGraph().getNode(nodeStr);
+			String conString = view.getConnectionList();
+			
+			// Need to verify connection string is valid format, and nodes are valid
+			List<Node> conList = new ArrayList<>();
+			for (String s : conString.split(" ")) {
+				conList.add(model.getGraph().getNode(s));
+			}
+
+			makeConnections(n, conList);
+		}
 		
 		
 	}

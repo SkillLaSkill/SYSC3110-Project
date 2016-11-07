@@ -20,6 +20,10 @@ public class Simulation extends Thread {
 	//private int completedHops = 0;
 	//private int completedTransferCount = 0;
 	
+	
+	public Simulation() {
+		this(new Graph());
+	}
 	/**
 	 * Creates a new simulator
 	 * 
