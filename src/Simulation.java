@@ -62,7 +62,15 @@ public class Simulation extends Thread {
 	public Graph getGraph() {
 		return graph;
 	}
-
+	
+	public void reset(){
+		transferList = new ArrayList<Transfer>();
+		simulating = false;
+		stepCounter = 0;
+		totalHops = 0;
+		graph = new Graph();
+	}
+	
 	@Override
 	public void run() {}
 	

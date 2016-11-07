@@ -221,6 +221,11 @@ public class Graph {
 		addNodeConnectionsByName(E, "A B");
 	}*/
 
+	/**
+	 * Removes the given node connection from the given node
+	 * @param A
+	 * @param B
+	 */
 	public void removeConnection(Node A, Node B) {
 		if (!isConnected(A, B)) return;
 		nodeInformation.get(A).remove(B);

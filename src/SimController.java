@@ -88,10 +88,12 @@ public class SimController implements ActionListener {
 	/**
 	 * Sets up the simulation
 	 */
+	/*
 	private void setupSim()
 	{
 		model = new Simulation(new Graph());
 	}
+	*/
 	
 	private void DisplayNandC() {}
 	
@@ -140,7 +142,7 @@ public class SimController implements ActionListener {
 	 */
 	private void reset()
 	{
-		model = null;
+		//model = null;
 		//set some textfields to ""
 	}
 	
@@ -168,8 +170,9 @@ public class SimController implements ActionListener {
 			makeConnections(n, conList);
 		}
 		else if (actionCommand.equals("Reset")) {
-			//model.reset();
+			model.reset();
 			view.reset();
+			Transfer.resetId();
 		}
 		else if (actionCommand.equals("Delete Node")) {
 			String nodeStr = view.getNodeNameToDelete();
