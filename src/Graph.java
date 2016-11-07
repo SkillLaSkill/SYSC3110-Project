@@ -108,10 +108,10 @@ public class Graph {
 			if(node.getName() == name)
 			{
 				removeNode(node);
-				System.out.println("Node has been removed!");
+				//System.out.println("Node has been removed!");
 			}
 		}
-		System.out.println("No node with that name was found!");
+		//System.out.println("No node with that name was found!");
 	}
 	
 	/**
@@ -220,4 +220,10 @@ public class Graph {
 		addNodeConnectionsByName(D, "B C");
 		addNodeConnectionsByName(E, "A B");
 	}*/
+
+	public void removeConnection(Node A, Node B) {
+		// Still needs checks.
+		nodeInformation.get(A).remove(B);
+		nodeInformation.get(B).remove(A);
+	}
 }
