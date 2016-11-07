@@ -115,7 +115,7 @@ public class SimTopologyView implements ViewStrategy {
 		tfNodeToConnect = new JTextField(25);
 		optionsPane.add(tfNodeToConnect);
 				
-		JLabel conLabel = new JLabel("List of connections: ");
+		JLabel conLabel = new JLabel("List of nodes to connect: ");
 		optionsPane.add(conLabel);
 		tfNewConnections = new JTextField(25);
 		optionsPane.add(tfNewConnections);
@@ -141,7 +141,7 @@ public class SimTopologyView implements ViewStrategy {
 		optionsPane.add(new JLabel(""));
 		
 		
-		optionsPane.add(new JLabel("Connection to delete:"));
+		optionsPane.add(new JLabel("Delete Connection: "));
 		tfDeleteConnection = new JTextField();
 		optionsPane.add(tfDeleteConnection);
 		conDeleteButton = new JButton("Delete Connection");

@@ -41,6 +41,7 @@ public class SimController implements ActionListener {
 			model.getGraph().addNode(node);
 			view.addNode(node.getName());
 		}
+		else System.out.println("");
 	}
 	
 	/**
@@ -54,12 +55,8 @@ public class SimController implements ActionListener {
 		model.getGraph().removeNode(name);
 	}
 	
-	/*
-	private void setupTestGraph()
-	{
-		if(model != null && model.getGraph() != null) model.getGraph().buildGraph();
-		else System.out.println("Could not setup graph!");
-	}*/
+	
+	
 	
 	/**
 	 * Creates a connection between two node on the graph
@@ -79,10 +76,20 @@ public class SimController implements ActionListener {
 	 * @param node	(Node)
 	 * @param conList (List<Node>)
 	 */
-	private void makeConnections(Node node, List<Node> conList) {
+	private void makeConnections(String node, String connections) 
+	{
+		List<String>  conList = new ArrayList(String.split(connections));
 		for (Node toCon : conList) {
 			makeConnection(node, toCon);
 		}		
+	}
+	
+	/**
+	 * Removes a connection between 2 nodes
+	 */
+	private void removeConnection(Node A, Node B)
+	{
+		
 	}
 	
 	/**
@@ -130,26 +137,32 @@ public class SimController implements ActionListener {
 		}
 	}
 	
-	/*Stop method if we decide to use it
-	//private void stopSim()
-	//{
-	//	model.setSimulating(false);
-	//}
-	*/
-	
 	/**
-	 * Resets the simulation
+	 * Resets the simulation environment
 	 */
 	private void reset()
 	{
-		//model = null;
-		//set some textfields to ""
+		model.reset();
+		view.reset();
+	}
+	
+	private void setupTestGraph()
+	{
+		if(model != null && model.getGraph() != null) model.getGraph().buildTestGraph();
+		else System.out.println("Could not setup graph!");
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		String actionCommand = arg0.getActionCommand();
+		// Calls the private method to deal with Node creation in both model and view
+		if(actionCommand == "Create Node")	createNode(view.getNewNodeName());
+		// Calls private method to deal with Connection establishment in both model and view
+		else if(actionCommand == "Establish Connections") makeConnections(view.getNewConnectionNodeName(), view.getConnectionList());
+		// Calls private method to deal with Node removal in both model and view
+		else if(actionCommand == "Delete Connection: ")	removeConnection()
 		
+		/*
 		if(actionCommand.equals("Create Node")) {
 			createNode(view.getNewNodeName());
 		}
@@ -169,10 +182,10 @@ public class SimController implements ActionListener {
 
 			makeConnections(n, conList);
 		}
+		// <<< Reset the simulation environment >>>
 		else if (actionCommand.equals("Reset")) {
-			model.reset();
-			view.reset();
-			Transfer.resetId();
+			reset();
+			//Transfer.resetId();
 		}
 		else if (actionCommand.equals("Delete Node")) {
 			String nodeStr = view.getNodeNameToDelete();
@@ -182,6 +195,8 @@ public class SimController implements ActionListener {
 			model.getGraph().removeNode(nodeStr);
 			view.removeNode(nodeStr);
 		}
+		
+		// <<< Delete Connection between two Nodes >>>
 		else if (actionCommand.equals("Delete Connection")) {
 			String[] connectionToDelete = view.getConnectionToDelete().split(" ");
 			if (connectionToDelete.length == 2) {
@@ -195,10 +210,11 @@ public class SimController implements ActionListener {
 
 			
 		}
-		// Select the routing algorithm to use
+		//  <<< Select the routing algorithm to use >>>
 		else if (actionCommand.equals("algorithm")) {
 			String algoritm = view.getSelectedAlgorithm();
 		}
+		*/
 		
 		
 	}

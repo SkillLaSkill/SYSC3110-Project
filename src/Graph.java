@@ -198,8 +198,8 @@ public class Graph {
 	{
 		nodeInformation.clear();
 	}
-	/*
-	public void buildGraph(){
+	
+	public void buildTestGraph(){
 		// Creates all nodes.
 		Node A = new Node("A");
 		Node B = new Node("B");
@@ -219,7 +219,7 @@ public class Graph {
 		addNodeConnectionsByName(C, "A D");
 		addNodeConnectionsByName(D, "B C");
 		addNodeConnectionsByName(E, "A B");
-	}*/
+	}
 
 	/**
 	 * Removes the given node connection from the given node
