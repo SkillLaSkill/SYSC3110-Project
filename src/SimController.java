@@ -180,11 +180,14 @@ public class SimController implements ActionListener {
 			view.removeNode(nodeStr);
 		}
 		else if (actionCommand.equals("Delete Connection")) {
+
+			
 			String[] connectionToDelete = view.getConnectionToDelete().split(" ");
 			if (connectionToDelete.length == 2) {
 				Node A = new Node(connectionToDelete[0]);
 				Node B = new Node(connectionToDelete[1]);
-				if (model.getGraph().contains(A) && model.getGraph().contains(B)){
+				
+				if (model.getGraph().isConnected(A, B)){
 					model.getGraph().removeConnection(A, B);
 					view.removeConnection(A.getName(), B.getName());
 				}

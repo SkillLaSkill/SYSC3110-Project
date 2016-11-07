@@ -24,6 +24,7 @@ public class Graph {
 	 * @param B (Node)
 	 */
 	public void addConnection(Node A, Node B) {
+		
 		if (A.equals(B)) return; // Don't add self as a connection.
 		
 		if (nodeInformation.get(A) == null) {
@@ -33,14 +34,13 @@ public class Graph {
 			nodeInformation.put(B, new ArrayList<Node>());
 		}
 		
-		List<Node> conListA = nodeInformation.get(A);
-		List<Node> conListB = nodeInformation.get(B);
-		
 		// Don't add duplicates to connection list to keep graph simple.
-		if (!conListA.contains(B) ) {
-			conListA.add(B);
-			conListB.add(A);
+		if (!nodeInformation.get(A).contains(B) ) {
+			nodeInformation.get(A).add(B);
+			nodeInformation.get(B).add(A);
 		}
+		
+		
 	}
 	
 	
@@ -176,7 +176,7 @@ public class Graph {
 	public boolean contains(Node n)
 	{
 		for (Node node : nodeInformation.keySet()) {
-			if (n.equals(node)) return true;
+			if (n.getName().equals(node.getName())) return true;
 		}
 		return false;
 	}
@@ -222,8 +222,18 @@ public class Graph {
 	}*/
 
 	public void removeConnection(Node A, Node B) {
-		// Still needs checks.
+		if (!isConnected(A, B)) return;
 		nodeInformation.get(A).remove(B);
 		nodeInformation.get(B).remove(A);
+	}
+	public boolean isConnected(Node A, Node B) {
+		if (contains(A) && contains(B)) {
+			if (nodeInformation.get(A) == null) return false;
+			
+			for (Node n : nodeInformation.get(A)) {
+				if (n.equals(B)) return true;
+			}
+		}
+		return false;
 	}
 }
