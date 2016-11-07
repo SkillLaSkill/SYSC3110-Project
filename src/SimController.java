@@ -53,14 +53,9 @@ public class SimController implements ActionListener {
 		model.startSim();
 	}
 	
-	private void stopSim()
-	{
-		model.stopSim();
-	}
-	
 	private void stepSim()
 	{
-		model.step();
+		model.simulateStep();
 	}
 	
 	private void reset()
@@ -70,7 +65,10 @@ public class SimController implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-
+		String actionCommand = e.getActionCommand();
+		
+		if()
+		
 		
 	}
 

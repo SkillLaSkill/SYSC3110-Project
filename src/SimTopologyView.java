@@ -62,7 +62,7 @@ public class SimTopologyView implements ViewStrategy {
         mainFrame.setJMenuBar(menuBar);
 	}
 	private void setupOptionsPane() {
-		mainFrame.getContentPane().add(optionsPane, BorderLayout.LINE_START);	
+		mainFrame.getContentPane().add(optionsPane, BorderLayout.LINE_START);
 		
 		optionsPane.setLayout(new GridLayout(5, 2));
 		
@@ -104,6 +104,7 @@ public class SimTopologyView implements ViewStrategy {
 		
 		int[] loc = findGoodXY();
 		nodes.add(new Ellipse2D.Double(loc[0], loc[1], radius, radius));
+		nodeMessages.add(new ArrayList<String>());
 	}
 	public void removeNode(String name) {
 		int idx = -1;
@@ -114,7 +115,10 @@ public class SimTopologyView implements ViewStrategy {
 				break;
 			}
 		}
-		if (idx != -1) nodes.remove(idx);
+		if (idx != -1) {
+			nodes.remove(idx);
+			nodeMessages.remove(idx);
+		}
 	}
 
 	public void addConnection(String A, String B) {
@@ -188,11 +192,13 @@ public class SimTopologyView implements ViewStrategy {
 	}
 	
 	public void addMessage(String message, String node) {
-		
+		int idx = nodeNames.indexOf(node);
+		nodeMessages.get(idx).add(message);
 	}
 	
 	public void removeMessage(String message, String node) {
-		
+		int idx = nodeNames.indexOf(node);
+		nodeMessages.get(idx).remove(message);
 	}
 	
 	public void updateMessage(String message, String currentNode, String newNode) {
