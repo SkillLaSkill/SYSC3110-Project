@@ -97,20 +97,27 @@ public class SimController implements ActionListener {
 	
 	/**
 	 * Starts the simulation
+	 * 
+	 * @param steps (int)
+	 * @param sendRate (int)
 	 */
-	private void startSim()
+	private void startSim(int steps, int sendRate)
 	{
 		//get values for steps and sendrate from user
-		if(model != null && model.getGraph() != null) model.simulate(30,3);
+		if(model != null && model.getGraph().size() > 0) model.simulate(steps, sendRate);
+		
 	}
 	
 	/**
 	 * Takes a single step in simulation
+	 *
+	 *@param sendRate (int)
 	 */
-	private void stepSim()
+	
+	private void stepSim(int sendRate)
 	{
 		//get values for steps and sendrate from user
-		if(model != null && model.getGraph() != null) model.simulate(1,3);
+		if(model != null && model.getGraph().size() > 0) model.simulate(1, sendRate);
 	}
 	
 	/*Stop method if we decide to use it
