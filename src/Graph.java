@@ -92,11 +92,9 @@ public class Graph {
 		for(Node node: nodeInformation.get(n))
 		{
 			getConnections(node).remove(n);
-			System.out.println("Node has been removed!");
 			return;
 		}
 		nodeInformation.remove(n);
-		System.out.println("No node with that name was found!");
 	}
 	
 	/**
