@@ -28,6 +28,8 @@ public class SimTopologyView implements ViewStrategy {
 	// Buttons used to create nodes and connections
 	private JButton nameButton;
 	private JButton conButton;
+	private JButton nodeDeleteButton;
+	private JButton conDeleteButton;
 	
 	private JMenuItem reset;
 	
@@ -94,7 +96,7 @@ public class SimTopologyView implements ViewStrategy {
 	private void setupOptionsPane() {
 		mainFrame.getContentPane().add(optionsPane, BorderLayout.LINE_START);
 		
-		optionsPane.setLayout(new GridLayout(7, 2));
+		optionsPane.setLayout(new GridLayout(10, 2));
 		
         // Creates Text Field and Button to Make New Node
 		JLabel nameLabel = new JLabel("New node name: ");
@@ -134,6 +136,17 @@ public class SimTopologyView implements ViewStrategy {
 		optionsPane.add(new JLabel("Node to delete:"));
 		optionsPane.add(tfDeleteNodeName);
 		
+		nodeDeleteButton = new JButton("Delete Node");
+		optionsPane.add(nodeDeleteButton);
+		optionsPane.add(new JLabel(""));
+		
+		
+		optionsPane.add(new JLabel("Connection to delete:"));
+		tfDeleteConnection = new JTextField();
+		optionsPane.add(tfDeleteConnection);
+		conDeleteButton = new JButton("Delete Connection");
+		optionsPane.add(conDeleteButton);
+		optionsPane.add(new JLabel(""));
 	}
 	
 	/**
@@ -166,15 +179,22 @@ public class SimTopologyView implements ViewStrategy {
 		for (int i = 0; i < nodeNames.size(); i++) {
 			if (nodeNames.get(i).equals(name)) {
 				idx = i;
-				nodeNames.remove(idx);
 				break;
 			}
 		}
 		if (idx != -1) {
+			// Remove all connections associated with this node.
+			for (String other : nodeNames) {
+				if (!name.equals(other) && findConnection(name, other) != null) {
+					removeConnection(name, other);
+				}
+			}
+			
 			nodes.remove(idx);
+			nodeNames.remove(idx);
 			nodeMessages.remove(idx);
 		}
-		
+		// Need to delete connections connected to this node.
 		updateTopologyPanel();
 	}
 
@@ -242,7 +262,6 @@ public class SimTopologyView implements ViewStrategy {
 	 */
 	public String getNewConnectionNodeName() {
 		String s = tfNodeToConnect.getText();
-		System.out.println(s);
 		tfNodeToConnect.setText("");
 		return s;
 	}
@@ -252,7 +271,6 @@ public class SimTopologyView implements ViewStrategy {
 	 */
 	public String getConnectionList() {
 		String s = tfNewConnections.getText();
-		System.out.println(s);
 		tfNewConnections.setText("");
 		return s;
 	}
@@ -326,6 +344,7 @@ public class SimTopologyView implements ViewStrategy {
 		}
 		return null;
 	}
+
 	
 	/**
 	 * Finds the nodes location in the Topological View
@@ -350,21 +369,6 @@ public class SimTopologyView implements ViewStrategy {
 		SimController c = new SimController(sView, model);
 		
 		sView.setActionListener(c);
-		/*
-		sView.addNode("A");
-		sView.addNode("B");
-		sView.addNode("C");
-		sView.addNode("D");
-		sView.addMessage("TEST", "A");
-		sView.addMessage("ABC", "A");
-		sView.addMessage("CAT", "D");
-		sView.addConnection("A", "B");
-		sView.addConnection("A", "D");
-		sView.addConnection("C", "D");
-		sView.updateMessage("TEST", "A", "D");
-		//sView.simStepComplete();
-		 * 
-		 */
 	}
 
 	
@@ -408,6 +412,9 @@ public class SimTopologyView implements ViewStrategy {
 		reset.addActionListener(listener);
 		algorithmList.addActionListener(listener);
 		
+		nodeDeleteButton.addActionListener(listener);
+		conDeleteButton.addActionListener(listener);
+		
 	}
 	@Override
 	public void reset() {
@@ -419,6 +426,8 @@ public class SimTopologyView implements ViewStrategy {
 		tfNewNodeName.setText("");;
 		tfNodeToConnect.setText("");
 		tfNewConnections.setText("");
+		tfDeleteNodeName.setText("");
+		tfDeleteConnection.setText("");
 		
 		xval = 0;
 		yval = 0;
@@ -427,5 +436,19 @@ public class SimTopologyView implements ViewStrategy {
 	@Override
 	public String getSelectedAlgorithm() {
 		return (String)algorithmList.getSelectedItem();
+	}
+
+	@Override
+	public String getNodeNameToDelete() {
+		String s = tfDeleteNodeName.getText();
+		tfDeleteNodeName.setText("");
+		return s;
+	}
+
+	@Override
+	public String getConnectionToDelete() {
+		String s = tfDeleteConnection.getText();
+		tfDeleteConnection.setText("");
+		return s;
 	}
 }

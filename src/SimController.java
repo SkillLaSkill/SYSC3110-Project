@@ -163,6 +163,27 @@ public class SimController implements ActionListener {
 			//model.reset();
 			view.reset();
 		}
+		else if (actionCommand.equals("Delete Node")) {
+			String nodeStr = view.getNodeNameToDelete();
+			if (!model.getGraph().contains(new Node(nodeStr))) {
+				return;
+			}
+			model.getGraph().removeNode(nodeStr);
+			view.removeNode(nodeStr);
+		}
+		else if (actionCommand.equals("Delete Connection")) {
+			String[] connectionToDelete = view.getConnectionToDelete().split(" ");
+			if (connectionToDelete.length == 2) {
+				Node A = new Node(connectionToDelete[0]);
+				Node B = new Node(connectionToDelete[1]);
+				if (model.getGraph().contains(A) && model.getGraph().contains(B)){
+					model.getGraph().removeConnection(A, B);
+					view.removeConnection(A.getName(), B.getName());
+				}
+			}
+
+			
+		}
 		// Select the routing algorithm to use
 		else if (actionCommand.equals("algorithm")) {
 			String algoritm = view.getSelectedAlgorithm();
