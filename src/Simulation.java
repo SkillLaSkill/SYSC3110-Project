@@ -16,8 +16,9 @@ public class Simulation extends Thread {
 	private ArrayList<Transfer> transferList;
 	private boolean simulating = false;
 	private int stepCounter = 0;
-	private int completedHops = 0;
-	private int completedTransferCount = 0;
+	private int totalHops = 0;
+	//private int completedHops = 0;
+	//private int completedTransferCount = 0;
 	
 	/**
 	 * Creates a new simulator
@@ -84,7 +85,6 @@ public class Simulation extends Thread {
 		if(transferList.isEmpty() || (stepCounter % 3) == 0){
 			Transfer transfer1 = new Transfer(graph);
 			transferList.add(transfer1);
-			Master.output.append("Transfer" + Integer.toString(transfer1.getId())+ " starting from " + transfer1.getPosition().getName() + " to " + transfer1.getDestination().getName() + " with message: " + transfer1.getMessage() + ".\n");
 		}
 		randomTransferAlgorithm();
 		stepCounter++;
@@ -100,17 +100,10 @@ public class Simulation extends Thread {
 		ArrayList<Transfer> completedTransferList = new ArrayList<Transfer>();
 		
 		if (!simulating) {
-			Master.output.append("Simulation ended early, will not count towards statistics.\n");
 			return;
 		}
 		for(Transfer trans : transferList)
 		{
-			/* Delay to see things as they're happening.
-			//try {
-			//	Thread.sleep(10);
-			//} catch (InterruptedException e) {
-			//	e.printStackTrace();
-			*/
 					
 			//Set a new random position node for the transfer	
 			List<Node> cons = graph.getConnections(trans.getPosition());
@@ -118,12 +111,9 @@ public class Simulation extends Thread {
 			int nextNodeIndex = rand.nextInt(cons.size());
 			trans.setPosition(cons.get(nextNodeIndex));
 			trans.incrementHops();
-			Master.output.append("Transfer" + Integer.toString(trans.getId()) + " sent to: " + trans.getPosition().getName() + ", with message: " + trans.getMessage() + "\n");
-			
 			
 			// Prints the change name as well as the next node that the message will be sent to as long as it didn't reach the destinations
 			if(trans.getPosition().equals(trans.getDestination())) {
-				Master.output.append("Transfer" + Integer.toString(trans.getId()) + " has reached its destination. Number of hops taken: " + trans.getHops() + "\n");
 				completedTransferList.add(trans);
 			}
 			
@@ -131,10 +121,10 @@ public class Simulation extends Thread {
 		//Removes all completed transfers from the list of all transfers
 		if(completedTransferList.isEmpty() == false) {
 			transferList.removeAll(completedTransferList);
-				for(Transfer trans : completedTransferList) {
-					completedHops += trans.getHops();
-					completedTransferCount++;
-				}
+				//for(Transfer trans : completedTransferList) {
+				//	completedHops += trans.getHops();
+				//	completedTransferCount++;
+				//}
 		}
 	}
 }
