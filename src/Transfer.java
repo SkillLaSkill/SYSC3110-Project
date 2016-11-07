@@ -30,7 +30,6 @@ public class Transfer {
 		destination = nodes.get(rand.nextInt(nodes.size()));
 		message = "Hi";
 		id = count++;
-		
 	}
 	
 	/**
