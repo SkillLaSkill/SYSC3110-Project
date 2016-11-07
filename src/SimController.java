@@ -1,6 +1,7 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -68,10 +69,10 @@ public class SimController implements ActionListener {
 	 * @param A (Node)
 	 * @param B (Node)
 	 */
-	private void makeConnection(Node A, Node B)
+	private void makeConnection(String A, String B)
 	{
-		view.addConnection(A.getName(), B.getName());
-		model.getGraph().addConnection(A, B);
+		view.addConnection(A, B);
+		model.getGraph().addConnection(model.getGraph().getNode(A), model.getGraph().getNode(B));
 	}
 	
 	/**
@@ -82,8 +83,8 @@ public class SimController implements ActionListener {
 	 */
 	private void makeConnections(String node, String connections) 
 	{
-		List<String>  conList = new ArrayList(String.split(connections));
-		for (Node toCon : conList) {
+		List<String>  conList = Arrays.asList(connections.split(" "));
+		for (String toCon : conList) {
 			makeConnection(node, toCon);
 		}		
 	}
@@ -91,9 +92,9 @@ public class SimController implements ActionListener {
 	/**
 	 * Removes a connection between 2 nodes
 	 */
-	private void removeConnection(Node A, Node B)
+	private void removeConnection(String connection)
 	{
-		
+		List<String> nodes = Arrays.asList(connection.split(" "));
 	}
 	
 	/**
@@ -158,7 +159,7 @@ public class SimController implements ActionListener {
 		// Calls private method to deal with Connection establishment in both model and view
 		else if(actionCommand == "Establish Connections") makeConnections(view.getNewConnectionNodeName(), view.getConnectionList());
 		// Calls private method to deal with Node removal in both model and view
-		else if(actionCommand == "Delete Connection: ")	removeConnection()
+		else if(actionCommand == "Delete Connection: ")	removeConnection(view.getConnectionToDelete());
 		
 		/*
 		if(actionCommand.equals("Create Node")) {

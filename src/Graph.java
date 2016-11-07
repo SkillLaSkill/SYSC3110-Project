@@ -92,8 +92,11 @@ public class Graph {
 		for(Node node: nodeInformation.get(n))
 		{
 			getConnections(node).remove(n);
+			System.out.println("Node has been removed!");
+			return;
 		}
 		nodeInformation.remove(n);
+		System.out.println("No node with that name was found!");
 	}
 	
 	/**
@@ -103,15 +106,7 @@ public class Graph {
 	 */
 	public void removeNode(String name)
 	{
-		for(Node node: nodeInformation.keySet())
-		{
-			if(node.getName() == name)
-			{
-				removeNode(node);
-				//System.out.println("Node has been removed!");
-			}
-		}
-		//System.out.println("No node with that name was found!");
+		removeNode(getNode(name));
 	}
 	
 	/**
@@ -141,7 +136,8 @@ public class Graph {
 				return n;
 			}
 		}
-		// Returns null if the node name doesn't exist
+		// Returns null and prints if the node name doesn't exist
+		System.out.println("Node does not exist!");
 		return null;
 	}
 	
