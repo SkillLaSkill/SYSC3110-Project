@@ -50,17 +50,27 @@ public class SimController implements ActionListener {
 	
 	private void startSim()
 	{
-		model.startSim();
+		//get values for steps and sendrate from user
+		if(model != null && model.getGraph() != null) model.simulate(30,3);
 	}
 	
 	private void stepSim()
 	{
-		model.simulateStep();
+		//get values for steps and sendrate from user
+		if(model != null && model.getGraph() != null) model.simulate(1,3);
 	}
+	
+	/*Stop method if we decide to use it
+	//private void stopSim()
+	//{
+	//	model.setSimulating(false);
+	//}
+	*/
 	
 	private void reset()
 	{
-		model.reset();
+		model = null;
+		//set some textfields to ""
 	}
 	
 	@Override
