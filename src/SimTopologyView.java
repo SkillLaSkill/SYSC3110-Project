@@ -69,7 +69,6 @@ public class SimTopologyView implements ViewStrategy {
         // Creates Text Field and Button to Make New Node
 		JLabel nameLabel = new JLabel("New node name: ");
 		optionsPane.add(nameLabel);
-		
 	    newNodeNameTF = new JTextField(25);
 	    optionsPane.add(newNodeNameTF);
 		
