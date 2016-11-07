@@ -14,8 +14,10 @@ public class Simulation extends Thread {
 	private Graph graph;
 	private Random rand;
 	private ArrayList<Transfer> transferList;
-	private int stepCounter;
 	private boolean simulating = false;
+	private int stepCounter = 0;
+	private int completedHops = 0;
+	private int completedTransferCount = 0;
 	
 	/**
 	 * Creates a new simulator
@@ -25,7 +27,6 @@ public class Simulation extends Thread {
 	public Simulation(Graph graph) {
 		this.graph = graph;
 		rand = new Random();
-		stepCounter = 0;
 		transferList = new ArrayList<Transfer>();
 	}
 	
@@ -80,7 +81,7 @@ public class Simulation extends Thread {
 	}
 	
 	public void simulateStep() {
-		if(stepCounter == 0 || (stepCounter % 3) == 0){
+		if(transferList.isEmpty() || (stepCounter % 3) == 0){
 			Transfer transfer1 = new Transfer(graph);
 			transferList.add(transfer1);
 			Master.output.append("Transfer" + Integer.toString(transfer1.getId())+ " starting from " + transfer1.getPosition().getName() + " to " + transfer1.getDestination().getName() + " with message: " + transfer1.getMessage() + ".\n");
@@ -96,7 +97,7 @@ public class Simulation extends Thread {
 	 * 
 	 */
 	private void randomTransferAlgorithm() {
-		ArrayList<Transfer> completedTransfers = new ArrayList<Transfer>();
+		ArrayList<Transfer> completedTransferList = new ArrayList<Transfer>();
 		
 		if (!simulating) {
 			Master.output.append("Simulation ended early, will not count towards statistics.\n");
@@ -123,13 +124,17 @@ public class Simulation extends Thread {
 			// Prints the change name as well as the next node that the message will be sent to as long as it didn't reach the destinations
 			if(trans.getPosition().equals(trans.getDestination())) {
 				Master.output.append("Transfer" + Integer.toString(trans.getId()) + " has reached its destination. Number of hops taken: " + trans.getHops() + "\n");
-				completedTransfers.add(trans);
+				completedTransferList.add(trans);
 			}
 			
 		}
-		if(completedTransfers.isEmpty() == false) {
-			transferList.removeAll(completedTransfers);
+		//Removes all completed transfers from the list of all transfers
+		if(completedTransferList.isEmpty() == false) {
+			transferList.removeAll(completedTransferList);
+				for(Transfer trans : completedTransferList) {
+					completedHops += trans.getHops();
+					completedTransferCount++;
+				}
 		}
-	
 	}
 }
