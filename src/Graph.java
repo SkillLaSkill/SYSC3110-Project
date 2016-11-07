@@ -41,12 +41,14 @@ public class Graph {
 		}
 	}
 	
+	
 	/**
 	 * Adds multiple nodeInformation to the given Node 
 	 * 
 	 * @param A (Node)
 	 * @param nodesToAdd (List<Node>)
 	 */
+	/*
 	public void addNodeConnections(Node A, List<Node> nodesToAdd) {
 		for (Node n : nodesToAdd) {
 			addConnection(A, n);
@@ -69,8 +71,9 @@ public class Graph {
 		addNodeConnections(node, nodesToAdd);
 		return true;
 	}
+	*/
 	
-	public void removeNodes(Node n)
+	public void removeNode(Node n)
 	{
 		for(Node node: nodeInformation.get(n))
 		{
@@ -85,7 +88,7 @@ public class Graph {
 		{
 			if(node.getName() == name)
 			{
-				removeNodes(node);
+				removeNode(node);
 				System.out.println("Node has been removed!");
 			}
 		}
@@ -160,7 +163,7 @@ public class Graph {
 	{
 		nodeInformation.clear();
 	}
-	
+	/*
 	public void buildGraph(){
 		// Creates all nodes.
 		Node A = new Node("A");
@@ -181,5 +184,5 @@ public class Graph {
 		addNodeConnectionsByName(C, "A D");
 		addNodeConnectionsByName(D, "B C");
 		addNodeConnectionsByName(E, "A B");
-	}
+	}*/
 }
