@@ -194,14 +194,21 @@ public class SimController implements ActionListener {
 					view.removeConnection(A.getName(), B.getName());
 				}
 			}
-
-			
-		}
-		// Select the routing algorithm to use
-		else if (actionCommand.equals("algorithm")) {
-			String algoritm = view.getSelectedAlgorithm();
-		}
+	}
 		
+	//Select the routing algorithm to use
+	else if (actionCommand.equals("algorithm")) {
+		String algoritm = view.getSelectedAlgorithm();
+	}
+	/* Run simulation for given number of steps and send rate
+	else if (actionCommand.equals("Start Simulation")){
+		startSim(view.getSteps(), view.getSendRate());
+		
+	}
+	// Step into simulation with given send rate	
+	else if (actionCommand.equals("Step Into Simulation")){
+		stepSim(view.getSendRate());
+	*/
 		
 	}
 
