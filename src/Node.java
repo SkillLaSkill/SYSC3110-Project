@@ -74,4 +74,8 @@ public class Node {
 		Node n = (Node)o;
 		return this.name.equals(n.name);
 	}
+	@Override
+	public int hashCode() {
+		return name.hashCode();
+	}
 }

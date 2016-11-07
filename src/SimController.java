@@ -55,8 +55,12 @@ public class SimController implements ActionListener {
 		model.getGraph().removeNode(name);
 	}
 	
-	
-	
+	/*
+	private void setupTestGraph()
+	{
+		if(model != null && model.getGraph() != null) model.getGraph().buildGraph();
+		else System.out.println("Could not setup graph!");
+	}*/
 	
 	/**
 	 * Creates a connection between two node on the graph
@@ -146,12 +150,6 @@ public class SimController implements ActionListener {
 		view.reset();
 	}
 	
-	private void setupTestGraph()
-	{
-		if(model != null && model.getGraph() != null) model.getGraph().buildTestGraph();
-		else System.out.println("Could not setup graph!");
-	}
-	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		String actionCommand = arg0.getActionCommand();
@@ -185,7 +183,6 @@ public class SimController implements ActionListener {
 		// <<< Reset the simulation environment >>>
 		else if (actionCommand.equals("Reset")) {
 			reset();
-			//Transfer.resetId();
 		}
 		else if (actionCommand.equals("Delete Node")) {
 			String nodeStr = view.getNodeNameToDelete();
