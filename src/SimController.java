@@ -108,6 +108,14 @@ public class SimController implements ActionListener {
 
 			makeConnections(n, conList);
 		}
+		else if (actionCommand.equals("Reset")) {
+			//model.reset();
+			view.reset();
+		}
+		// Select the routing algorithm to use
+		else if (actionCommand.equals("algorithm")) {
+			String algoritm = view.getSelectedAlgorithm();
+		}
 		
 		
 	}
