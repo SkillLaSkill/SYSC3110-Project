@@ -138,12 +138,13 @@ public class SimController implements ActionListener {
 	*/
 	
 	/**
-	 * Resets the simulation
+	 * Resets the simulation and view
 	 */
 	private void reset()
 	{
-		//model = null;
-		//set some textfields to ""
+		model.reset();
+		view.reset();
+		Transfer.resetId();
 	}
 	
 	@Override
@@ -170,9 +171,7 @@ public class SimController implements ActionListener {
 			makeConnections(n, conList);
 		}
 		else if (actionCommand.equals("Reset")) {
-			model.reset();
-			view.reset();
-			Transfer.resetId();
+			reset();
 		}
 		else if (actionCommand.equals("Delete Node")) {
 			String nodeStr = view.getNodeNameToDelete();
