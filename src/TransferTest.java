@@ -5,10 +5,17 @@ import org.junit.Test;
 public class TransferTest {
 	Transfer t;
 	Node pos;
+	Node n;
+	
 	@Before
 	public void setUp() {
-		t = new Transfer(new Graph());
 		pos = new Node("A");
+		n = new Node("B");
+		
+		Graph g = new Graph();
+		g.addNode(pos);
+		g.addNode(n);
+		t = new Transfer(g);
 	}
 	
 	@Test
