@@ -106,12 +106,12 @@ public class Simulation extends Thread {
 		}
 		for(Transfer trans : transferList)
 		{
-			// Delay to see things as they're happening.
-			try {
-				Thread.sleep(10);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			/* Delay to see things as they're happening.
+			//try {
+			//	Thread.sleep(10);
+			//} catch (InterruptedException e) {
+			//	e.printStackTrace();
+			*/
 					
 			//Set a new random position node for the transfer	
 			List<Node> cons = graph.getConnections(trans.getPosition());
