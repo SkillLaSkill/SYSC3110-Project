@@ -143,7 +143,10 @@ public class Graph {
 	
 	public boolean contains(Node n)
 	{
-		return nodeInformation.containsKey(n);
+		for (Node node : nodeInformation.keySet()) {
+			if (n.equals(node)) return true;
+		}
+		return false;
 	}
 	
 	/**
