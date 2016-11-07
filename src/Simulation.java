@@ -66,10 +66,19 @@ public class Simulation extends Thread {
 	/**
 	 * Gets the number steps taken
 	 * 
-	 * @return integer
+	 * @return stepCounter (int)
 	 */
 	public int getSteps(){
 		return stepCounter;
+	}
+	
+	/**
+	 * Get totalHops (packets) transfered
+	 * 
+	 * @return totalHops (int)
+	 */
+	public int getTotalHops() {
+		return totalHops;
 	}
 	
 	/**
