@@ -158,8 +158,11 @@ public class SimController implements ActionListener {
 		if(actionCommand == "Create Node")	createNode(view.getNewNodeName());
 		// Calls private method to deal with Connection establishment in both model and view
 		else if(actionCommand == "Establish Connections") makeConnections(view.getNewConnectionNodeName(), view.getConnectionList());
-		// Calls private method to deal with Node removal in both model and view
+		// Calls Private method to deal with Node removal in both model and view
+		else if(actionCommand == "Delete Node") removeNode(view.getNodeNameToDelete());
+		// Calls private method to deal with Connection removal in both model and view
 		else if(actionCommand == "Delete Connection: ")	removeConnection(view.getConnectionToDelete());
+
 		
 		/*
 		if(actionCommand.equals("Create Node")) {
