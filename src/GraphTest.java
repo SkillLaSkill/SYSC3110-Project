@@ -66,6 +66,14 @@ public class GraphTest extends Graph {
 		g.addNode(n2);
 		Assert.assertEquals("Node 'A' should be connected to Node 'B'", true, g.addNodeConnectionsByName(n, "B C"));
 	}
+	
+	@Test
+	public void testRemoveConnection() {
+		g.addNodeConnections(n, ln);
+		g.removeConnection(n, n1);
+		Assert.assertEquals("Node 'A' should be connected to Node 'B'", false, g.getConnections(n).contains(n1));
+	}
+
 
 	@Test
 	public void testContains() {
