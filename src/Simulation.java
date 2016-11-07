@@ -67,19 +67,17 @@ public class Simulation extends Thread {
 	public void run() {}
 	
 	/**
-	 * Runs the simulation based on given number of steps and given send rate.
-	 * 
-	 * @param steps (Integer)
-	 * @param sendRate (Integer)
+	 * Runs one step into the simulation.
+	 *
+	 * @param sendRate (int)
 	 */
-	public void simulate(int steps, int sendRate) {
+	public void simulateStep(int sendRate) {
 		simulating = true;
-		
 		/** Continue simulating until another object tells us to stop.
 		*   Creates a new transfer every 3rd step, or at beginning
 		*/
-		while (simulating == true && steps-- > 0) {
-			if(transferList.isEmpty() || (stepCounter % 3) == 0){
+		if (simulating == true) {
+			if(transferList.isEmpty() || (stepCounter % sendRate) == 0){
 				Transfer transfer1 = new Transfer(graph);
 				transferList.add(transfer1);
 			}
