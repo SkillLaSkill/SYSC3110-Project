@@ -79,23 +79,16 @@ public class Simulation extends Thread {
 		*   Creates a new transfer every 3rd step, or at beginning
 		*/
 		while (simulating == true && steps-- > 0) {
-			simulateStep();
+			if(transferList.isEmpty() || (stepCounter % 3) == 0){
+				Transfer transfer1 = new Transfer(graph);
+				transferList.add(transfer1);
+			}
+			randomTransferAlgorithm();
+			stepCounter++;
 		}
 		simulating = false;
 	}
 	
-	/**
-	 * Simulates a singular step
-	 */
-	public void simulateStep() {
-		if(transferList.isEmpty() || (stepCounter % 3) == 0){
-			Transfer transfer1 = new Transfer(graph);
-			transferList.add(transfer1);
-		}
-		randomTransferAlgorithm();
-		stepCounter++;
-	}
-		
 	/**
 	 * Begins the random transfer algorithm.
 	 * Performs one step into the simulation for each transfer.
@@ -115,6 +108,7 @@ public class Simulation extends Thread {
 			int nextNodeIndex = rand.nextInt(cons.size());
 			trans.setPosition(cons.get(nextNodeIndex));
 			trans.incrementHops();
+			totalHops++;
 			
 			// Prints the change name as well as the next node that the message will be sent to as long as it didn't reach the destinations
 			if(trans.getPosition().equals(trans.getDestination())) {
