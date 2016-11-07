@@ -107,4 +107,13 @@ public class Transfer {
 	{
 		return hops;
 	}
+	
+	/**
+	 * Resets the Id Counter to 0
+	 * 
+	 */
+	public void resetId()
+	{
+		count = 0;
+	}
 }
