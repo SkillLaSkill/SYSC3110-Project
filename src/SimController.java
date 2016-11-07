@@ -104,7 +104,12 @@ public class SimController implements ActionListener {
 	private void startSim(int steps, int sendRate)
 	{
 		//get values for steps and sendrate from user
-		if(model != null && model.getGraph().size() > 0) model.simulate(steps, sendRate);
+		if(model != null && model.getGraph().size() > 0){
+			for(int i = 0; i < steps; i++){
+				model.simulateStep(sendRate);
+				view.simStepComplete();
+			}
+		}
 		
 	}
 	
@@ -117,7 +122,10 @@ public class SimController implements ActionListener {
 	private void stepSim(int sendRate)
 	{
 		//get values for steps and sendrate from user
-		if(model != null && model.getGraph().size() > 0) model.simulate(1, sendRate);
+		if(model != null && model.getGraph().size() > 0) {
+			model.simulateStep(sendRate);
+			view.simStepComplete();
+		}
 	}
 	
 	/*Stop method if we decide to use it
