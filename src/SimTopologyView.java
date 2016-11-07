@@ -24,12 +24,14 @@ public class SimTopologyView implements ViewStrategy {
 	private int yval = 0;
 	private final int radius = 40;
 	
+	private JButton nameButton;
+	private JButton conButton;
+	
 	// Text fields used for creation of nodes/connections
 	private JTextField newNodeNameTF;
 	private JTextField nodeToConnectTF;
 	private JTextField newConnectionsTF;
 	
-	private ActionListener listener;
 	
 	
 	public SimTopologyView() {
@@ -74,8 +76,7 @@ public class SimTopologyView implements ViewStrategy {
 	    newNodeNameTF = new JTextField(25);
 	    optionsPane.add(newNodeNameTF);
 		
-		JButton nameButton = new JButton("Create Node");
-		nameButton.addActionListener(listener);
+		nameButton = new JButton("Create Node");
 		optionsPane.add(nameButton);
 		
 		JLabel tmp1 = new JLabel("");
@@ -92,14 +93,16 @@ public class SimTopologyView implements ViewStrategy {
 		newConnectionsTF = new JTextField(25);
 		optionsPane.add(newConnectionsTF);
 		
-		JButton conButton = new JButton("Establish Connections");
-		conButton.addActionListener(listener);
+		conButton = new JButton("Establish Connections");
 		optionsPane.add(conButton);
 		JLabel tmp2 = new JLabel("");	
 		optionsPane.add(tmp2);
 	}
 	
-	
+	private void updateTopologyPanel() {
+		topologyCanvas.validate();
+		topologyCanvas.repaint();
+	}
 	public void addNode(String n) {
 		// Find where x, y should be.
 		nodeNames.add(n);
@@ -107,6 +110,8 @@ public class SimTopologyView implements ViewStrategy {
 		double[] loc = findGoodXY();
 		nodes.add(new Ellipse2D.Double(loc[0], loc[1], radius, radius));
 		nodeMessages.add(new ArrayList<String>());
+		
+		updateTopologyPanel();
 	}
 	public void removeNode(String name) {
 		int idx = -1;
@@ -121,6 +126,8 @@ public class SimTopologyView implements ViewStrategy {
 			nodes.remove(idx);
 			nodeMessages.remove(idx);
 		}
+		
+		updateTopologyPanel();
 	}
 
 	public void addConnection(String A, String B) {
@@ -129,12 +136,16 @@ public class SimTopologyView implements ViewStrategy {
 		
 		connections.add(new Line2D.Double(eA.getCenterX(), eA.getCenterY(), eB.getCenterX(), eB.getCenterY()));
 		connectionColors.add(Color.BLACK);
+		
+		updateTopologyPanel();
 	}
 	public void removeConnection(String A, String B) {
 		Line2D line = findConnection(A, B);
 		
 		connectionColors.remove(connections.indexOf(line));
 		connections.remove(line);
+		
+		updateTopologyPanel();
 	}
 	
 	
@@ -169,11 +180,15 @@ public class SimTopologyView implements ViewStrategy {
 	public void addMessage(String message, String node) {
 		int idx = nodeNames.indexOf(node);
 		nodeMessages.get(idx).add(message);
+		
+		updateTopologyPanel();
 	}
 	
 	public void removeMessage(String message, String node) {
 		int idx = nodeNames.indexOf(node);
 		nodeMessages.get(idx).remove(message);
+		
+		updateTopologyPanel();
 	}
 	
 	public void updateMessage(String message, String currentNode, String newNode) {
@@ -182,6 +197,8 @@ public class SimTopologyView implements ViewStrategy {
 		Line2D connection = findConnection(currentNode, newNode);
 		int idx = connections.indexOf(connection);
 		connectionColors.set(idx, Color.RED);
+		
+		updateTopologyPanel();
 	}
 	
 	/**
@@ -191,6 +208,8 @@ public class SimTopologyView implements ViewStrategy {
 		for (int i = 0; i < connectionColors.size(); i++) {
 			connectionColors.set(i, Color.BLACK);
 		}
+		
+		updateTopologyPanel();
 	}
 	
 	
@@ -281,7 +300,7 @@ public class SimTopologyView implements ViewStrategy {
 
 	@Override
 	public void setActionListener(ActionListener listener) {
-		this.listener = listener;
-		
+		nameButton.addActionListener(listener);
+		conButton.addActionListener(listener);
 	}
 }
