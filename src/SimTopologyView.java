@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SimTopologyView implements ViewStrategy {
+	// All variables needed to create basic window
 	private JFrame mainFrame;
 	private JPanel optionsPane;
 	private NodeDisplayPanel topologyCanvas;
@@ -24,6 +25,7 @@ public class SimTopologyView implements ViewStrategy {
 	private int yval = 0;
 	private final int radius = 40;
 	
+	// Buttons used to create nodes and connections
 	private JButton nameButton;
 	private JButton conButton;
 	
@@ -32,11 +34,16 @@ public class SimTopologyView implements ViewStrategy {
 	private JTextField nodeToConnectTF;
 	private JTextField newConnectionsTF;
 	
-	
-	
+	/**
+	 * Creates the Topological Simulation View
+	 */
 	public SimTopologyView() {
 		initializeComponents();
 	}
+	
+	/**
+	 * Initializes all components 
+	 */
 	private void initializeComponents() {
 		mainFrame = new JFrame("Topology View");
 		optionsPane = new JPanel();
@@ -53,10 +60,17 @@ public class SimTopologyView implements ViewStrategy {
 		mainFrame.setVisible(true);
 	}
 	
+	/**
+	 * Sets up the node view area
+	 */
 	private void setupNodeView() {
 		topologyCanvas.setSize(400, 400);
 		mainFrame.getContentPane().add(topologyCanvas, BorderLayout.CENTER);
 	}
+	
+	/**
+	 * Creates the menu bar
+	 */
 	private void setupMenuBar() {
 		JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
@@ -65,6 +79,10 @@ public class SimTopologyView implements ViewStrategy {
            
         mainFrame.setJMenuBar(menuBar);
 	}
+	
+	/**
+	 * Creates the menu options 
+	 */
 	private void setupOptionsPane() {
 		mainFrame.getContentPane().add(optionsPane, BorderLayout.LINE_START);
 		
@@ -99,10 +117,17 @@ public class SimTopologyView implements ViewStrategy {
 		optionsPane.add(tmp2);
 	}
 	
+	/**
+	 * Update the Topological View
+	 */
 	private void updateTopologyPanel() {
 		topologyCanvas.validate();
 		topologyCanvas.repaint();
 	}
+	
+	/**
+	 * Adds a node to the Topological View
+	 */
 	public void addNode(String n) {
 		// Find where x, y should be.
 		nodeNames.add(n);
@@ -113,6 +138,10 @@ public class SimTopologyView implements ViewStrategy {
 		
 		updateTopologyPanel();
 	}
+	
+	/**
+	 * Removes a node to the Topological View
+	 */
 	public void removeNode(String name) {
 		int idx = -1;
 		for (int i = 0; i < nodeNames.size(); i++) {
@@ -130,6 +159,9 @@ public class SimTopologyView implements ViewStrategy {
 		updateTopologyPanel();
 	}
 
+	/**
+	 * Adds a connection between two nodes in the Topological View
+	 */
 	public void addConnection(String A, String B) {
 		Ellipse2D eA = findNode(A);
 		Ellipse2D eB = findNode(B);
@@ -139,6 +171,10 @@ public class SimTopologyView implements ViewStrategy {
 		
 		updateTopologyPanel();
 	}
+	
+	/**
+	 * Removes a connection between two nodes in the Topological View
+	 */
 	public void removeConnection(String A, String B) {
 		Line2D line = findConnection(A, B);
 		
@@ -148,7 +184,11 @@ public class SimTopologyView implements ViewStrategy {
 		updateTopologyPanel();
 	}
 	
-	
+	/**
+	 * Determines good placement
+	 * 
+	 * @return double[]
+	 */
 	private double[] findGoodXY() {
 		// Later make sure not on / inbetween nodes 
 		xval += 150;
@@ -160,23 +200,37 @@ public class SimTopologyView implements ViewStrategy {
 		return new double[] {xval, yval};
 	}
 	
+	/**
+	 * Gets the name of the new node
+	 */
 	public String getNewNodeName() {
 		String s = newNodeNameTF.getText();
 		newNodeNameTF.setText("");
 		return s;
 		
 	}
+	
+	/**
+	 * Gets the name of the new connection
+	 */
 	public String getNewConnectionNodeName() {
 		String s = nodeToConnectTF.getText();
 		nodeToConnectTF.setText("");
 		return s;
 	}
+	
+	/**
+	 * Gets a list of the connections
+	 */
 	public String getConnectionList() {
 		String s = newConnectionsTF.getText();
 		newConnectionsTF.setText("");
 		return s;
 	}
 	
+	/**
+	 * Adds a message to the node in the Topological View
+	 */
 	public void addMessage(String message, String node) {
 		int idx = nodeNames.indexOf(node);
 		nodeMessages.get(idx).add(message);
@@ -184,6 +238,9 @@ public class SimTopologyView implements ViewStrategy {
 		updateTopologyPanel();
 	}
 	
+	/**
+	 * Removes the message of a node in the Topological View
+	 */
 	public void removeMessage(String message, String node) {
 		int idx = nodeNames.indexOf(node);
 		nodeMessages.get(idx).remove(message);
@@ -191,6 +248,9 @@ public class SimTopologyView implements ViewStrategy {
 		updateTopologyPanel();
 	}
 	
+	/**
+	 * Updates the message of a node in the Topological View
+	 */
 	public void updateMessage(String message, String currentNode, String newNode) {
 		removeMessage(message, currentNode);
 		addMessage(message, newNode);
@@ -212,7 +272,12 @@ public class SimTopologyView implements ViewStrategy {
 		updateTopologyPanel();
 	}
 	
-	
+	/**
+	 * Finds the connection path between two nodes in the Topologoical View
+	 * @param A
+	 * @param B
+	 * @return
+	 */
 	private Line2D findConnection(String A, String B) {
 		Ellipse2D nA = findNode(A);
 		Ellipse2D nB = findNode(B);
@@ -232,6 +297,14 @@ public class SimTopologyView implements ViewStrategy {
 		}
 		return null;
 	}
+	
+	/**
+	 * Finds the nodes location in the Topological View
+	 * 
+	 * @param node (String)
+	 * 
+	 * @return Ellipse2D
+	 */
 	private Ellipse2D findNode(String node) {
 		for (int i = 0; i < nodeNames.size(); i++) {
 			if (nodeNames.get(i).equals(node)) {
@@ -268,7 +341,8 @@ public class SimTopologyView implements ViewStrategy {
 	
 	
 	private class NodeDisplayPanel extends JPanel {	
-		
+		private static final long serialVersionUID = 1L;
+
 		@Override 
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);

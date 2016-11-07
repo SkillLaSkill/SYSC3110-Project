@@ -5,7 +5,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 /**
- * Thiis class creates the GUI that the user uses to create nodes,
+ * This class creates the GUI that the user uses to create nodes,
  * create connections, and run the random routing simulator
  * 
  * @author Team GetterDone
@@ -119,17 +119,6 @@ public class Master extends JFrame implements ActionListener {
 		// Makes it so the program closes when you close the GUI
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
-	
-	
-	/**
-	 * Creates the nodes with connections as shown in the projects specifications (for test)
-	 */
-	
-	// Move
-	
-	
-
-
 	
 	/**
 	 * Creates new master program, making the GUI

@@ -6,7 +6,7 @@ import java.util.Random;
  * Creates an Simulation thread that will run the different types of algorithms
  * (Only random transfer algorithm right now)
  * 
- * @author Team Getterdone
+ * @author Team GetterDone
  *
  */
 public class Simulation extends Thread {
@@ -24,6 +24,7 @@ public class Simulation extends Thread {
 	public Simulation() {
 		this(new Graph());
 	}
+	
 	/**
 	 * Creates a new simulator
 	 * 
@@ -63,10 +64,8 @@ public class Simulation extends Thread {
 	}
 
 	@Override
-	public void run() {
-		
-			
-	}
+	public void run() {}
+	
 	/**
 	 * Runs the simulation based on given number of steps and given send rate.
 	 * 
@@ -85,6 +84,9 @@ public class Simulation extends Thread {
 		simulating = false;
 	}
 	
+	/**
+	 * Simulates a singular step
+	 */
 	public void simulateStep() {
 		if(transferList.isEmpty() || (stepCounter % 3) == 0){
 			Transfer transfer1 = new Transfer(graph);
@@ -97,8 +99,6 @@ public class Simulation extends Thread {
 	/**
 	 * Begins the random transfer algorithm.
 	 * Performs one step into the simulation for each transfer.
-	 * 
-	 * 
 	 */
 	private void randomTransferAlgorithm() {
 		ArrayList<Transfer> completedTransferList = new ArrayList<Transfer>();

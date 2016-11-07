@@ -7,19 +7,21 @@ public class Graph {
 
 	private HashMap<Node, List<Node>> nodeInformation = new HashMap<>();
 	
+	/**
+	 * Adds a node to the HashMap keys
+	 * 
+	 * @param n (Node)
+	 */
 	public void addNode(Node n)
 	{
 		nodeInformation.put(n, null);
 	}
 	
-
-	
 	/**
-	 * Returns all the nodeInformation of a node
+	 * Creates connections for the given node to the other given node
 	 * 
-	 * @param n (Node)
-	 * 
-	 * @return List<Node> (the nodeInformation)
+	 * @param A (Node)
+	 * @param B (Node)
 	 */
 	public void addConnection(Node A, Node B) {
 		if (A.equals(B)) return; // Don't add self as a connection.
@@ -47,14 +49,22 @@ public class Graph {
 	 * 
 	 * @param A (Node)
 	 * @param nodesToAdd (List<Node>)
+	 *
 	 */
-	/*
 	public void addNodeConnections(Node A, List<Node> nodesToAdd) {
 		for (Node n : nodesToAdd) {
 			addConnection(A, n);
 		}
 	}
 	
+	/**
+	 * Adds multiple connects to a node give their names in a string
+	 * 
+	 * @param node (Node)
+	 * @param connections (String)
+	 * 
+	 * @return boolean
+	 */
 	public boolean addNodeConnectionsByName(Node node, String connections) {
 		// Separates all connections into individual strings
 		String[] nodeConnections = connections.split(" ");
@@ -71,8 +81,12 @@ public class Graph {
 		addNodeConnections(node, nodesToAdd);
 		return true;
 	}
-	*/
 	
+	/**
+	 * Removes a given node 
+	 * 
+	 * @param n (Node)
+	 */
 	public void removeNode(Node n)
 	{
 		for(Node node: nodeInformation.get(n))
@@ -82,6 +96,11 @@ public class Graph {
 		nodeInformation.remove(n);
 	}
 	
+	/**
+	 * Removes a node given its name
+	 * 
+	 * @param name (String)
+	 */
 	public void removeNode(String name)
 	{
 		for(Node node: nodeInformation.keySet())
@@ -112,6 +131,7 @@ public class Graph {
 	 * Gets a node given its name
 	 * 
 	 * @param name (String)
+	 * 
 	 * @return Node
 	 */
 	public Node getNode(String name){
@@ -125,22 +145,34 @@ public class Graph {
 		return null;
 	}
 	
-	
+	/**
+	 * Gets a list of all the nodes
+	 * 
+	 * @return List<Node>
+	 */
 	public List<Node> getNodes()
 	{
 		return new ArrayList<Node>(nodeInformation.keySet());
 	}
 	
+	/**
+	 * Returns all the connections of a node
+	 * 
+	 * @param n (Node)
+	 * 
+	 * @return List<Node> 
+	 */
 	public List<Node> getConnections(Node n) {
 		return nodeInformation.get(n);
 	}
-	/**
-	 * Creates connections for the given node using given connections
-	 * 
-	 * @param node (Node)
-	 * @param connections (String)
-	 */
 	
+	/**
+	 * Checks if the node list contains the given node
+	 * 
+	 * @param n (Node)
+	 * 
+	 * @return boolean
+	 */
 	public boolean contains(Node n)
 	{
 		return nodeInformation.containsKey(n);
