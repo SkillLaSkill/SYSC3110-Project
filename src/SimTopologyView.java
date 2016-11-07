@@ -182,8 +182,16 @@ public class SimTopologyView implements ViewStrategy {
 		Ellipse2D eA = findNode(A);
 		Ellipse2D eB = findNode(B);
 		
-		connections.add(new Line2D.Double(eA.getCenterX(), eA.getCenterY(), eB.getCenterX(), eB.getCenterY()));
-		connectionColors.add(Color.BLACK);
+		// Calculate where the edge of the line should be so it goes from edge of Node A to edge of Node B
+		double epX = eA.getCenterX() - eB.getCenterX();
+		double epY = eA.getCenterY() - eB.getCenterY();
+		
+		double hyp = Math.sqrt(Math.pow(epX, 2) + Math.pow(epY, 2));
+		
+		double xPrime = (radius/2) * (epX / hyp);
+		double yPrime = (radius/2) * (epY / hyp);
+		
+		connections.add(new Line2D.Double(eA.getCenterX() - xPrime, eA.getCenterY() - yPrime, eB.getCenterX() + xPrime, eB.getCenterY() + yPrime));
 		
 		updateTopologyPanel();
 	}
@@ -302,12 +310,12 @@ public class SimTopologyView implements ViewStrategy {
 		double x2 = nB.getCenterX();
 		double y2 = nB.getCenterY();
 		
-		// Find connection by its line end points.
+		// Find connection by its line end points (which are at edge of ellipses).
 		for (Line2D l : connections) {
-			if (Math.abs(l.getX1() - x1) < 1 &&
-				Math.abs(l.getY1() - y1) < 1 &&
-				Math.abs(l.getX2() - x2) < 1 &&
-				Math.abs(l.getY2() - y2) < 1) {
+			if (Math.abs(l.getX1() - x1) < radius/2 + 1 &&
+				Math.abs(l.getY1() - y1) < radius/2 + 1 &&
+				Math.abs(l.getX2() - x2) < radius/2 + 1 &&
+				Math.abs(l.getY2() - y2) < radius/2 + 1) {
 				return l;
 			}
 		}
