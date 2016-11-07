@@ -36,7 +36,9 @@ public class SimTopologyView implements ViewStrategy {
 	// Text fields used for creation of nodes/connections
 	private JTextField tfNewNodeName;
 	private JTextField tfNodeToConnect;
-	private JTextField tfNewConnectionsTF;
+	private JTextField tfNewConnections;
+	private JTextField tfDeleteNodeName;
+	private JTextField tfDeleteConnection;
 	
 	/**
 	 * Creates the Topological Simulation View
@@ -92,7 +94,7 @@ public class SimTopologyView implements ViewStrategy {
 	private void setupOptionsPane() {
 		mainFrame.getContentPane().add(optionsPane, BorderLayout.LINE_START);
 		
-		optionsPane.setLayout(new GridLayout(6, 2));
+		optionsPane.setLayout(new GridLayout(7, 2));
 		
         // Creates Text Field and Button to Make New Node
 		JLabel nameLabel = new JLabel("New node name: ");
@@ -103,8 +105,7 @@ public class SimTopologyView implements ViewStrategy {
 		nameButton = new JButton("Create Node");
 		optionsPane.add(nameButton);
 		
-		JLabel tmp1 = new JLabel("");
-		optionsPane.add(tmp1);
+		optionsPane.add(new JLabel(""));
 		
 		// Creates Text Fields and Button to Make Connection To a Node
 		JLabel connectionLabel = new JLabel("Node to set connections:");
@@ -114,13 +115,12 @@ public class SimTopologyView implements ViewStrategy {
 				
 		JLabel conLabel = new JLabel("List of connections: ");
 		optionsPane.add(conLabel);
-		tfNewConnectionsTF = new JTextField(25);
-		optionsPane.add(tfNewConnectionsTF);
+		tfNewConnections = new JTextField(25);
+		optionsPane.add(tfNewConnections);
 		
 		conButton = new JButton("Establish Connections");
 		optionsPane.add(conButton);
-		JLabel tmp2 = new JLabel("");	
-		optionsPane.add(tmp2);
+		optionsPane.add(new JLabel(""));
 		
 		// Later we might want to move this to the constructer so we can pass in the algorithms 
 		String[] algorithms = { "Random" };
@@ -130,6 +130,9 @@ public class SimTopologyView implements ViewStrategy {
 		optionsPane.add(new JLabel("Routing algorithm:"));
 		optionsPane.add(algorithmList);
 		
+		tfDeleteNodeName = new JTextField();
+		optionsPane.add(new JLabel("Node to delete:"));
+		optionsPane.add(tfDeleteNodeName);
 		
 	}
 	
@@ -192,7 +195,7 @@ public class SimTopologyView implements ViewStrategy {
 		double yPrime = (radius/2) * (epY / hyp);
 		
 		connections.add(new Line2D.Double(eA.getCenterX() - xPrime, eA.getCenterY() - yPrime, eB.getCenterX() + xPrime, eB.getCenterY() + yPrime));
-		
+		connectionColors.add(Color.BLACK);
 		updateTopologyPanel();
 	}
 	
@@ -239,6 +242,7 @@ public class SimTopologyView implements ViewStrategy {
 	 */
 	public String getNewConnectionNodeName() {
 		String s = tfNodeToConnect.getText();
+		System.out.println(s);
 		tfNodeToConnect.setText("");
 		return s;
 	}
@@ -247,8 +251,9 @@ public class SimTopologyView implements ViewStrategy {
 	 * Gets a list of the connections
 	 */
 	public String getConnectionList() {
-		String s = tfNewConnectionsTF.getText();
-		tfNewConnectionsTF.setText("");
+		String s = tfNewConnections.getText();
+		System.out.println(s);
+		tfNewConnections.setText("");
 		return s;
 	}
 	
@@ -413,7 +418,7 @@ public class SimTopologyView implements ViewStrategy {
 		connectionColors.clear();
 		tfNewNodeName.setText("");;
 		tfNodeToConnect.setText("");
-		tfNewConnectionsTF.setText("");
+		tfNewConnections.setText("");
 		
 		xval = 0;
 		yval = 0;
