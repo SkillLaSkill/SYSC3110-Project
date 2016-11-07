@@ -29,10 +29,14 @@ public class SimTopologyView implements ViewStrategy {
 	private JButton nameButton;
 	private JButton conButton;
 	
+	private JMenuItem reset;
+	
+	private JComboBox<String> algorithmList;
+	
 	// Text fields used for creation of nodes/connections
-	private JTextField newNodeNameTF;
-	private JTextField nodeToConnectTF;
-	private JTextField newConnectionsTF;
+	private JTextField tfNewNodeName;
+	private JTextField tfNodeToConnect;
+	private JTextField tfNewConnectionsTF;
 	
 	/**
 	 * Creates the Topological Simulation View
@@ -74,7 +78,9 @@ public class SimTopologyView implements ViewStrategy {
 	private void setupMenuBar() {
 		JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
+        reset = new JMenuItem("Reset");
         
+        fileMenu.add(reset);
         menuBar.add(fileMenu);
            
         mainFrame.setJMenuBar(menuBar);
@@ -86,13 +92,13 @@ public class SimTopologyView implements ViewStrategy {
 	private void setupOptionsPane() {
 		mainFrame.getContentPane().add(optionsPane, BorderLayout.LINE_START);
 		
-		optionsPane.setLayout(new GridLayout(5, 2));
+		optionsPane.setLayout(new GridLayout(6, 2));
 		
         // Creates Text Field and Button to Make New Node
 		JLabel nameLabel = new JLabel("New node name: ");
 		optionsPane.add(nameLabel);
-	    newNodeNameTF = new JTextField(25);
-	    optionsPane.add(newNodeNameTF);
+	    tfNewNodeName = new JTextField(25);
+	    optionsPane.add(tfNewNodeName);
 		
 		nameButton = new JButton("Create Node");
 		optionsPane.add(nameButton);
@@ -103,18 +109,28 @@ public class SimTopologyView implements ViewStrategy {
 		// Creates Text Fields and Button to Make Connection To a Node
 		JLabel connectionLabel = new JLabel("Node to set connections:");
 		optionsPane.add(connectionLabel);
-		nodeToConnectTF = new JTextField(25);
-		optionsPane.add(nodeToConnectTF);
+		tfNodeToConnect = new JTextField(25);
+		optionsPane.add(tfNodeToConnect);
 				
 		JLabel conLabel = new JLabel("List of connections: ");
 		optionsPane.add(conLabel);
-		newConnectionsTF = new JTextField(25);
-		optionsPane.add(newConnectionsTF);
+		tfNewConnectionsTF = new JTextField(25);
+		optionsPane.add(tfNewConnectionsTF);
 		
 		conButton = new JButton("Establish Connections");
 		optionsPane.add(conButton);
 		JLabel tmp2 = new JLabel("");	
 		optionsPane.add(tmp2);
+		
+		// Later we might want to move this to the constructer so we can pass in the algorithms 
+		String[] algorithms = { "Random" };
+		algorithmList = new JComboBox<>(algorithms);
+		
+		algorithmList.setActionCommand("algorithm");
+		optionsPane.add(new JLabel("Routing algorithm:"));
+		optionsPane.add(algorithmList);
+		
+		
 	}
 	
 	/**
@@ -204,8 +220,8 @@ public class SimTopologyView implements ViewStrategy {
 	 * Gets the name of the new node
 	 */
 	public String getNewNodeName() {
-		String s = newNodeNameTF.getText();
-		newNodeNameTF.setText("");
+		String s = tfNewNodeName.getText();
+		tfNewNodeName.setText("");
 		return s;
 		
 	}
@@ -214,8 +230,8 @@ public class SimTopologyView implements ViewStrategy {
 	 * Gets the name of the new connection
 	 */
 	public String getNewConnectionNodeName() {
-		String s = nodeToConnectTF.getText();
-		nodeToConnectTF.setText("");
+		String s = tfNodeToConnect.getText();
+		tfNodeToConnect.setText("");
 		return s;
 	}
 	
@@ -223,8 +239,8 @@ public class SimTopologyView implements ViewStrategy {
 	 * Gets a list of the connections
 	 */
 	public String getConnectionList() {
-		String s = newConnectionsTF.getText();
-		newConnectionsTF.setText("");
+		String s = tfNewConnectionsTF.getText();
+		tfNewConnectionsTF.setText("");
 		return s;
 	}
 	
@@ -376,5 +392,27 @@ public class SimTopologyView implements ViewStrategy {
 	public void setActionListener(ActionListener listener) {
 		nameButton.addActionListener(listener);
 		conButton.addActionListener(listener);
+		reset.addActionListener(listener);
+		algorithmList.addActionListener(listener);
+		
+	}
+	@Override
+	public void reset() {
+		nodes.clear();
+		nodeNames.clear();
+		nodeMessages.clear();
+		connections.clear();
+		connectionColors.clear();
+		tfNewNodeName.setText("");;
+		tfNodeToConnect.setText("");
+		tfNewConnectionsTF.setText("");
+		
+		xval = 0;
+		yval = 0;
+		updateTopologyPanel();
+	}
+	@Override
+	public String getSelectedAlgorithm() {
+		return (String)algorithmList.getSelectedItem();
 	}
 }

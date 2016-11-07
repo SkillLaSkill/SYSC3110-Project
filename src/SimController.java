@@ -33,8 +33,10 @@ public class SimController implements ActionListener {
 	 */
 	private void createNode(String name)
 	{
+		if (name.isEmpty()) return;
 		Node node = new Node(name);
 		
+		// Don't add duplicate
 		if (!model.getGraph().contains(node)) {
 			model.getGraph().addNode(node);
 			view.addNode(node.getName());
@@ -142,10 +144,21 @@ public class SimController implements ActionListener {
 			// Need to verify connection string is valid format, and nodes are valid
 			List<Node> conList = new ArrayList<>();
 			for (String s : conString.split(" ")) {
-				conList.add(model.getGraph().getNode(s));
+				if (model.getGraph().getNode(s) != null) {
+					conList.add(model.getGraph().getNode(s));
+				}
+				else return; // Invalid connection list
 			}
 
 			makeConnections(n, conList);
+		}
+		else if (actionCommand.equals("Reset")) {
+			//model.reset();
+			view.reset();
+		}
+		// Select the routing algorithm to use
+		else if (actionCommand.equals("algorithm")) {
+			String algoritm = view.getSelectedAlgorithm();
 		}
 		
 		
