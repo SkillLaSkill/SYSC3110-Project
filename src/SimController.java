@@ -50,22 +50,22 @@ public class SimController implements ActionListener {
 	
 	private void startSim()
 	{
-		
+		model.startSim();
 	}
 	
 	private void stopSim()
 	{
-		
+		model.stopSim();
 	}
 	
 	private void stepSim()
 	{
-		
+		model.step();
 	}
 	
 	private void reset()
 	{
-		
+		model.reset();
 	}
 	
 	@Override
