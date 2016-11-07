@@ -10,12 +10,13 @@ import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SimTopologyView implements ViewStrategy{
+public class SimTopologyView implements ViewStrategy {
 	private JFrame mainFrame;
 	private JPanel optionsPane;
 	private NodeDisplayPanel topologyCanvas;
 	private List<Ellipse2D> nodes = new ArrayList<>();
 	private List<String> nodeNames = new ArrayList<>();
+	private List<List<String>> nodeMessages = new ArrayList<>();
 	private List<Line2D> connections = new ArrayList<>();
 	private int xval = 0;
 	private int yval = 0;
@@ -36,7 +37,6 @@ public class SimTopologyView implements ViewStrategy{
 		mainFrame = new JFrame("Topology View");
 		optionsPane = new JPanel();
 		topologyCanvas = new NodeDisplayPanel();
-		
 		
 		setupMenuBar();
 		setupOptionsPane();
@@ -185,6 +185,19 @@ public class SimTopologyView implements ViewStrategy{
 		String s = newConnectionsTF.getText();
 		newConnectionsTF.setText("");
 		return s;
+	}
+	
+	public void addMessage(String message, String node) {
+		
+	}
+	
+	public void removeMessage(String message, String node) {
+		
+	}
+	
+	public void updateMessage(String message, String currentNode, String newNode) {
+		removeMessage(message, currentNode);
+		addMessage(message, newNode);
 	}
 	
 	public static void main(String[] args) {
