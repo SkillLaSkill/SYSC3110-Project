@@ -63,6 +63,18 @@ public class Simulation extends Thread {
 		return graph;
 	}
 	
+	/**
+	 * Gets the number steps taken
+	 * 
+	 * @return integer
+	 */
+	public int getSteps(){
+		return stepCounter;
+	}
+	
+	/**
+	 * Resets the simulation
+	 */
 	public void reset(){
 		transferList = new ArrayList<Transfer>();
 		simulating = false;
