@@ -47,11 +47,20 @@ public class Node {
 		message = m;
 	}
 	
+	/**
+	 * Displays the nodes information
+	 */
 	public void displayNode(){
-		
+		System.out.println("Node: " + name);
+		System.out.println("Message: " + message);
 	}
+	
 	/**
 	 * Checks if the nodes have the name names
+	 * 
+	 * @param o (Object)
+	 * 
+	 * @return boolean
 	 */
 	@Override
 	public boolean equals(Object o) {

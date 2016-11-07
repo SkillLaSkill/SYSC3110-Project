@@ -4,7 +4,7 @@ import java.util.List;
 /**
  * This class creates and manipulates Transfers, which store the current node position, the destination and the message
  * 
- * 
+ * @author Team GetterDone
  */
 public class Transfer {
 	
@@ -35,6 +35,7 @@ public class Transfer {
 	
 	/**
 	 * Get Id of a transfer.
+	 * 
 	 * @return id (Integer)
 	 */
 	public int getId(){
@@ -51,6 +52,7 @@ public class Transfer {
 	
 	/**
 	 * Return the node where the transfer currently is.
+	 * 
 	 * @return position (Node)
 	 */
 	public Node getPosition()
@@ -59,7 +61,7 @@ public class Transfer {
 	}
 	
 	/**
-	 *Set the current position of the node
+	 * Set the current position of the node
 	 */
 	public void setPosition(Node position)
 	{
@@ -105,5 +107,4 @@ public class Transfer {
 	{
 		return hops;
 	}
-
 }
