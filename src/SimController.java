@@ -45,6 +45,7 @@ public class SimController implements ActionListener {
 		else System.out.println("");
 	}
 	
+	
 	/**
 	 * Removes a node from the graph
 	 * 
@@ -55,6 +56,7 @@ public class SimController implements ActionListener {
 		view.removeNode(name);
 		model.getGraph().removeNode(name);
 	}
+	
 	
 	/*
 	private void setupTestGraph()
@@ -84,8 +86,11 @@ public class SimController implements ActionListener {
 	private void makeConnections(String node, String connections) 
 	{
 		List<String>  conList = Arrays.asList(connections.split(" "));
-		for (String toCon : conList) {
-			makeConnection(node, toCon);
+		for (String n : conList) {
+			if(!model.getGraph().isConnected(node, n))
+			{
+				makeConnection(node, n);
+			}
 		}		
 	}
 	
@@ -95,6 +100,10 @@ public class SimController implements ActionListener {
 	private void removeConnection(String connection)
 	{
 		List<String> nodes = Arrays.asList(connection.split(" "));
+		model.getGraph().removeConnection(nodes.get(0), nodes.get(1));
+		view.removeConnection(nodes.get(0), nodes.get(1));
+		
+		
 	}
 	
 	/**
@@ -107,7 +116,7 @@ public class SimController implements ActionListener {
 	}
 	*/
 	
-	private void DisplayNandC() {}
+	//private void DisplayNandC() {}
 	
 	/**
 	 * Starts the simulation
@@ -161,62 +170,15 @@ public class SimController implements ActionListener {
 		// Calls Private method to deal with Node removal in both model and view
 		else if(actionCommand == "Delete Node") removeNode(view.getNodeNameToDelete());
 		// Calls private method to deal with Connection removal in both model and view
-		else if(actionCommand == "Delete Connection: ")	removeConnection(view.getConnectionToDelete());
-
+		else if(actionCommand == "Delete Connection")	removeConnection(view.getConnectionToDelete());
+		// Calls private method to deal with reset on both model and view
+		else if(actionCommand == "Reset")	reset();
+		// Calls private method to start the simulation
+		else if(actionCommand == "Simulate")	startSim(view.getSimSteps(), view.getSendRate());
+		// Calls private method to step once through the simulation
+		else if(actionCommand == "Simulate Step")	stepSim(view.getSendRate());
 		
-		/*
-		if(actionCommand.equals("Create Node")) {
-			createNode(view.getNewNodeName());
-		}
-		else if (actionCommand.equals("Establish Connections")) {
-			String nodeStr = view.getNewConnectionNodeName();
-			Node n = model.getGraph().getNode(nodeStr);
-			String conString = view.getConnectionList();
-			
-			// Need to verify connection string is valid format, and nodes are valid
-			List<Node> conList = new ArrayList<>();
-			for (String s : conString.split(" ")) {
-				if (model.getGraph().getNode(s) != null) {
-					conList.add(model.getGraph().getNode(s));
-				}
-				else return; // Invalid connection list
-			}
 
-			makeConnections(n, conList);
-		}
-		// <<< Reset the simulation environment >>>
-		else if (actionCommand.equals("Reset")) {
-			reset();
-		}
-		else if (actionCommand.equals("Delete Node")) {
-			String nodeStr = view.getNodeNameToDelete();
-			if (!model.getGraph().contains(new Node(nodeStr))) {
-				return;
-			}
-			model.getGraph().removeNode(nodeStr);
-			view.removeNode(nodeStr);
-		}
-		
-		// <<< Delete Connection between two Nodes >>>
-		else if (actionCommand.equals("Delete Connection")) {
-			String[] connectionToDelete = view.getConnectionToDelete().split(" ");
-			if (connectionToDelete.length == 2) {
-				Node A = new Node(connectionToDelete[0]);
-				Node B = new Node(connectionToDelete[1]);
-				if (model.getGraph().contains(A) && model.getGraph().contains(B)){
-					model.getGraph().removeConnection(A, B);
-					view.removeConnection(A.getName(), B.getName());
-				}
-			}
-
-			
-		}
-		//  <<< Select the routing algorithm to use >>>
-		else if (actionCommand.equals("algorithm")) {
-			String algoritm = view.getSelectedAlgorithm();
-		}
-		*/
-		
 		
 	}
 

@@ -44,13 +44,14 @@ display the average hops to the display area.
 
 <B>Changes made since last milestone</B>
 
-N/A
+The simulation now accomodates transmitting multiple packets simultaneously. The send rate and number of steps to be performed can now be set by the user. The simulation can now be stepped into. The source of a packet can no longer also be its destination. Total number of packets (hops between nodes) is now used as a metric to compare algorhythms.
+The Master class was removed, and a Model-View-Controller design was implemented. 
+The Node class was decoupled into graph, which is used to store connections and nodes.
+Unit tests were created for classes Graph, Transfer, Node and Simulation.
 
 <B>Known Issues </B>
 
-Cannot specify sendrate.
 
-Cannot have multiple transfers going through simulation simultaneously.
 
 GUI code is "smelly" in certain places.
 

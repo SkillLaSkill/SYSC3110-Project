@@ -10,7 +10,7 @@ public interface ViewStrategy {
 	public String getConnectionList();
 	public String getNodeNameToDelete();
 	public String getConnectionToDelete();
-	public String getSendRate();
+	public int getSendRate();
 	public int getSimSteps();
 	
 	public String getSelectedAlgorithm();
