@@ -30,7 +30,6 @@ public class SimTopologyView implements ViewStrategy {
 	private JButton conButton;
 	private JButton nodeDeleteButton;
 	private JButton conDeleteButton;
-	private JButton setSendRateButton;
 	private JButton simButton;
 	
 	// Buttons used to manage simulation
@@ -61,12 +60,19 @@ public class SimTopologyView implements ViewStrategy {
 	 */
 	private void initializeComponents() {
 		mainFrame = new JFrame("Topology View");
+		mainFrame.setLayout(new GridLayout(1, 3));
 		optionsPane = new JPanel();
 		topologyCanvas = new NodeDisplayPanel();
 		
 		setupMenuBar();
 		setupOptionsPane();
 		setupNodeView();
+		JPanel p = new JPanel();
+		
+		p.setSize(200, 100);
+		
+		mainFrame.add(p);
+		
 		
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.setSize(1200, 400);
