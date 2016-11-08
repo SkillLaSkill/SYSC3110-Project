@@ -147,7 +147,7 @@ public class Graph {
 	 */
 	public void removeNode(String name)
 	{
-		removeNode(getNode(name));
+		if(contains(name))	removeNode(getNode(name));
 	}
 
 	
@@ -207,7 +207,7 @@ public class Graph {
 	 */
 	public boolean contains(Node n)
 	{
-		return contains(n.getName());
+		return nodeInformation.containsKey(n);
 	}
 	
 	/**
