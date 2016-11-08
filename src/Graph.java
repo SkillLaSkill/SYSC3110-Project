@@ -27,7 +27,7 @@ public class Graph {
 		
 		if (A.equals(B)) return; // Don't add self as a connection.
 		
-		if(contains(A) && contains(B)) return;
+		if(!(contains(A) && contains(B))) return;
 		
 		if (nodeInformation.get(A) == null) {
 			nodeInformation.put(A, new ArrayList<Node>());
@@ -37,10 +37,10 @@ public class Graph {
 		}
 		
 		// Don't add duplicates to connection list to keep graph simple.
-		if (!nodeInformation.get(A).contains(B) ) {
+		//if (!nodeInformation.get(A).contains(B) ) {
 			nodeInformation.get(A).add(B);
 			nodeInformation.get(B).add(A);
-		}
+		//}
 		
 		
 	}
