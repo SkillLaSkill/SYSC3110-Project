@@ -114,9 +114,7 @@ public class SimController implements ActionListener {
 			//get values for steps and sendrate from user
 			if(model != null && model.getGraph().size() > 0){
 				for(int i = 0; i < steps; i++){
-					model.simulateStep(sendRate);
-					view.simStepComplete();
-					view.setOutput(Integer.toString(model.getTotalHops()));
+					stepSim(sendRate);
 				}
 			}
 		}
