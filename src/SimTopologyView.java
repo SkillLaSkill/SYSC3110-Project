@@ -31,6 +31,7 @@ public class SimTopologyView implements ViewStrategy {
 	private JButton nodeDeleteButton;
 	private JButton conDeleteButton;
 	private JButton setSendRateButton;
+	private JButton simButton;
 	
 	// Buttons used to manage simulation
 	private JButton simStepButton;
@@ -46,6 +47,7 @@ public class SimTopologyView implements ViewStrategy {
 	private JTextField tfDeleteNodeName;
 	private JTextField tfDeleteConnection;
 	private JTextField tfSendRate;
+	private JTextField tfSimSteps;
 	
 	/**
 	 * Creates the Topological Simulation View
@@ -163,14 +165,21 @@ public class SimTopologyView implements ViewStrategy {
 		
 		
 		tfSendRate = new JTextField();
-		setSendRateButton = new JButton("Set Sendrate");
+		//setSendRateButton = new JButton("Set Sendrate");
+		optionsPane.add(new JLabel("Send Rate"));
 		optionsPane.add(tfSendRate);
-		optionsPane.add(setSendRateButton);
+		//optionsPane.add(setSendRateButton);
+		
+		simButton = new JButton("Simulate");
+		tfSimSteps = new JTextField();
+		optionsPane.add(new JLabel("Steps:"));
+		optionsPane.add(tfSimSteps);
+		
+		//optionsPane.add(new JLabel(""));
+		optionsPane.add(simButton);
 		
 		simStepButton = new JButton("Simulate Step");
 		optionsPane.add(simStepButton);
-		
-		
 	}
 	
 	@Override
@@ -179,11 +188,11 @@ public class SimTopologyView implements ViewStrategy {
 		conButton.addActionListener(listener);
 		reset.addActionListener(listener);
 		algorithmList.addActionListener(listener);
-		
+			
 		nodeDeleteButton.addActionListener(listener);
 		conDeleteButton.addActionListener(listener);
 		simStepButton.addActionListener(listener);
-		setSendRateButton.addActionListener(listener);
+		simButton.addActionListener(listener);
 	}
 	
 	/**
@@ -352,7 +361,14 @@ public class SimTopologyView implements ViewStrategy {
 		for (int i = 0; i < connectionColors.size(); i++) {
 			connectionColors.set(i, Color.BLACK);
 		}
-		
+		try {
+			int x = Integer.parseInt(tfSimSteps.getText());
+			x--;
+			if (x < 0) x = 0;
+			tfSimSteps.setText("" + x);
+		} catch (NumberFormatException e) {
+			tfSimSteps.setText("0");
+		}
 		updateTopologyPanel();
 	}
 	
@@ -481,5 +497,16 @@ public class SimTopologyView implements ViewStrategy {
 	@Override
 	public String getSendRate() {
 		return tfSendRate.getText();
+	}
+
+	@Override
+	public int getSimSteps() {
+		try {
+			int x = Integer.parseInt(tfSimSteps.getText());
+			return x;
+		} catch (NumberFormatException e) {
+			tfSimSteps.setText("0");
+			return -1;	
+		}
 	}
 }
