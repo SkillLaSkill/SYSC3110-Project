@@ -96,9 +96,7 @@ public class SimController implements ActionListener {
 	{
 		List<String> nodes = Arrays.asList(connection.split(" "));
 		model.getGraph().removeConnection(nodes.get(0), nodes.get(1));
-		view.removeConnection(nodes.get(0), nodes.get(1));
-		
-		
+		view.removeConnection(nodes.get(0), nodes.get(1));	
 	}
 	
 	/**
@@ -110,7 +108,7 @@ public class SimController implements ActionListener {
 	private void startSim(int steps, int sendRate)
 	{
 		
-		if(steps != 0 && sendRate != 0)
+		while(steps-- != 0 && sendRate != 0)
 		{
 			//get values for steps and sendrate from user
 			if(model != null && model.getGraph().size() > 0) {
@@ -144,7 +142,7 @@ public class SimController implements ActionListener {
 				view.setOutput(Integer.toString(model.getTotalHops()));
 			}
 		}
-		
+		view.setOutput("Total packets transmitted: " + model.getTotalHops());
 	}
 	
 	/**

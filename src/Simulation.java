@@ -145,8 +145,6 @@ public class Simulation extends Thread {
 		}
 		for(Transfer trans : transferList)
 		{
-			System.out.println(trans.getPosition().getName());
-			System.out.println(graph.getConnections(new Node(trans.getPosition().getName())));
 			//System.out.println();
 			//Set a new random position node for the transfer	
 			List<Node> cons = graph.getConnections(trans.getPosition());
