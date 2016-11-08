@@ -171,19 +171,6 @@ public class Graph {
 	}
 	
 	
-	/**
-	 * Displays all nodes information
-	 */
-	public void displayNodes(){
-		Master.output.append("\nList of nodes and their nodeInformation:\n");
-		if (size() == 0) {
-			Master.output.append("No nodes.\n");
-		}
-		for (Node n : nodeInformation.keySet()){
-			n.displayNode();
-		} 
-	}
-	
 	/*
 	 * Check node list for given name of node
 	 */
