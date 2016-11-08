@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
@@ -16,6 +18,7 @@ public class SimTopologyView implements ViewStrategy {
 	private JFrame mainFrame;
 	private JPanel optionsPane;
 	private NodeDisplayPanel topologyCanvas;
+	private JPanel outputPanel;
 	private List<Ellipse2D> nodes = new ArrayList<>();
 	private List<String> nodeNames = new ArrayList<>();
 	private List<List<String>> nodeMessages = new ArrayList<>();
@@ -48,6 +51,8 @@ public class SimTopologyView implements ViewStrategy {
 	private JTextField tfSendRate;
 	private JTextField tfSimSteps;
 	
+	private JTextArea outputText;
+	
 	/**
 	 * Creates the Topological Simulation View
 	 */
@@ -60,55 +65,60 @@ public class SimTopologyView implements ViewStrategy {
 	 */
 	private void initializeComponents() {
 		mainFrame = new JFrame("Topology View");
-		mainFrame.setLayout(new GridLayout(1, 3));
+		mainFrame.setLayout(new GridBagLayout());
 		optionsPane = new JPanel();
 		topologyCanvas = new NodeDisplayPanel();
 		
 		setupMenuBar();
 		setupOptionsPane();
 		setupNodeView();
-		JPanel p = new JPanel();
-		
-		p.setSize(200, 100);
-		
-		mainFrame.add(p);
-		
+		setupOutputView();
 		
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		mainFrame.setSize(1200, 400);
+		mainFrame.setSize(1500, 600);
 		mainFrame.setResizable(false);
 		//mainFrame.pack();
 		mainFrame.setVisible(true);
+	}
+	private void setupOutputView() {
+		outputPanel = new JPanel();
+		outputPanel.setLayout(new GridLayout(1,1));
+		//outputPanel.setSize(200, 400);
+		outputText = new JTextArea();
+		outputText.setEditable(false);
+		outputPanel.add(outputText);
+		
+		GridBagConstraints c = new GridBagConstraints();
+		c.gridx = 1;
+		c.gridy = 1;
+		c.weightx = 1;
+		c.weighty = 1;
+		c.gridwidth = 100;
+		c.fill = GridBagConstraints.BOTH;
+		
+		mainFrame.getContentPane().add(outputPanel, c);
 	}
 	
 	/**
 	 * Sets up the node view area
 	 */
 	private void setupNodeView() {
-		topologyCanvas.setSize(400, 400);
-		mainFrame.getContentPane().add(topologyCanvas, BorderLayout.CENTER);
+		//topologyCanvas.setSize(400, 400);
+		
+		GridBagConstraints c = new GridBagConstraints();
+		c.gridx = 1;
+		c.gridy = 0;
+		c.weightx = 1;
+		c.weighty = 1;
+		c.fill = GridBagConstraints.BOTH;
+		mainFrame.getContentPane().add(topologyCanvas, c);
 	}
 	
-	/**
-	 * Creates the menu bar
-	 */
-	private void setupMenuBar() {
-		JMenuBar menuBar = new JMenuBar();
-        JMenu fileMenu = new JMenu("File");
-        reset = new JMenuItem("Reset");
-        
-        fileMenu.add(reset);
-        menuBar.add(fileMenu);
-           
-        mainFrame.setJMenuBar(menuBar);
-	}
 	
 	/**
 	 * Creates the menu options 
 	 */
 	private void setupOptionsPane() {
-		mainFrame.getContentPane().add(optionsPane, BorderLayout.LINE_START);
-		
 		optionsPane.setLayout(new GridLayout(14, 2));
 		
 		/* Managing Nodes/connections */
@@ -186,6 +196,28 @@ public class SimTopologyView implements ViewStrategy {
 		
 		simStepButton = new JButton("Simulate Step");
 		optionsPane.add(simStepButton);
+		
+		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.BOTH;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.weighty = 1;
+		c.weightx = 0.1;
+		mainFrame.getContentPane().add(optionsPane, c);
+	}
+	
+	/**
+	 * Creates the menu bar
+	 */
+	private void setupMenuBar() {
+		JMenuBar menuBar = new JMenuBar();
+        JMenu fileMenu = new JMenu("File");
+        reset = new JMenuItem("Reset");
+        
+        fileMenu.add(reset);
+        menuBar.add(fileMenu);
+           
+        mainFrame.setJMenuBar(menuBar);
 	}
 	
 	@Override
@@ -514,5 +546,9 @@ public class SimTopologyView implements ViewStrategy {
 			tfSimSteps.setText("0");
 			return -1;	
 		}
+	}
+	
+	public void setOutput(String text) {
+		outputText.setText(text);
 	}
 }
