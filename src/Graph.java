@@ -27,6 +27,8 @@ public class Graph {
 		
 		if (A.equals(B)) return; // Don't add self as a connection.
 		
+		if(contains(A) && contains(B)) return;
+		
 		if (nodeInformation.get(A) == null) {
 			nodeInformation.put(A, new ArrayList<Node>());
 		}
