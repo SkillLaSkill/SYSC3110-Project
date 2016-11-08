@@ -94,6 +94,7 @@ public class SimController implements ActionListener {
 		}		
 	}
 	
+	
 	/**
 	 * Removes a connection between 2 nodes
 	 */
