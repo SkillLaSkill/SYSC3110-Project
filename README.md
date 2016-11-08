@@ -56,6 +56,14 @@ Added drop down menu to select the routing algorithm
 
 <B>Known Issues </B>
 
+Deleting a node or connection after simulating can cause errors
+
+Trying to delete connection with improper parameters can cause errors
+
+If a node name has a space, it will be considered valid;however, it cannot be connected to other nodes
+
+Exception is thrown if improper parameters for step and send rate are used
+
 <B>Distribution of Work</B>
 
 Ben - Updated the UML diagram and worked on the Controller and Graph
