@@ -83,46 +83,6 @@ public class Graph {
 	}
 	
 	/**
-	 * Removes a given node 
-	 * 
-	 * @param n (Node)
-	 */
-	public void removeNode(Node n)
-	{
-		for(Node node: nodeInformation.get(n))
-		{
-			getConnections(node).remove(n);
-			System.out.println("Node has been removed!");
-			return;
-		}
-		nodeInformation.remove(n);
-		System.out.println("No node with that name was found!");
-	}
-	
-	/**
-	 * Removes a node given its name
-	 * 
-	 * @param name (String)
-	 */
-	public void removeNode(String name)
-	{
-		removeNode(getNode(name));
-	}
-	
-	/**
-	 * Displays all nodes information
-	 */
-	public void displayNodes(){
-		Master.output.append("\nList of nodes and their nodeInformation:\n");
-		if (size() == 0) {
-			Master.output.append("No nodes.\n");
-		}
-		for (Node n : nodeInformation.keySet()){
-			n.displayNode();
-		} 
-	}
-	
-	/**
 	 * Gets a node given its name
 	 * 
 	 * @param name (String)
@@ -163,6 +123,81 @@ public class Graph {
 	}
 	
 	/**
+	 * Removes a given node 
+	 * 
+	 * @param n (Node)
+	 */
+	public void removeNode(Node n)
+	{
+		for(Node node: nodeInformation.get(n))
+		{
+			getConnections(node).remove(n);
+			System.out.println("Node has been removed!");
+			return;
+		}
+		nodeInformation.remove(n);
+		System.out.println("No node with that name was found!");
+	}
+	
+	/**
+	 * Removes a node given its name
+	 * 
+	 * @param name (String)
+	 */
+	public void removeNode(String name)
+	{
+		removeNode(getNode(name));
+	}
+
+	
+	/**
+	 * Removes the given node connection from the given node
+	 * @param A
+	 * @param B
+	 */
+	public void removeConnection(Node A, Node B) {
+		if (!isConnected(A, B)) return;
+		nodeInformation.get(A).remove(B);
+		nodeInformation.get(B).remove(A);
+	}
+	
+	/**
+	 * Removes connection given String names
+	 */
+	public void removeConnection(String A, String B)
+	{
+		removeConnection(getNode(A), getNode(B));
+	}
+	
+	
+	/**
+	 * Displays all nodes information
+	 */
+	public void displayNodes(){
+		Master.output.append("\nList of nodes and their nodeInformation:\n");
+		if (size() == 0) {
+			Master.output.append("No nodes.\n");
+		}
+		for (Node n : nodeInformation.keySet()){
+			n.displayNode();
+		} 
+	}
+	
+	/*
+	 * Check node list for given name of node
+	 */
+	
+	public boolean contains(String n)
+	{
+		for(Node node: nodeInformation.keySet())
+		{
+			if (n.equals(node.getName())) return true;
+		}
+		return false;
+	}
+	
+	
+	/**
 	 * Checks if the node list contains the given node
 	 * 
 	 * @param n (Node)
@@ -171,10 +206,7 @@ public class Graph {
 	 */
 	public boolean contains(Node n)
 	{
-		for (Node node : nodeInformation.keySet()) {
-			if (n.getName().equals(node.getName())) return true;
-		}
-		return false;
+		return contains(n.getName());
 	}
 	
 	/**
@@ -216,17 +248,20 @@ public class Graph {
 		addNodeConnectionsByName(D, "B C");
 		addNodeConnectionsByName(E, "A B");
 	}
-
-	/**
-	 * Removes the given node connection from the given node
-	 * @param A
-	 * @param B
-	 */
-	public void removeConnection(Node A, Node B) {
-		if (!isConnected(A, B)) return;
-		nodeInformation.get(A).remove(B);
-		nodeInformation.get(B).remove(A);
+	
+	public boolean isConnected(String First, String Second)
+	{
+		Node A =  getNode(First);
+		Node B = getNode(Second);
+		if(contains(A) && contains(B))
+		{
+			return isConnected(A, B);
+		}
+		System.out.println("Does not contain one or both of those nodes!");
+		return false;
 	}
+
+	
 	public boolean isConnected(Node A, Node B) {
 		if (contains(A) && contains(B)) {
 			if (nodeInformation.get(A) == null) return false;
