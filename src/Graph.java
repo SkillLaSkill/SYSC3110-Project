@@ -132,12 +132,11 @@ public class Graph {
 	 */
 	public void removeNode(Node n)
 	{
-		List<Node> conns = nodeInformation.get(n);
+		List<Node> conns = nodeInformation.remove(n);
 		if (conns == null) return;
 		for (int i = 0; i < conns.size(); i++) {
 			removeConnection(n, conns.get(i));
 		}
-		nodeInformation.remove(n);
 		System.out.println("No node with that name was found!");
 	}
 	

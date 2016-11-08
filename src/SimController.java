@@ -42,7 +42,7 @@ public class SimController implements ActionListener {
 			model.getGraph().addNode(node);
 			view.addNode(node.getName());
 		}
-		else System.out.println("");
+		else System.out.println("Didnt add the node bro");
 	}
 	
 	
@@ -117,6 +117,7 @@ public class SimController implements ActionListener {
 				for(int i = 0; i < steps; i++){
 					model.simulateStep(sendRate);
 					view.simStepComplete();
+					view.setOutput(Integer.toString(model.getTotalHops()));
 				}
 			}
 		}
@@ -137,6 +138,7 @@ public class SimController implements ActionListener {
 			if(model != null && model.getGraph().size() > 0) {
 				model.simulateStep(sendRate);
 				view.simStepComplete();
+				view.setOutput(Integer.toString(model.getTotalHops()));
 			}
 		}
 	}
