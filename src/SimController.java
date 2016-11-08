@@ -73,8 +73,11 @@ public class SimController implements ActionListener {
 	 */
 	private void makeConnection(String A, String B)
 	{
+		if(model.getGraph().contains(A) && model.getGraph().contains(A))
+		{
 		view.addConnection(A, B);
 		model.getGraph().addConnection(model.getGraph().getNode(A), model.getGraph().getNode(B));
+		}
 	}
 	
 	/**
@@ -127,11 +130,14 @@ public class SimController implements ActionListener {
 	 */
 	private void startSim(int steps, int sendRate)
 	{
-		//get values for steps and sendrate from user
-		if(model != null && model.getGraph().size() > 0){
-			for(int i = 0; i < steps; i++){
-				model.simulateStep(sendRate);
-				view.simStepComplete();
+		if(steps != 0 && sendRate != 0)
+		{
+			//get values for steps and sendrate from user
+			if(model != null && model.getGraph().size() > 0){
+				for(int i = 0; i < steps; i++){
+					model.simulateStep(sendRate);
+					view.simStepComplete();
+				}
 			}
 		}
 		
@@ -145,10 +151,13 @@ public class SimController implements ActionListener {
 	
 	private void stepSim(int sendRate)
 	{
-		//get values for steps and sendrate from user
-		if(model != null && model.getGraph().size() > 0) {
-			model.simulateStep(sendRate);
-			view.simStepComplete();
+		if(sendRate != 0)
+		{
+			//get values for steps and sendrate from user
+			if(model != null && model.getGraph().size() > 0) {
+				model.simulateStep(sendRate);
+				view.simStepComplete();
+			}
 		}
 	}
 	
