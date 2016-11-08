@@ -173,6 +173,11 @@ public class SimController implements ActionListener {
 		else if(actionCommand == "Delete Connection")	removeConnection(view.getConnectionToDelete());
 		// Calls private method to deal with reset on both model and view
 		else if(actionCommand == "Reset")	reset();
+		// Calls private method to start the simulation
+		else if(actionCommand == "Simulate")	startSim(view.getSimSteps(), view.getSendRate());
+		// Calls private method to step once through the simulation
+		else if(actionCommand == "Simulate Step")	stepSim(view.getSendRate());
+		
 
 		
 	}

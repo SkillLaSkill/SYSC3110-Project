@@ -82,48 +82,8 @@ public class Graph {
 		return true;
 	}
 	
-	/**
-<<<<<<< HEAD
-=======
-	 * Removes a given node 
-	 * 
-	 * @param n (Node)
-	 */
-	public void removeNode(Node n)
-	{
-		for(Node node: nodeInformation.get(n))
-		{
-			getConnections(node).remove(n);
-			return;
-		}
-		nodeInformation.remove(n);
-	}
 	
 	/**
-	 * Removes a node given its name
-	 * 
-	 * @param name (String)
-	 */
-	public void removeNode(String name)
-	{
-		removeNode(getNode(name));
-	}
-	
-	/**
-	 * Displays all nodes information
-	 */
-	public void displayNodes(){
-		Master.output.append("\nList of nodes and their nodeInformation:\n");
-		if (size() == 0) {
-			Master.output.append("No nodes.\n");
-		}
-		for (Node n : nodeInformation.keySet()){
-			n.displayNode();
-		} 
-	}
-	
-	/**
->>>>>>> branch 'master' of https://github.com/SYSC3110/project-teamgetterdone.git
 	 * Gets a node given its name
 	 * 
 	 * @param name (String)
@@ -267,28 +227,9 @@ public class Graph {
 	{
 		nodeInformation.clear();
 	}
-	
-	public void buildTestGraph(){
-		// Creates all nodes.
-		Node A = new Node("A");
-		Node B = new Node("B");
-		Node C = new Node("C");
-		Node D = new Node("D");
-		Node E = new Node("E");
-		
-		addNode(A);
-		addNode(B);
-		addNode(C);
-		addNode(D);
-		addNode(E);
-		
-		// Adds all connections to the nodes.
-		addNodeConnectionsByName(A, "B C");
-		addNodeConnectionsByName(B, "A D E");
-		addNodeConnectionsByName(C, "A D");
-		addNodeConnectionsByName(D, "B C");
-		addNodeConnectionsByName(E, "A B");
-	}
+	/*
+	 * Checks if two nodes are connected
+	 */
 	
 	public boolean isConnected(String First, String Second)
 	{
