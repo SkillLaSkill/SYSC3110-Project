@@ -30,6 +30,10 @@ public class SimTopologyView implements ViewStrategy {
 	private JButton conButton;
 	private JButton nodeDeleteButton;
 	private JButton conDeleteButton;
+	private JButton simButton;
+	
+	// Buttons used to manage simulation
+	private JButton simStepButton;
 	
 	private JMenuItem reset;
 	
@@ -41,6 +45,8 @@ public class SimTopologyView implements ViewStrategy {
 	private JTextField tfNewConnections;
 	private JTextField tfDeleteNodeName;
 	private JTextField tfDeleteConnection;
+	private JTextField tfSendRate;
+	private JTextField tfSimSteps;
 	
 	/**
 	 * Creates the Topological Simulation View
@@ -54,12 +60,19 @@ public class SimTopologyView implements ViewStrategy {
 	 */
 	private void initializeComponents() {
 		mainFrame = new JFrame("Topology View");
+		mainFrame.setLayout(new GridLayout(1, 3));
 		optionsPane = new JPanel();
 		topologyCanvas = new NodeDisplayPanel();
 		
 		setupMenuBar();
 		setupOptionsPane();
 		setupNodeView();
+		JPanel p = new JPanel();
+		
+		p.setSize(200, 100);
+		
+		mainFrame.add(p);
+		
 		
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.setSize(1200, 400);
@@ -96,8 +109,9 @@ public class SimTopologyView implements ViewStrategy {
 	private void setupOptionsPane() {
 		mainFrame.getContentPane().add(optionsPane, BorderLayout.LINE_START);
 		
-		optionsPane.setLayout(new GridLayout(10, 2));
+		optionsPane.setLayout(new GridLayout(14, 2));
 		
+		/* Managing Nodes/connections */
         // Creates Text Field and Button to Make New Node
 		JLabel nameLabel = new JLabel("New node name: ");
 		optionsPane.add(nameLabel);
@@ -105,9 +119,10 @@ public class SimTopologyView implements ViewStrategy {
 	    optionsPane.add(tfNewNodeName);
 		
 		nameButton = new JButton("Create Node");
+		optionsPane.add(new JLabel(""));
 		optionsPane.add(nameButton);
 		
-		optionsPane.add(new JLabel(""));
+		
 		
 		// Creates Text Fields and Button to Make Connection To a Node
 		JLabel connectionLabel = new JLabel("Node to set connections:");
@@ -121,9 +136,31 @@ public class SimTopologyView implements ViewStrategy {
 		optionsPane.add(tfNewConnections);
 		
 		conButton = new JButton("Establish Connections");
-		optionsPane.add(conButton);
 		optionsPane.add(new JLabel(""));
+		optionsPane.add(conButton);
 		
+		tfDeleteNodeName = new JTextField();
+		optionsPane.add(new JLabel("Node to delete:"));
+		optionsPane.add(tfDeleteNodeName);
+		
+		nodeDeleteButton = new JButton("Delete Node");
+		optionsPane.add(new JLabel(""));
+		optionsPane.add(nodeDeleteButton);	
+		
+		optionsPane.add(new JLabel("Delete Connection: "));
+		tfDeleteConnection = new JTextField();
+		optionsPane.add(tfDeleteConnection);
+		
+		conDeleteButton = new JButton("Delete Connection");
+		optionsPane.add(new JLabel(""));
+		optionsPane.add(conDeleteButton);
+		
+		/* END Managing nodes/connections */
+		
+		/* Managing Simulation */
+		optionsPane.add(new JLabel("<HTML><U>Simulation</U></HTML>"));
+		
+		optionsPane.add(new JLabel(""));
 		// Later we might want to move this to the constructer so we can pass in the algorithms 
 		String[] algorithms = { "Random" };
 		algorithmList = new JComboBox<>(algorithms);
@@ -132,21 +169,36 @@ public class SimTopologyView implements ViewStrategy {
 		optionsPane.add(new JLabel("Routing algorithm:"));
 		optionsPane.add(algorithmList);
 		
-		tfDeleteNodeName = new JTextField();
-		optionsPane.add(new JLabel("Node to delete:"));
-		optionsPane.add(tfDeleteNodeName);
 		
-		nodeDeleteButton = new JButton("Delete Node");
-		optionsPane.add(nodeDeleteButton);
-		optionsPane.add(new JLabel(""));
+		tfSendRate = new JTextField();
+		//setSendRateButton = new JButton("Set Sendrate");
+		optionsPane.add(new JLabel("Send Rate"));
+		optionsPane.add(tfSendRate);
+		//optionsPane.add(setSendRateButton);
 		
+		simButton = new JButton("Simulate");
+		tfSimSteps = new JTextField();
+		optionsPane.add(new JLabel("Steps:"));
+		optionsPane.add(tfSimSteps);
 		
-		optionsPane.add(new JLabel("Delete Connection: "));
-		tfDeleteConnection = new JTextField();
-		optionsPane.add(tfDeleteConnection);
-		conDeleteButton = new JButton("Delete Connection");
-		optionsPane.add(conDeleteButton);
-		optionsPane.add(new JLabel(""));
+		//optionsPane.add(new JLabel(""));
+		optionsPane.add(simButton);
+		
+		simStepButton = new JButton("Simulate Step");
+		optionsPane.add(simStepButton);
+	}
+	
+	@Override
+	public void setActionListener(ActionListener listener) {
+		nameButton.addActionListener(listener);
+		conButton.addActionListener(listener);
+		reset.addActionListener(listener);
+		algorithmList.addActionListener(listener);
+			
+		nodeDeleteButton.addActionListener(listener);
+		conDeleteButton.addActionListener(listener);
+		simStepButton.addActionListener(listener);
+		simButton.addActionListener(listener);
 	}
 	
 	/**
@@ -315,7 +367,14 @@ public class SimTopologyView implements ViewStrategy {
 		for (int i = 0; i < connectionColors.size(); i++) {
 			connectionColors.set(i, Color.BLACK);
 		}
-		
+		try {
+			int x = Integer.parseInt(tfSimSteps.getText());
+			x--;
+			if (x < 0) x = 0;
+			tfSimSteps.setText("" + x);
+		} catch (NumberFormatException e) {
+			tfSimSteps.setText("0");
+		}
 		updateTopologyPanel();
 	}
 	
@@ -362,16 +421,6 @@ public class SimTopologyView implements ViewStrategy {
 		return null;
 	}
 	
-	public static void main(String[] args) {
-		
-		SimTopologyView sView = new SimTopologyView();
-		Simulation model = new Simulation();
-		SimController c = new SimController(sView, model);
-		
-		sView.setActionListener(c);
-	}
-
-	
 	
 	private class NodeDisplayPanel extends JPanel {	
 		private static final long serialVersionUID = 1L;
@@ -405,17 +454,7 @@ public class SimTopologyView implements ViewStrategy {
 		}
 	}
 
-	@Override
-	public void setActionListener(ActionListener listener) {
-		nameButton.addActionListener(listener);
-		conButton.addActionListener(listener);
-		reset.addActionListener(listener);
-		algorithmList.addActionListener(listener);
-		
-		nodeDeleteButton.addActionListener(listener);
-		conDeleteButton.addActionListener(listener);
-		
-	}
+	
 	@Override
 	public void reset() {
 		nodes.clear();
@@ -450,5 +489,30 @@ public class SimTopologyView implements ViewStrategy {
 		String s = tfDeleteConnection.getText();
 		tfDeleteConnection.setText("");
 		return s;
+	}
+	
+	public static void main(String[] args) {
+		
+		SimTopologyView sView = new SimTopologyView();
+		Simulation model = new Simulation();
+		SimController c = new SimController(sView, model);
+		
+		sView.setActionListener(c);
+	}
+
+	@Override
+	public String getSendRate() {
+		return tfSendRate.getText();
+	}
+
+	@Override
+	public int getSimSteps() {
+		try {
+			int x = Integer.parseInt(tfSimSteps.getText());
+			return x;
+		} catch (NumberFormatException e) {
+			tfSimSteps.setText("0");
+			return -1;	
+		}
 	}
 }

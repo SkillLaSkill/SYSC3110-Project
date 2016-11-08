@@ -83,6 +83,47 @@ public class Graph {
 	}
 	
 	/**
+<<<<<<< HEAD
+=======
+	 * Removes a given node 
+	 * 
+	 * @param n (Node)
+	 */
+	public void removeNode(Node n)
+	{
+		for(Node node: nodeInformation.get(n))
+		{
+			getConnections(node).remove(n);
+			return;
+		}
+		nodeInformation.remove(n);
+	}
+	
+	/**
+	 * Removes a node given its name
+	 * 
+	 * @param name (String)
+	 */
+	public void removeNode(String name)
+	{
+		removeNode(getNode(name));
+	}
+	
+	/**
+	 * Displays all nodes information
+	 */
+	public void displayNodes(){
+		Master.output.append("\nList of nodes and their nodeInformation:\n");
+		if (size() == 0) {
+			Master.output.append("No nodes.\n");
+		}
+		for (Node n : nodeInformation.keySet()){
+			n.displayNode();
+		} 
+	}
+	
+	/**
+>>>>>>> branch 'master' of https://github.com/SYSC3110/project-teamgetterdone.git
 	 * Gets a node given its name
 	 * 
 	 * @param name (String)

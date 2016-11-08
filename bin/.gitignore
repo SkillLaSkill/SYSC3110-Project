@@ -2,3 +2,7 @@
 /SimTopologyView$NodeDisplayPanel.class
 /SimTopologyView.class
 /SimController.class
+/SimulationTest.class
+/allTests.class
+/NodeTest.class
+/TransferTest.class
