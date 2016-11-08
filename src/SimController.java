@@ -57,6 +57,7 @@ public class SimController implements ActionListener {
 		model.getGraph().removeNode(name);
 	}
 	
+	
 	/*
 	private void setupTestGraph()
 	{
