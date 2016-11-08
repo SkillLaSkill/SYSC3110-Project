@@ -114,6 +114,7 @@ public class SimController implements ActionListener {
 			if(model != null && model.getGraph().size() > 0) {
 				List<Transfer> before = model.getTransfers();
 				model.simulateStep(sendRate);
+				view.simStepComplete();
 				List<Transfer> after = model.getTransfers();
 				
 				for (Transfer t2 : before) {
@@ -138,7 +139,7 @@ public class SimController implements ActionListener {
 				
 				
 				
-				view.simStepComplete();
+				
 				view.setOutput(Integer.toString(model.getTotalHops()));
 			}
 		}
