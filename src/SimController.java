@@ -57,14 +57,6 @@ public class SimController implements ActionListener {
 		model.getGraph().removeNode(name);
 	}
 	
-	
-	/*
-	private void setupTestGraph()
-	{
-		if(model != null && model.getGraph() != null) model.getGraph().buildGraph();
-		else System.out.println("Could not setup graph!");
-	}*/
-	
 	/**
 	 * Creates a connection between two node on the graph
 	 * 
@@ -109,18 +101,6 @@ public class SimController implements ActionListener {
 		
 		
 	}
-	
-	/**
-	 * Sets up the simulation
-	 */
-	/*
-	private void setupSim()
-	{
-		model = new Simulation(new Graph());
-	}
-	*/
-	
-	//private void DisplayNandC() {}
 	
 	/**
 	 * Starts the simulation
