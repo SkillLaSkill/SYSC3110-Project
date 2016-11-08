@@ -57,6 +57,7 @@ Added drop down menu to select the routing algorithm
 <B>Known Issues </B>
 
 <B>Distribution of Work</B>
+
 Ben - Updated the UML diagram and worked on the Controller and Graph
 Dan - Created the UML diagram and worked on the UnitTests
 Josh - Worked on the View and decoupling Node into Graph
