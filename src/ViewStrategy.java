@@ -12,6 +12,7 @@ public interface ViewStrategy {
 	public String getConnectionToDelete();
 	public int getSendRate();
 	public int getSimSteps();
+	public void setOutput(String text);
 	
 	public String getSelectedAlgorithm();
 	public void addMessage(String message, String node);

@@ -426,11 +426,17 @@ public class SimTopologyView implements ViewStrategy {
 		
 		// Find connection by its line end points (which are at edge of ellipses).
 		for (Line2D l : connections) {
-			if (Math.abs(l.getX1() - x1) < radius/2 + 1 &&
-				Math.abs(l.getY1() - y1) < radius/2 + 1 &&
-				Math.abs(l.getX2() - x2) < radius/2 + 1 &&
-				Math.abs(l.getY2() - y2) < radius/2 + 1) {
+			if (Math.abs(l.getX1() - x1) < radius + 1 &&
+				Math.abs(l.getY1() - y1) < radius + 1 &&
+				Math.abs(l.getX2() - x2) < radius + 1 &&
+				Math.abs(l.getY2() - y2) < radius + 1) {
 				return l;
+			}
+			else if (Math.abs(l.getX1() - x2) < radius + 1 &&
+					Math.abs(l.getY1() - y2) < radius + 1 &&
+					Math.abs(l.getX2() - x1) < radius + 1 &&
+					Math.abs(l.getY2() - y1) < radius + 1) {
+						return l;
 			}
 		}
 		return null;
@@ -533,8 +539,14 @@ public class SimTopologyView implements ViewStrategy {
 	}
 
 	@Override
-	public String getSendRate() {
-		return tfSendRate.getText();
+	public int getSendRate() {
+		try {
+			int x = Integer.parseInt(tfSendRate.getText());
+			return x;
+		} catch (NumberFormatException e) { 
+			return -1;
+		}
+		
 	}
 
 	@Override
@@ -548,6 +560,7 @@ public class SimTopologyView implements ViewStrategy {
 		}
 	}
 	
+	@Override
 	public void setOutput(String text) {
 		outputText.setText(text);
 	}
