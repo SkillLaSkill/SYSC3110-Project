@@ -1,6 +1,5 @@
 import javax.swing.*;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -24,9 +23,10 @@ public class SimTopologyView implements ViewStrategy {
 	private List<List<String>> nodeMessages = new ArrayList<>();
 	private List<Line2D> connections = new ArrayList<>();
 	private List<Color> connectionColors = new ArrayList<>();
+	private final int radius = 40;
 	private int xval = 0;
 	private int yval = 0;
-	private final int radius = 40;
+	private boolean alternate = false;
 	
 	// Buttons used to create nodes and connections
 	private JButton nameButton;
@@ -75,7 +75,7 @@ public class SimTopologyView implements ViewStrategy {
 		setupOutputView();
 		
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		mainFrame.setSize(1500, 600);
+		mainFrame.setSize(1200, 600);
 		mainFrame.setResizable(false);
 		//mainFrame.pack();
 		mainFrame.setVisible(true);
@@ -277,6 +277,7 @@ public class SimTopologyView implements ViewStrategy {
 			nodes.remove(idx);
 			nodeNames.remove(idx);
 			nodeMessages.remove(idx);
+			
 		}
 		// Need to delete connections connected to this node.
 		updateTopologyPanel();
@@ -322,13 +323,19 @@ public class SimTopologyView implements ViewStrategy {
 	 */
 	private double[] findGoodXY() {
 		// Later make sure not on / inbetween nodes 
-		xval += 150;
-		if (topologyCanvas.getWidth() - xval < 150) {
-			yval += 150; 
-			xval = 150;
-		}
+		int lim = radius * 3;
+		xval += lim;
 		
-		return new double[] {xval, yval};
+		if (topologyCanvas.getWidth() - xval < lim) {
+			yval += lim + radius + 5; 
+			xval = lim;
+		}
+		alternate = !alternate;
+		if (alternate) {
+			return new double[] {xval, yval};
+		}
+		else return new double[] {xval, yval + radius + 5};
+		
 	}
 	
 	/**
