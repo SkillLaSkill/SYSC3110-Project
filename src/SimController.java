@@ -120,20 +120,20 @@ public class SimController implements ActionListener {
 				for (Transfer t2 : before) {
 					// If the transfer no longer exists in the model
 					if (!after.contains(t2)) {
-						view.removeMessage(t2.getMessage(), t2.getPosition().getName());
+						view.removeMessage(t2.getMessage()  + ": " + t2.getDestination().getName(), t2.getPosition().getName());
 					}
 				}
 				for (Transfer t : after) {
 					// If the transfer didn't exist before the simulation step
 					if (!before.contains(t)) {
-						view.addMessage(t.getMessage(), t.getPosition().getName());
+						view.addMessage(t.getMessage() + ": " + t.getDestination().getName(), t.getPosition().getName());
 					}
 					else {
 						int idx = before.indexOf(t);
 						String beforePos = before.get(idx).getPosition().getName();
 						String afterPos = t.getPosition().getName();
 						
-						view.updateMessage(t.getMessage(), beforePos, afterPos);
+						view.updateMessage(t.getMessage() + ": " + t.getDestination().getName(), beforePos, afterPos);
 					}
 				}
 				
