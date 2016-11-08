@@ -65,10 +65,11 @@ public class SimController implements ActionListener {
 	 */
 	private void makeConnection(String A, String B)
 	{
-		if(model.getGraph().contains(A) && model.getGraph().contains(A))
+		if(model.getGraph().contains(A) && model.getGraph().contains(B))
 		{
-		view.addConnection(A, B);
-		model.getGraph().addConnection(model.getGraph().getNode(A), model.getGraph().getNode(B));
+			System.out.println(A + " " + B);
+			view.addConnection(A, B);
+			model.getGraph().addConnection(model.getGraph().getNode(A), model.getGraph().getNode(B));
 		}
 	}
 	
@@ -136,7 +137,33 @@ public class SimController implements ActionListener {
 		{
 			//get values for steps and sendrate from user
 			if(model != null && model.getGraph().size() > 0) {
+				List<Transfer> before = model.getTransfers();
 				model.simulateStep(sendRate);
+				List<Transfer> after = model.getTransfers();
+				
+				for (Transfer t2 : before) {
+					// If the transfer no longer exists in the model
+					if (!after.contains(t2)) {
+						view.removeMessage(t2.getMessage(), t2.getPosition().getName());
+					}
+				}
+				for (Transfer t : after) {
+					// If the transfer didn't exist before the simulation step
+					if (!before.contains(t)) {
+						view.addMessage(t.getMessage(), t.getPosition().getName());
+					}
+					else {
+						int idx = before.indexOf(t);
+						String beforePos = before.get(idx).getPosition().getName();
+						String afterPos = t.getPosition().getName();
+						
+						System.out.println(beforePos + ", " + afterPos);
+						view.updateMessage(t.getMessage(), beforePos, afterPos);
+					}
+				}
+				
+				
+				
 				view.simStepComplete();
 				view.setOutput(Integer.toString(model.getTotalHops()));
 			}
@@ -156,19 +183,19 @@ public class SimController implements ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		String actionCommand = arg0.getActionCommand();
 		// Calls the private method to deal with Node creation in both model and view
-		if(actionCommand == "Create Node")	createNode(view.getNewNodeName());
+		if(actionCommand.equals("Create Node"))	createNode(view.getNewNodeName());
 		// Calls private method to deal with Connection establishment in both model and view
-		else if(actionCommand == "Establish Connections") makeConnections(view.getNewConnectionNodeName(), view.getConnectionList());
+		else if(actionCommand.equals("Establish Connections")) makeConnections(view.getNewConnectionNodeName(), view.getConnectionList());
 		// Calls Private method to deal with Node removal in both model and view
-		else if(actionCommand == "Delete Node") removeNode(view.getNodeNameToDelete());
+		else if(actionCommand.equals("Delete Node")) removeNode(view.getNodeNameToDelete());
 		// Calls private method to deal with Connection removal in both model and view
-		else if(actionCommand == "Delete Connection")	removeConnection(view.getConnectionToDelete());
+		else if(actionCommand.equals("Delete Connection"))	removeConnection(view.getConnectionToDelete());
 		// Calls private method to deal with reset on both model and view
-		else if(actionCommand == "Reset")	reset();
+		else if(actionCommand.equals("Reset"))	reset();
 		// Calls private method to start the simulation
-		else if(actionCommand == "Simulate")	startSim(view.getSimSteps(), view.getSendRate());
+		else if(actionCommand.equals("Simulate"))	startSim(view.getSimSteps(), view.getSendRate());
 		// Calls private method to step once through the simulation
-		else if(actionCommand == "Simulate Step")	stepSim(view.getSendRate());
+		else if(actionCommand.equals("Simulate Step"))	stepSim(view.getSendRate());
 		
 
 		

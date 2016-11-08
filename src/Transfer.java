@@ -11,7 +11,7 @@ public class Transfer {
 	private Node position;
 	private Node destination;
 	private String message;
-	private Random rand;
+	private Random rand = new Random();
 	private int hops = 0;
 	private static int count = 0;
 	private final int id;
@@ -22,16 +22,23 @@ public class Transfer {
 	 */
 	public Transfer(Graph graph)
 	{
-		rand = new Random();
 		int x = rand.nextInt(graph.size());
 		List<Node> nodes = graph.getNodes();
 		position = nodes.get(x);
 		nodes.remove(x);
 		destination = nodes.get(rand.nextInt(nodes.size()));
-		message = "Hi";
 		id = count++;
+		message = "Hi " + id;
 	}
 	
+	public Transfer(Transfer t) {
+		this.position = t.position;
+		this.destination = t.destination;
+		this.message = t.message;
+		this.hops = t.hops;
+		this.id = t.id;
+	}
+
 	/**
 	 * Get Id of a transfer.
 	 * 
@@ -114,5 +121,14 @@ public class Transfer {
 	public void resetId()
 	{
 		count = 0;
+	}
+	@Override
+	public boolean equals(Object o) {
+		Transfer f = (Transfer) o;
+		return this.id == f.id;
+	}
+	@Override 
+	public int hashCode() {
+		return id;
 	}
 }

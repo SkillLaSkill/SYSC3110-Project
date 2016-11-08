@@ -22,7 +22,7 @@ public class SimTopologyView implements ViewStrategy {
 	private List<String> nodeNames = new ArrayList<>();
 	private List<List<String>> nodeMessages = new ArrayList<>();
 	private List<Line2D> connections = new ArrayList<>();
-	private List<Color> connectionColors = new ArrayList<>();
+	//private List<Color> connectionColors = new ArrayList<>();
 	private final int radius = 40;
 	private int xval = 0;
 	private int yval = 0;
@@ -300,7 +300,7 @@ public class SimTopologyView implements ViewStrategy {
 		double yPrime = (radius/2) * (epY / hyp);
 		
 		connections.add(new Line2D.Double(eA.getCenterX() - xPrime, eA.getCenterY() - yPrime, eB.getCenterX() + xPrime, eB.getCenterY() + yPrime));
-		connectionColors.add(Color.BLACK);
+		//connectionColors.add(Color.BLACK);
 		updateTopologyPanel();
 	}
 	
@@ -310,7 +310,7 @@ public class SimTopologyView implements ViewStrategy {
 	public void removeConnection(String A, String B) {
 		Line2D line = findConnection(A, B);
 		
-		connectionColors.remove(connections.indexOf(line));
+		//connectionColors.remove(connections.indexOf(line));
 		connections.remove(line);
 		
 		updateTopologyPanel();
@@ -393,8 +393,8 @@ public class SimTopologyView implements ViewStrategy {
 		removeMessage(message, currentNode);
 		addMessage(message, newNode);
 		Line2D connection = findConnection(currentNode, newNode);
-		int idx = connections.indexOf(connection);
-		connectionColors.set(idx, Color.RED);
+		//int idx = connections.indexOf(connection);
+		//connectionColors.set(idx, Color.RED);
 		
 		updateTopologyPanel();
 	}
@@ -403,9 +403,9 @@ public class SimTopologyView implements ViewStrategy {
 	 * Needs to be called at the end of a simulation step.
 	 */
 	public void simStepComplete() {
-		for (int i = 0; i < connectionColors.size(); i++) {
+		/*for (int i = 0; i < connectionColors.size(); i++) {
 			connectionColors.set(i, Color.BLACK);
-		}
+		}*/
 		try {
 			int x = Integer.parseInt(tfSimSteps.getText());
 			x--;
@@ -493,7 +493,7 @@ public class SimTopologyView implements ViewStrategy {
 			}
 			for (int i = 0; i < connections.size(); i++) {
 				Line2D l = connections.get(i);
-				g2d.setColor(connectionColors.get(i));
+				//g2d.setColor(connectionColors.get(i));
 				g2d.draw(l);
 			}
 		}
@@ -506,7 +506,7 @@ public class SimTopologyView implements ViewStrategy {
 		nodeNames.clear();
 		nodeMessages.clear();
 		connections.clear();
-		connectionColors.clear();
+		//connectionColors.clear();
 		tfNewNodeName.setText("");;
 		tfNodeToConnect.setText("");
 		tfNewConnections.setText("");
@@ -539,7 +539,7 @@ public class SimTopologyView implements ViewStrategy {
 	public static void main(String[] args) {
 		
 		SimTopologyView sView = new SimTopologyView();
-		Simulation model = new Simulation();
+		Simulation model = new Simulation(new Graph());
 		SimController c = new SimController(sView, model);
 		
 		sView.setActionListener(c);

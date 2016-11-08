@@ -12,7 +12,7 @@ import java.util.Random;
 public class Simulation extends Thread {
 
 	private Graph graph;
-	private Random rand;
+	private Random rand = new Random();
 	private ArrayList<Transfer> transferList;
 	private boolean simulating = false;
 	private int stepCounter = 0;
@@ -81,6 +81,14 @@ public class Simulation extends Thread {
 		return totalHops;
 	}
 	
+	public List<Transfer> getTransfers() {
+		List<Transfer> tList = new ArrayList<>();
+		for (Transfer t : transferList) {
+			tList.add(new Transfer(t));
+		}
+		return tList;
+	}
+	
 	/**
 	 * Resets the simulation
 	 */
@@ -105,6 +113,15 @@ public class Simulation extends Thread {
 		/** Continue simulating until another object tells us to stop.
 		*   Creates a new transfer every 3rd step, or at beginning
 		*/
+		
+		for (Node n : graph.getNodes()) {
+			System.out.println(n.getName());
+			
+			for (Node x : graph.getConnections(n)) {
+				System.out.println("-" + x.getName());
+			}
+		}
+		
 		if (simulating == true) {
 			if(transferList.isEmpty() || (stepCounter % sendRate) == 0){
 				Transfer transfer1 = new Transfer(graph);
@@ -128,10 +145,12 @@ public class Simulation extends Thread {
 		}
 		for(Transfer trans : transferList)
 		{
-					
+			System.out.println(trans.getPosition().getName());
+			System.out.println(graph.getConnections(new Node(trans.getPosition().getName())));
+			//System.out.println();
 			//Set a new random position node for the transfer	
 			List<Node> cons = graph.getConnections(trans.getPosition());
-			
+		
 			int nextNodeIndex = rand.nextInt(cons.size());
 			trans.setPosition(cons.get(nextNodeIndex));
 			trans.incrementHops();
