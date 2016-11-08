@@ -66,7 +66,6 @@ public class SimController implements ActionListener {
 	{
 		if(model.getGraph().contains(A) && model.getGraph().contains(B))
 		{
-			System.out.println(A + " " + B);
 			view.addConnection(A, B);
 			model.getGraph().addConnection(model.getGraph().getNode(A), model.getGraph().getNode(B));
 		}
@@ -110,27 +109,8 @@ public class SimController implements ActionListener {
 	 */
 	private void startSim(int steps, int sendRate)
 	{
-		if(steps != 0 && sendRate != 0)
-		{
-			//get values for steps and sendrate from user
-			if(model != null && model.getGraph().size() > 0){
-				for(int i = 0; i < steps; i++){
-					stepSim(sendRate);
-				}
-			}
-		}
 		
-	}
-	
-	/**
-	 * Takes a single step in simulation
-	 *
-	 *@param sendRate (int)
-	 */
-	
-	private void stepSim(int sendRate)
-	{
-		if(sendRate != 0)
+		if(steps != 0 && sendRate != 0)
 		{
 			//get values for steps and sendrate from user
 			if(model != null && model.getGraph().size() > 0) {
@@ -154,7 +134,6 @@ public class SimController implements ActionListener {
 						String beforePos = before.get(idx).getPosition().getName();
 						String afterPos = t.getPosition().getName();
 						
-						System.out.println(beforePos + ", " + afterPos);
 						view.updateMessage(t.getMessage(), beforePos, afterPos);
 					}
 				}
@@ -165,6 +144,7 @@ public class SimController implements ActionListener {
 				view.setOutput(Integer.toString(model.getTotalHops()));
 			}
 		}
+		
 	}
 	
 	/**
@@ -192,7 +172,7 @@ public class SimController implements ActionListener {
 		// Calls private method to start the simulation
 		else if(actionCommand.equals("Simulate"))	startSim(view.getSimSteps(), view.getSendRate());
 		// Calls private method to step once through the simulation
-		else if(actionCommand.equals("Simulate Step"))	stepSim(view.getSendRate());
+		else if(actionCommand.equals("Simulate Step"))	startSim(1, view.getSendRate());
 		
 
 		
