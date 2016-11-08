@@ -45,6 +45,7 @@ public class SimController implements ActionListener {
 		else System.out.println("");
 	}
 	
+	
 	/**
 	 * Removes a node from the graph
 	 * 
