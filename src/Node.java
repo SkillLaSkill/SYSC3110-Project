@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * This is the class that is used to make a node. The class creates a object
  * that has a name, a message and a list of connections
@@ -6,7 +9,7 @@
  *
  */
 public class Node {
-	//private List<String> connections = new ArrayList<String>();
+	private List<Node> connections;
 	private String message;
 	private String name;
 	
@@ -18,6 +21,45 @@ public class Node {
 	public Node(String n){
 		name = n;
 		message = "";
+		connections = new ArrayList<Node>();
+	}
+	
+	/**
+	 * Sets the message to the given incoming message
+	 * 
+	 * @param m (String)
+	 */
+	public void setMessage(String m){
+		message = m;
+	}
+	
+	/*
+	 * Adds connection to this node, returns true if node is added, false if no node is added.
+	 */
+	public boolean addConnection(Node n)
+	{
+		if(hasConnection(n))
+		{
+			connections.add(n);
+			return true;
+		}
+		return false;
+	}
+	
+	/*
+	 * Checks if this node contains a connection to the specified node 
+	 */
+	public boolean hasConnection(Node n)
+	{
+		if(!connections.contains(n))	return true;
+		return false;
+	}
+	/**
+	 * Displays the nodes information
+	 */
+	public void displayNode(){
+		System.out.println("Node: " + name);
+		System.out.println("Message: " + message);
 	}
 	
 	/**
@@ -39,23 +81,6 @@ public class Node {
 	}
 	
 	/**
-	 * Sets the message to the given incoming message
-	 * 
-	 * @param m (String)
-	 */
-	public void setMessage(String m){
-		message = m;
-	}
-	
-	/**
-	 * Displays the nodes information
-	 */
-	public void displayNode(){
-		System.out.println("Node: " + name);
-		System.out.println("Message: " + message);
-	}
-	
-	/**
 	 * Checks if the nodes have the name names
 	 * 
 	 * @param o (Object)
@@ -74,6 +99,20 @@ public class Node {
 		Node n = (Node)o;
 		return this.name.equals(n.name);
 	}
+	
+	/*
+	 * Returns string representation of connections in the form "Node1 Node2 Node3... etc"
+	 */
+	public String toStringConnections()
+	{
+		String s = "";
+		for(Node node: connections)
+		{
+			s += node.getName() + " ";
+		}
+		return s;
+	}
+	
 	@Override
 	public int hashCode() {
 		return name.hashCode();

@@ -5,7 +5,13 @@ import java.util.List;
 public class Graph {
 	
 
-	private HashMap<Node, List<Node>> nodeInformation = new HashMap<>();
+	//private HashMap<Node, List<Node>> nodeInformation = new HashMap<>();
+	private List<Node> nodes;
+	
+	public Graph()
+	{
+		nodes = new ArrayList<Node>();
+	}
 	
 	/**
 	 * Adds a node to the HashMap keys
@@ -14,7 +20,7 @@ public class Graph {
 	 */
 	public void addNode(Node n)
 	{
-		nodeInformation.put(n, null);
+		nodes.add(n);
 	}
 	
 	/**
@@ -24,25 +30,13 @@ public class Graph {
 	 * @param B (Node)
 	 */
 	public void addConnection(Node A, Node B) {
-		
-		if (A.equals(B)) return; // Don't add self as a connection.
-		
-		if(!(contains(A) && contains(B))) return;
-		
-		if (nodeInformation.get(A) == null) {
-			nodeInformation.put(A, new ArrayList<Node>());
-		}
-		if (nodeInformation.get(B) == null) {
-			nodeInformation.put(B, new ArrayList<Node>());
-		}
-		
+		// Don't add self as a connection.
+		if (A.equals(B)) return; 
 		// Don't add duplicates to connection list to keep graph simple.
-		//if (!nodeInformation.get(A).contains(B) ) {
-			nodeInformation.get(A).add(B);
-			nodeInformation.get(B).add(A);
-		//}
-		
-		
+		if(!A.hasConnection(B) && B.hasConnection(A)) return;
+		// Add Connections
+		A.addConnection(B);
+		B.addConnection(A);
 	}
 	
 	
@@ -53,9 +47,10 @@ public class Graph {
 	 * @param nodesToAdd (List<Node>)
 	 *
 	 */
-	public void addNodeConnections(Node A, List<Node> nodesToAdd) {
+	public void addMultipleConnections(Node A, List<Node> nodesToAdd) {
 		for (Node n : nodesToAdd) {
-			addConnection(A, n);
+			A.addConnection(n);
+			n.addConnection(A);
 		}
 	}
 	
@@ -67,7 +62,7 @@ public class Graph {
 	 * 
 	 * @return boolean
 	 */
-	public boolean addNodeConnectionsByName(Node node, String connections) {
+	public boolean addMultipleConnectionsByName(Node node, String connections) {
 		// Separates all connections into individual strings
 		String[] nodeConnections = connections.split(" ");
 		List<Node> nodesToAdd = new ArrayList<Node>();
@@ -79,50 +74,33 @@ public class Graph {
 			
 			nodesToAdd.add(n);
 		}
-		
-		addNodeConnections(node, nodesToAdd);
+		addMultipleConnections(node, nodesToAdd);
 		return true;
 	}
 	
 	
 	/**
-	 * Gets a node given its name
+	 * Gets a node given its name by going through all nodes made. Returns null if no match is found
 	 * 
 	 * @param name (String)
 	 * 
 	 * @return Node
 	 */
 	public Node getNode(String name){
-		// Goes through all nodes made
-		for (Node n : nodeInformation.keySet()) {
-			if (n.getName().equals(name)) {
-				return n;
-			}
-		}
-		// Returns null and prints if the node name doesn't exist
-		System.out.println("Node does not exist!");
+		for (Node n : nodes)	
+			if (n.getName().equals(name))	return n;
 		return null;
 	}
 	
 	/**
-	 * Gets a list of all the nodes
-	 * 
-	 * @return List<Node>
-	 */
-	public List<Node> getNodes()
-	{
-		return new ArrayList<Node>(nodeInformation.keySet());
-	}
-	
-	/**
-	 * Returns all the connections of a node
+	 * Returns all the connections of a node in string form
 	 * 
 	 * @param n (Node)
 	 * 
 	 * @return List<Node> 
 	 */
-	public List<Node> getConnections(Node n) {
-		return nodeInformation.get(n);
+	public String getConnections(Node n) {
+		return n.toStringConnections();
 	}
 	
 	/**
