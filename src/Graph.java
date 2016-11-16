@@ -110,22 +110,21 @@ public class Graph {
 	 */
 	public void removeNode(Node n)
 	{
-		List<Node> conns = nodeInformation.remove(n);
-		if (conns == null) return;
-		for (int i = 0; i < conns.size(); i++) {
-			removeConnection(n, conns.get(i));
+		nodes.remove(n);
+		for(Node node: nodes)
+		{
+			node.removeConnection(n);
 		}
-		System.out.println("No node with that name was found!");
 	}
 	
 	/**
-	 * Removes a node given its name
+	 * Removes a node by name
 	 * 
 	 * @param name (String)
 	 */
 	public void removeNode(String name)
 	{
-		if(contains(name))	removeNode(getNode(name));
+		if(nodes.contains(name))	removeNode(getNode(name));
 	}
 
 	
@@ -135,9 +134,11 @@ public class Graph {
 	 * @param B
 	 */
 	public void removeConnection(Node A, Node B) {
-		if (!isConnected(A, B)) return;
-		nodeInformation.get(A).remove(B);
-		nodeInformation.get(B).remove(A);
+		if (A.hasConnection(B) && B.hasConnection(A))
+		{
+			A.removeConnection(B);
+			B.removeConnection(A);
+		}
 	}
 	
 	/**
@@ -145,7 +146,13 @@ public class Graph {
 	 */
 	public void removeConnection(String A, String B)
 	{
-		removeConnection(getNode(A), getNode(B));
+		if(contains(A) && contains(B))
+		{
+			Node a = getNode(A);
+			Node b = getNode(B);
+			removeConnection(a, b);
+		}
+		
 	}
 	
 	
@@ -155,7 +162,7 @@ public class Graph {
 	
 	public boolean contains(String n)
 	{
-		for(Node node: nodeInformation.keySet())
+		for(Node node: nodes)
 		{
 			if (n.equals(node.getName())) return true;
 		}
@@ -172,7 +179,7 @@ public class Graph {
 	 */
 	public boolean contains(Node n)
 	{
-		return nodeInformation.containsKey(n);
+		return nodes.contains(n);
 	}
 	
 	/**

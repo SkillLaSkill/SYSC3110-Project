@@ -25,6 +25,24 @@ public class Node {
 	}
 	
 	/**
+	 * Return the nodes name 
+	 * 
+	 * @return String
+	 */
+	public String getName() {
+		return name;
+	}
+	
+	/**
+	 * Returns the message that the node holds
+	 * 
+	 * @return String
+	 */
+	public String getMessage() {
+		return message;
+	}
+	
+	/**
 	 * Sets the message to the given incoming message
 	 * 
 	 * @param m (String)
@@ -54,30 +72,44 @@ public class Node {
 		if(!connections.contains(n))	return true;
 		return false;
 	}
+	
+	/*
+	 * Checks if this node has a connection given the nodes name
+	 */
+	public boolean hasConnection(String s)
+	{
+		for(Node node: connections)
+			if(node.getName() == s)	return true;
+		return false;
+	}
+	
+	/*
+	 * Removes connection to given node
+	 */
+	public void removeConnection(Node n)
+	{
+		if(this.hasConnection(n))
+		{
+			this.connections.remove(n);
+		}
+	}
+	
+	/*
+	 * Removes connection to node given nodes name
+	 */
+	public void removeConnection(String s)
+	{
+		for(Node node: connections)
+			if(node.getName() == s)
+				connections.remove(node);
+	}
+	
 	/**
 	 * Displays the nodes information
 	 */
 	public void displayNode(){
 		System.out.println("Node: " + name);
 		System.out.println("Message: " + message);
-	}
-	
-	/**
-	 * Return the nodes name 
-	 * 
-	 * @return String
-	 */
-	public String getName() {
-		return name;
-	}
-	
-	/**
-	 * Returns the message that the node holds
-	 * 
-	 * @return String
-	 */
-	public String getMessage() {
-		return message;
 	}
 	
 	/**
