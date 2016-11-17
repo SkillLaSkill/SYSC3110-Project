@@ -57,21 +57,22 @@ public class GraphTest extends Graph {
 	@Test
 	public void testAddNodeConnections() {
 		g.addNodeConnections(n, ln);
-		Assert.assertEquals("Node 'A' should be connected to Node 'B' and Node 'C'", true, g.getConnections(n).contains(n1) && g.getConnections(n).contains(n2));
+		Assert.assertEquals("Node 'A' should be connected to Node 'B' and Node 'C'", true, g.isConnected(n,n1) && g.isConnected(n,n2));
 	}
 
 	@Test
 	public void testAddNodeConnectionsByName() {
 		g.addNode(n1);
 		g.addNode(n2);
-		Assert.assertEquals("Node 'A' should be connected to Node 'B'", true, g.addNodeConnectionsByName(n, "B C"));
+		g.addNodeConnectionsByName(n, "B C");
+		Assert.assertEquals("Node 'A' should be connected to Node 'B'", true, g.isConnected(n,n1) && g.isConnected(n,n2));
 	}
 	
 	@Test
 	public void testRemoveConnection() {
 		g.addNodeConnections(n, ln);
 		g.removeConnection(n, n1);
-		Assert.assertEquals("Node 'A' should be connected to Node 'B'", false, g.getConnections(n).contains(n1));
+		Assert.assertEquals("Node 'A' should be connected to Node 'B'", false, g.isConnected(n, n1));
 	}
 
 

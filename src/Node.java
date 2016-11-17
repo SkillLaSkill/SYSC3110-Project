@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * This is the class that is used to make a node. The class creates a object
  * that has a name, a message and a list of connections
@@ -9,6 +12,7 @@ public class Node {
 	//private List<String> connections = new ArrayList<String>();
 	private String message;
 	private String name;
+	private List<String> connections = new ArrayList<String>();
 	
 	/**
 	 *  Creates a node with a name but no connections or message
@@ -30,6 +34,15 @@ public class Node {
 	}
 	
 	/**
+	 * Sets the nodes name 
+	 * 
+	 * @param String
+	 */
+	public void setName(String n) {
+		name = n;
+	}
+	
+	/**
 	 * Returns the message that the node holds
 	 * 
 	 * @return String
@@ -45,6 +58,29 @@ public class Node {
 	 */
 	public void setMessage(String m){
 		message = m;
+	}
+	
+	//	NEW
+	public void addConnection(String n) {
+		connections.add(n);
+	}
+	
+	//	NEW
+	public void removeConnection(String n) {
+		connections.remove(n);
+	}
+	
+	//	NEW
+	public List<String> getConnections() {
+		return connections;
+	}
+	
+	//	NEW
+	public boolean isConnected(String n) {
+		for (String node : connections) {
+			if (node == n) return true;
+		}
+		return false;
 	}
 	
 	/**
@@ -74,6 +110,7 @@ public class Node {
 		Node n = (Node)o;
 		return this.name.equals(n.name);
 	}
+	
 	@Override
 	public int hashCode() {
 		return name.hashCode();

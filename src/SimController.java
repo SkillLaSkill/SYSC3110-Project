@@ -171,10 +171,7 @@ public class SimController implements ActionListener {
 		// Calls private method to start the simulation
 		else if(actionCommand.equals("Simulate"))	startSim(view.getSimSteps(), view.getSendRate());
 		// Calls private method to step once through the simulation
-		else if(actionCommand.equals("Simulate Step"))	startSim(1, view.getSendRate());
-		
-
-		
+		else if(actionCommand.equals("Simulate Step"))	startSim(1, view.getSendRate());		
 	}
 
 }

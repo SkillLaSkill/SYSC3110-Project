@@ -3,18 +3,15 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Graph {
-	
-
-	private HashMap<Node, List<Node>> nodeInformation = new HashMap<>();
+	private List<Node> realNodes = new ArrayList<Node>();
 	
 	/**
 	 * Adds a node to the HashMap keys
 	 * 
 	 * @param n (Node)
 	 */
-	public void addNode(Node n)
-	{
-		nodeInformation.put(n, null);
+	public void addNode(Node n) {
+		realNodes.add(n);
 	}
 	
 	/**
@@ -26,25 +23,12 @@ public class Graph {
 	public void addConnection(Node A, Node B) {
 		
 		if (A.equals(B)) return; // Don't add self as a connection.
-		
-		if(!(contains(A) && contains(B))) return;
-		
-		if (nodeInformation.get(A) == null) {
-			nodeInformation.put(A, new ArrayList<Node>());
-		}
-		if (nodeInformation.get(B) == null) {
-			nodeInformation.put(B, new ArrayList<Node>());
-		}
-		
-		// Don't add duplicates to connection list to keep graph simple.
-		//if (!nodeInformation.get(A).contains(B) ) {
-			nodeInformation.get(A).add(B);
-			nodeInformation.get(B).add(A);
-		//}
-		
-		
+
+		for (int i = 0; i <= realNodes.size(); i++) {	//NEW
+			if (realNodes.get(i).getName() == A.getName()) realNodes.get(i).addConnection(B.getName());
+			if (realNodes.get(i).getName() == B.getName()) realNodes.get(i).addConnection(A.getName());
+		}	
 	}
-	
 	
 	/**
 	 * Adds multiple nodeInformation to the given Node 
@@ -70,18 +54,16 @@ public class Graph {
 	public boolean addNodeConnectionsByName(Node node, String connections) {
 		// Separates all connections into individual strings
 		String[] nodeConnections = connections.split(" ");
-		List<Node> nodesToAdd = new ArrayList<Node>();
-		for (String con : nodeConnections) {
-			Node n = getNode(con);
-			if (n == null) {
-				return false;
-			} 
-			
-			nodesToAdd.add(n);
-		}
 		
-		addNodeConnections(node, nodesToAdd);
-		return true;
+		for (int i = 0; i <= nodeConnections.length; i++) {
+			for (int j = 0; j <= realNodes.size(); j++) {
+				if (realNodes.get(i).getName() == nodeConnections[i]) {
+					addConnection(node, realNodes.get(j));
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 	
 	
@@ -92,14 +74,10 @@ public class Graph {
 	 * 
 	 * @return Node
 	 */
-	public Node getNode(String name){
-		// Goes through all nodes made
-		for (Node n : nodeInformation.keySet()) {
-			if (n.getName().equals(name)) {
-				return n;
-			}
+	public Node getNode(String name) {
+		for (Node n : realNodes) {
+			if (n.getName() == name) return n;
 		}
-		// Returns null and prints if the node name doesn't exist
 		System.out.println("Node does not exist!");
 		return null;
 	}
@@ -109,9 +87,8 @@ public class Graph {
 	 * 
 	 * @return List<Node>
 	 */
-	public List<Node> getNodes()
-	{
-		return new ArrayList<Node>(nodeInformation.keySet());
+	public List<Node> getNodes() {
+		return realNodes; 
 	}
 	
 	/**
@@ -122,7 +99,14 @@ public class Graph {
 	 * @return List<Node> 
 	 */
 	public List<Node> getConnections(Node n) {
-		return nodeInformation.get(n);
+		List<Node> lit = new ArrayList<Node>();
+		List<String> af = n.getConnections();
+		for(Node nd : realNodes){
+			for(String s : af) {
+				if (nd.getName() == s) lit.add(nd);
+			}
+		}
+		return lit;
 	}
 	
 	/**
@@ -130,14 +114,8 @@ public class Graph {
 	 * 
 	 * @param n (Node)
 	 */
-	public void removeNode(Node n)
-	{
-		List<Node> conns = nodeInformation.remove(n);
-		if (conns == null) return;
-		for (int i = 0; i < conns.size(); i++) {
-			removeConnection(n, conns.get(i));
-		}
-		System.out.println("No node with that name was found!");
+	public void removeNode(Node n) {
+		removeNode(n.getName());
 	}
 	
 	/**
@@ -145,45 +123,54 @@ public class Graph {
 	 * 
 	 * @param name (String)
 	 */
-	public void removeNode(String name)
-	{
-		if(contains(name))	removeNode(getNode(name));
+	public void removeNode(String name)	{
+		int b = 0;
+		for (int i = 0; i < realNodes.size(); i++) {
+			if (realNodes.get(i).getName() == name) {
+				realNodes.remove(i);
+				System.out.print("YAS");
+				b++;
+			}
+			if (realNodes.get(i).isConnected(name)) {
+				realNodes.get(i).removeConnection(name);
+				System.out.print("YAS");
+				b++;
+			}
+		}
+		System.out.println(b);
+		if (b != 2) System.out.println("No node with that name was found!");
 	}
 
-	
 	/**
 	 * Removes the given node connection from the given node
 	 * @param A
 	 * @param B
 	 */
 	public void removeConnection(Node A, Node B) {
-		if (!isConnected(A, B)) return;
-		nodeInformation.get(A).remove(B);
-		nodeInformation.get(B).remove(A);
+		removeConnection(A.getName(), B.getName());
 	}
 	
 	/**
 	 * Removes connection given String names
 	 */
-	public void removeConnection(String A, String B)
-	{
-		removeConnection(getNode(A), getNode(B));
+	public void removeConnection(String A, String B) {
+		if (!isConnected(A, B)) return;
+		for (int i = 0; i <= realNodes.size(); i++) {
+			if (realNodes.get(i).getName() == A) {
+				realNodes.get(i).removeConnection(B);
+			}
+		}
 	}
-	
 	
 	/*
 	 * Check node list for given name of node
 	 */
-	
-	public boolean contains(String n)
-	{
-		for(Node node: nodeInformation.keySet())
-		{
+	public boolean contains(String n) {
+		for(Node node: realNodes) {
 			if (n.equals(node.getName())) return true;
 		}
 		return false;
 	}
-
 	
 	/**
 	 * Checks if the node list contains the given node
@@ -192,34 +179,25 @@ public class Graph {
 	 * 
 	 * @return boolean
 	 */
-	public boolean contains(Node n)
-	{
-		return nodeInformation.containsKey(n);
-	}
-	
-	/**
-	 * Gets the number of nodes
-	 *  
-	 * @return integer
-	 */
-	public int size()
-	{
-		return nodeInformation.keySet().size();
+	public boolean contains(Node n) {
+		return realNodes.contains(n);
 	}
 	
 	/** 
 	 * Removes all of the nodes
 	 */
-	public void clear()
-	{
-		nodeInformation.clear();
+	public void clear()	{
+		realNodes.clear();
 	}
+	
+	public int size() {
+		return realNodes.size();
+	}
+	
 	/*
 	 * Checks if two nodes are connected
 	 */
-	
-	public boolean isConnected(String First, String Second)
-	{
+	public boolean isConnected(String First, String Second) {
 		Node A =  getNode(First);
 		Node B = getNode(Second);
 		if(contains(A) && contains(B))
@@ -232,13 +210,6 @@ public class Graph {
 
 	
 	public boolean isConnected(Node A, Node B) {
-		if (contains(A) && contains(B)) {
-			if (nodeInformation.get(A) == null) return false;
-			
-			for (Node n : nodeInformation.get(A)) {
-				if (n.equals(B)) return true;
-			}
-		}
-		return false;
+		return isConnected(A.getName(), B.getName());
 	}
 }
