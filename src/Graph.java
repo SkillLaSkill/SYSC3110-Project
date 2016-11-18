@@ -155,11 +155,27 @@ public class Graph {
 		
 	}
 	
+	/**
+	 * Gets the number of nodes
+	 *  
+	 * @return integer
+	 */
+	public int size()
+	{
+		return nodes.size();
+	}
 	
+	/** 
+	 * Removes all of the nodes
+	 */
+	public void clear()
+	{
+		nodes.clear();
+	}
+
 	/*
 	 * Check node list for given name of node
 	 */
-	
 	public boolean contains(String n)
 	{
 		for(Node node: nodes)
@@ -168,7 +184,6 @@ public class Graph {
 		}
 		return false;
 	}
-
 	
 	/**
 	 * Checks if the node list contains the given node
@@ -180,50 +195,6 @@ public class Graph {
 	public boolean contains(Node n)
 	{
 		return nodes.contains(n);
-	}
+	}	
 	
-	/**
-	 * Gets the number of nodes
-	 *  
-	 * @return integer
-	 */
-	public int size()
-	{
-		return nodeInformation.keySet().size();
-	}
-	
-	/** 
-	 * Removes all of the nodes
-	 */
-	public void clear()
-	{
-		nodeInformation.clear();
-	}
-	/*
-	 * Checks if two nodes are connected
-	 */
-	
-	public boolean isConnected(String First, String Second)
-	{
-		Node A =  getNode(First);
-		Node B = getNode(Second);
-		if(contains(A) && contains(B))
-		{
-			return isConnected(A, B);
-		}
-		System.out.println("Does not contain one or both of those nodes!");
-		return false;
-	}
-
-	
-	public boolean isConnected(Node A, Node B) {
-		if (contains(A) && contains(B)) {
-			if (nodeInformation.get(A) == null) return false;
-			
-			for (Node n : nodeInformation.get(A)) {
-				if (n.equals(B)) return true;
-			}
-		}
-		return false;
-	}
 }
