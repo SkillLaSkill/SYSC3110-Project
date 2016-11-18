@@ -1,10 +1,13 @@
 import java.awt.event.ActionListener;
 
 public interface ViewStrategy {
-	public void addNode(String n);
+	//To GUI
+	public void addNode(String name);
 	public void removeNode(String name);
 	public void addConnection(String A, String B);
 	public void removeConnection(String A, String B);
+	
+	//From GUI
 	public String getNewNodeName();
 	public String getNewConnectionNodeName();
 	public String getConnectionList();

@@ -57,13 +57,6 @@ public class SimTopologyView implements ViewStrategy {
 	 * Creates the Topological Simulation View
 	 */
 	public SimTopologyView() {
-		initializeComponents();
-	}
-	
-	/**
-	 * Initializes all components 
-	 */
-	private void initializeComponents() {
 		mainFrame = new JFrame("Topology View");
 		mainFrame.setLayout(new GridBagLayout());
 		optionsPane = new JPanel();
@@ -80,6 +73,11 @@ public class SimTopologyView implements ViewStrategy {
 		//mainFrame.pack();
 		mainFrame.setVisible(true);
 	}
+	
+	/**
+	 * Initializes all components 
+	 */
+	
 	private void setupOutputView() {
 		outputPanel = new JPanel();
 		outputPanel.setLayout(new GridLayout(1,1));

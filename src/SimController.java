@@ -3,6 +3,8 @@ import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.swing.JFrame;
+
 /**
  * Creates a instance of a simulation controller
  * 
@@ -11,7 +13,7 @@ import java.util.List;
  */
 public class SimController implements ActionListener {
 	
-	private ViewStrategy view;
+	private SimGUI view;
 	private Simulation model;
 
 	/**
@@ -20,7 +22,7 @@ public class SimController implements ActionListener {
 	 * @param v (ViewStrategy)
 	 * @param m (Simulation)
 	 */
-	public SimController(ViewStrategy v, Simulation m)
+	public SimController(SimGUI v, Simulation m)
 	{
 		view = v;
 		model = m;
@@ -39,9 +41,9 @@ public class SimController implements ActionListener {
 		// Don't add duplicate
 		if (!model.getGraph().contains(node)) {
 			model.getGraph().addNode(node);
-			view.addNode(node.getName());
+			//view.addNode(node.getName());
 		}
-		else System.out.println("Didnt add the node bro");
+		else System.out.println("Couldn't add the Node!");
 	}
 	
 	
@@ -159,9 +161,9 @@ public class SimController implements ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		String actionCommand = arg0.getActionCommand();
 		// Calls the private method to deal with Node creation in both model and view
-		if(actionCommand.equals("Create Node"))	createNode(view.getNewNodeName());
+		if(actionCommand.equals("Create Node"))	createNode(view.createPrompt("Enter node name"));
 		// Calls private method to deal with Connection establishment in both model and view
-		else if(actionCommand.equals("Establish Connections")) makeConnections(view.getNewConnectionNodeName(), view.getConnectionList());
+		/*else if(actionCommand.equals("Establish Connections")) makeConnections(view.getNewConnectionNodeName(), view.getConnectionList());
 		// Calls Private method to deal with Node removal in both model and view
 		else if(actionCommand.equals("Delete Node")) removeNode(view.getNodeNameToDelete());
 		// Calls private method to deal with Connection removal in both model and view
@@ -172,6 +174,7 @@ public class SimController implements ActionListener {
 		else if(actionCommand.equals("Simulate"))	startSim(view.getSimSteps(), view.getSendRate());
 		// Calls private method to step once through the simulation
 		else if(actionCommand.equals("Simulate Step"))	startSim(1, view.getSendRate());		
+		*/
 	}
 
 }

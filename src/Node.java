@@ -9,7 +9,6 @@ import java.util.List;
  *
  */
 public class Node {
-	//private List<String> connections = new ArrayList<String>();
 	private String message;
 	private String name;
 	private List<String> connections = new ArrayList<String>();
@@ -34,21 +33,21 @@ public class Node {
 	}
 	
 	/**
-	 * Sets the nodes name 
-	 * 
-	 * @param String
-	 */
-	public void setName(String n) {
-		name = n;
-	}
-	
-	/**
 	 * Returns the message that the node holds
 	 * 
 	 * @return String
 	 */
 	public String getMessage() {
 		return message;
+	}
+	
+	/**
+	 * Sets the nodes name 
+	 * 
+	 * @param String
+	 */
+	public void setName(String n) {
+		name = n;
 	}
 	
 	/**
@@ -62,12 +61,28 @@ public class Node {
 	
 	//	NEW
 	public void addConnection(String n) {
-		connections.add(n);
+		if(!connections.contains(n) || !(n == null))	
+		{
+			connections.add(n);
+			return;
+		}
+		System.out.println("Couldn't add connection!");
 	}
+	
+	public void addConnection(Node n)
+	{
+		this.addConnection(n.getName());
+	}
+
 	
 	//	NEW
 	public void removeConnection(String n) {
-		connections.remove(n);
+		if(connections.contains(n) || !(n == null))
+		{
+			connections.remove(n);
+			return;
+		}
+		System.out.println("Couldn't remove connection!");
 	}
 	
 	//	NEW
@@ -77,9 +92,8 @@ public class Node {
 	
 	//	NEW
 	public boolean isConnected(String n) {
-		for (String node : connections) {
+		for (String node : connections)
 			if (node == n) return true;
-		}
 		return false;
 	}
 	
@@ -100,12 +114,8 @@ public class Node {
 	 */
 	@Override
 	public boolean equals(Object o) {
-		// Parameter is empty
-		if (o == null) return false;
-		// Parameter isn't a node
-		if (!(o instanceof Node)) {
-			return false;
-		}
+		// Parameter is empty or Parameter isn't a node
+		if (o == null || !(o instanceof Node)) return false;
 		// Makes sure that object is a node, then check that their names are the same
 		Node n = (Node)o;
 		return this.name.equals(n.name);
