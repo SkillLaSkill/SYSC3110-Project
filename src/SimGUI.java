@@ -46,6 +46,10 @@ public class SimGUI extends JFrame
 		//Right click menu
 		this.addMouseListener(new RightClickListener());
 		
+		//Menu Bar
+		JMenuItems
+		JMenu menu = new JMenu("File");
+		JMenuBar bar = new JMenuBar();
 		//Final settings
 		this.setSize(500, 500);
 		this.setVisible(true);
