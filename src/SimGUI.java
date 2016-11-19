@@ -120,7 +120,9 @@ public class SimGUI extends JFrame
 		this.dispose();
 	}
 	
-	@Override
+	/*
+	 * Resets the GUI interface to a fully cleared state
+	 */
 	public void reset() {
 		graphNodes.clear();
 		nodeNames.clear();
