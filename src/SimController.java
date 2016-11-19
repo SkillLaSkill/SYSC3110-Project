@@ -37,7 +37,7 @@ public class SimController implements ActionListener {
 	{
 		if (name.isEmpty()) return;
 		model.getGraph().addNode(new Node(name));
-		//view.addNode(node.getName());
+		model.notifyView();
 		System.out.println("Node " + name + " has been added!");
 	}
 	
@@ -51,7 +51,7 @@ public class SimController implements ActionListener {
 	{
 		String name = view.createPrompt("Enter node name");
 		model.getGraph().removeNode(name);
-		view.removeNode(name);
+		model.notifyView();
 	}
 	
 	/**
@@ -65,7 +65,7 @@ public class SimController implements ActionListener {
 		String A = view.createPrompt("Enter first node name");
 		String B = view.createPrompt("Enter second node name");
 		model.getGraph().addConnection(model.getGraph().getNode(A), model.getGraph().getNode(B));
-		view.addConnection(A, B);
+		model.notifyView();
 	}
 	
 	/**
@@ -79,14 +79,14 @@ public class SimController implements ActionListener {
 		String node = view.createPrompt("Enter node name");
 		String[] s = view.createPrompt("Enter nodes you would like to connect to").split(" ");
 		List<String>  conList = Arrays.asList(s);
-		for (String n : conList) {
-			if(model.getGraph().contains(node) && model.getGraph().contains(n))
+		for (String con : conList) {
+			if(model.getGraph().contains(node) && model.getGraph().contains(con))
 			{
-				model.getGraph().addConnection(model.getGraph().getNode(node), model.getGraph().getNode(n));
-				view.addConnection(node, n);
+				model.getGraph().addConnection(model.getGraph().getNode(node), model.getGraph().getNode(con));
 			}
 			else System.out.println("A node pair was not connected!");
-		}		
+		}	
+		model.notifyView();
 	}
 	
 	
@@ -97,7 +97,7 @@ public class SimController implements ActionListener {
 	{
 		String[] s = view.createPrompt("Enter two node connection").split(" ");
 		model.getGraph().removeConnection(s[0], s[1]);
-		view.removeConnection(s[0], s[1]);	
+		model.notifyView();
 	}
 	
 	/**
@@ -106,7 +106,7 @@ public class SimController implements ActionListener {
 	 * @param steps (int)
 	 * @param sendRate (int)
 	 */
-	private void startSim(String s, String r)
+	/*private void startSim(String s, String r)
 	{
 		int steps = Integer.parseInt(s);
 		int sendRate = Integer.parseInt(r);
@@ -138,15 +138,11 @@ public class SimController implements ActionListener {
 						view.updateMessage(t.getMessage() + ": " + t.getDestination().getName(), beforePos, afterPos);
 					}
 				}
-				
-				
-				
-				
 				view.setOutput(Integer.toString(model.getTotalHops()));
 			}
 		}
 		view.setOutput("Total packets transmitted: " + model.getTotalHops());
-	}
+	}*/
 	
 	/**
 	 * Resets the simulation environment
@@ -178,10 +174,10 @@ public class SimController implements ActionListener {
 		//Exits the program
 		else if(actionCommand.equals("Exit"))	exit();
 		// Calls private method to start the simulation
-		else if(actionCommand.equals("Simulate"))	startSim(view.createPrompt("Enter number of steps"), view.createPrompt("Enter send rate (ms)"));
+		else if(actionCommand.equals("Simulate"))	//startSim(view.createPrompt("Enter number of steps"), view.createPrompt("Enter send rate (ms)"));
 		// Calls private method to step once through the simulation
 		//else if(actionCommand.equals("Simulate Step"))	startSim(1, view.createPrompt("Enter send rate (ms)"));		
-		else System.out.println("Nothing Happened");
+		System.out.println("Nothing Happened");
 	}
 
 }

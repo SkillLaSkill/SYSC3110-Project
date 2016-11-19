@@ -12,6 +12,7 @@ import java.util.Random;
 public class Simulation extends Thread {
 
 	private Graph graph;
+	private SimGUI view;
 	private Random rand = new Random();
 	private ArrayList<Transfer> transferList;
 	private boolean simulating = false;
@@ -21,8 +22,9 @@ public class Simulation extends Thread {
 	//private int completedTransferCount = 0;
 	
 	
-	public Simulation() {
+	public Simulation(SimGUI v) {
 		this(new Graph());
+		view = v;
 	}
 	
 	/**
@@ -131,6 +133,11 @@ public class Simulation extends Thread {
 			stepCounter++;
 		}
 		simulating = false;
+	}
+	
+	public void notifyView()
+	{
+		view.update();
 	}
 	
 	/**

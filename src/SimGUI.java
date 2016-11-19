@@ -18,7 +18,7 @@ public class SimGUI extends JFrame
 {
 // <<< Class Variables >>>
 	//Basic Window Construction
-	//private NodeDisplayPanel topologyCanvas;
+	private NodeDisplayPanel topologyCanvas;
 	private JPanel consolePanel;
 	
 	//References
@@ -26,10 +26,10 @@ public class SimGUI extends JFrame
 	private Simulation model;
 	
 	//Toplogy variables
-	//private HashMap<String, Ellipse2D> graphNodes;
-	private List<Ellipse2D> graphNodes;
+	private HashMap<String, Ellipse2D> graphNodes;
+	//private List<Ellipse2D> graphNodes;
 	private List<Line2D> graphConnections;
-	private List<String> nodeNames;
+	//private List<String> nodeNames;
 	private List<List<String>> nodeMessages = new ArrayList<>();
 	//Topology values
 	private final int radius = 40;
@@ -40,29 +40,26 @@ public class SimGUI extends JFrame
 	public SimGUI()
 	{
 		//Variable initializations
-		//graphNodes = new HashMap<String, Ellipse2D>();
-		graphNodes = new ArrayList<Ellipse2D>();
+		graphNodes = new HashMap<String, Ellipse2D>();
 		graphConnections = new ArrayList<Line2D>();
-		nodeNames = new ArrayList<String>();
 		alternate = false;
 		xval = 0;
 		yval = 0;
+		this.model = new Simulation(this);
+		this.controller = new SimController(this, model);
 		
 		//Initial settings
 		this.setTitle("Topology View");
 		this.setLayout(new GridBagLayout());
-		this.model = new Simulation();
-		this.controller = new SimController(this, model);
+
 		
 		//Panel setup (Want to add consolePanel as a display of console)
+		topologyCanvas = new NodeDisplayPanel();
+		this.add(topologyCanvas);
 		
 		//Right click menu
 		this.addMouseListener(new RightClickListener());
 		
-		//Menu Bar
-		//JMenuItems
-		JMenu menu = new JMenu("File");
-		JMenuBar bar = new JMenuBar();
 		
 		//Menu Bar setup
 		JMenuBar menuBar = new JMenuBar();
@@ -95,6 +92,34 @@ public class SimGUI extends JFrame
 	}
 	
 	/*
+	 * Finds a suitable X and Y co-ordinates for a new node
+	 */
+	private double[] findGoodXY() {
+		// Later make sure not on / inbetween nodes 
+		int lim = radius * 3;
+		xval += lim;
+		
+		if (topologyCanvas.getWidth() - xval < lim) {
+			yval += lim + radius + 5; 
+			xval = lim;
+		}
+		alternate = !alternate;
+		if (alternate) {
+			return new double[] {xval, yval};
+		}
+		else return new double[] {xval, yval + radius + 5};
+		
+	}
+	
+	/**
+	 * Update the Topological View
+	 */
+	private void updateTopologyPanel() {
+		topologyCanvas.validate();
+		topologyCanvas.repaint();
+	}
+	
+	/*
 	 * Creates pop-up prompt with given text and returns the String entered
 	 */
 	public String createPrompt(String q)
@@ -108,6 +133,41 @@ public class SimGUI extends JFrame
 	 */
 	public void update()
 	{
+		reset();
+		
+		//Add all nodes to graph
+		for(Node node: model.getGraph().getNodes())
+		{
+			double[] loc = findGoodXY();
+			Ellipse2D gNode = new Ellipse2D.Double(loc[0], loc[1], radius, radius);
+			graphNodes.put(node.getName(), gNode);
+			nodeMessages.add(new ArrayList<String>());
+			
+			updateTopologyPanel();
+		}
+		
+		//Add all connections
+		for(Node node: model.getGraph().getNodes())
+		{
+			for(Node con: model.getGraph().getConnections(node))
+			{
+				Ellipse2D eA = graphNodes.get(node);
+				Ellipse2D eB = graphNodes.get(con);
+				
+				// Calculate where the edge of the line should be so it goes from edge of Node A to edge of Node B
+				double epX = eA.getCenterX() - eB.getCenterX();
+				double epY = eA.getCenterY() - eB.getCenterY();
+				
+				double hyp = Math.sqrt(Math.pow(epX, 2) + Math.pow(epY, 2));
+				
+				double xPrime = (radius/2) * (epX / hyp);
+				double yPrime = (radius/2) * (epY / hyp);
+				
+				graphConnections.add(new Line2D.Double(eA.getCenterX() - xPrime, eA.getCenterY() - yPrime, eB.getCenterX() + xPrime, eB.getCenterY() + yPrime));
+				//connectionColors.add(Color.BLACK);
+				updateTopologyPanel();
+			}
+		}
 		
 	}
 	
@@ -125,13 +185,12 @@ public class SimGUI extends JFrame
 	 */
 	public void reset() {
 		graphNodes.clear();
-		nodeNames.clear();
 		nodeMessages.clear();
 		graphConnections.clear();
 		
 		xval = 0;
 		yval = 0;
-		updateTopologyPanel();
+		//updateTopologyPanel();
 	}
 	
 	/*
@@ -141,22 +200,6 @@ public class SimGUI extends JFrame
 	{
 		new SimGUI();
 	}
-	
-// <<< Mutators >>>
-	
-	/**
-	 * Adds a node to the Topological View
-	 */
-	/*public void addNode(String n) {
-		// Find where x, y should be.
-		nodeNames.add(n);
-		
-		double[] loc = findGoodXY();
-		graphNodes.add(new Ellipse2D.Double(loc[0], loc[1], radius, radius));
-		nodeMessages.add(new ArrayList<String>());
-		
-		updateTopologyPanel();
-	}*/
 	
 // <<< Local classes >>>
 	//Right click menu
@@ -210,7 +253,7 @@ public class SimGUI extends JFrame
 	
 	
 	//Graph view class
-	/*private class NodeDisplayPanel extends JPanel {	
+	private class NodeDisplayPanel extends JPanel {	
 		private static final long serialVersionUID = 1L;
 
 		@Override 
@@ -218,10 +261,16 @@ public class SimGUI extends JFrame
 			super.paintComponent(g);
 			Graphics2D g2d = (Graphics2D) g;
 			g2d.setColor(Color.black);
+			if(graphNodes == null)
+			{
+				System.out.println("Null for some reason?");
+				return;
+			}
 			for (int i = 0; i < graphNodes.size(); i++) {
 				g2d.draw(graphNodes.get(i));
 				double nameX = graphNodes.get(i).getCenterX();
 				double nameY = graphNodes.get(i).getCenterY();
+				ArrayList<String> nodeNames = (ArrayList<String>) graphNodes.keySet();
 				g2d.drawString(nodeNames.get(i), (int)nameX, (int)nameY);
 				
 				StringBuilder sb = new StringBuilder();
@@ -236,9 +285,8 @@ public class SimGUI extends JFrame
 			}
 			for (int i = 0; i < graphConnections.size(); i++) {
 				Line2D l = graphConnections.get(i);
-				g2d.setColor(connectionColors.get(i));
 				g2d.draw(l);
 			}
 		}
-	}*/
+	}
 }
