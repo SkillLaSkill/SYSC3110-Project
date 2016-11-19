@@ -11,6 +11,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 import javax.swing.*;
 
@@ -55,7 +56,10 @@ public class SimGUI extends JFrame
 		
 		//Panel setup (Want to add consolePanel as a display of console)
 		topologyCanvas = new NodeDisplayPanel();
+		JTextArea console = new JTextArea();
+		console.setText("Whaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 		this.add(topologyCanvas);
+		this.add(console);
 		
 		//Right click menu
 		this.addMouseListener(new RightClickListener());
@@ -141,7 +145,7 @@ public class SimGUI extends JFrame
 			double[] loc = findGoodXY();
 			Ellipse2D gNode = new Ellipse2D.Double(loc[0], loc[1], radius, radius);
 			graphNodes.put(node.getName(), gNode);
-			nodeMessages.add(new ArrayList<String>());
+			//nodeMessages.add(new ArrayList<String>());
 			
 			updateTopologyPanel();
 		}
@@ -261,7 +265,7 @@ public class SimGUI extends JFrame
 			super.paintComponent(g);
 			Graphics2D g2d = (Graphics2D) g;
 			g2d.setColor(Color.black);
-			if(graphNodes == null)
+			if(graphNodes == null || graphNodes.keySet() == null || graphNodes.entrySet() == null)
 			{
 				System.out.println("Null for some reason?");
 				return;
