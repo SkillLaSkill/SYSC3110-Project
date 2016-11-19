@@ -114,8 +114,11 @@ public class Node {
 	 */
 	@Override
 	public boolean equals(Object o) {
-		if(o instanceof Node)
-			return this.getName() == ((Node) o ).getName();
+		if(o instanceof Node) {
+			Node n = (Node) o;
+			return this.getName().equals(n.getName());
+			
+		}
 		return false;
 		
 	}

@@ -97,7 +97,7 @@ public class Graph {
 	 */
 	public Node getNode(String name) {
 		for (Node n : nodes) {
-			if (n.getName() == name) return n;
+			if (n.getName().equals(name)) return n;
 		}
 		System.out.println("Node does not exist!");
 		return null;
