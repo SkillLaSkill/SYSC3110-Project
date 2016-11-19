@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -8,6 +9,7 @@ import java.awt.geom.*;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.*;
@@ -16,6 +18,7 @@ public class SimGUI extends JFrame
 {
 // <<< Class Variables >>>
 	//Basic Window Construction
+	//private NodeDisplayPanel topologyCanvas;
 	private JPanel consolePanel;
 	
 	//References
@@ -23,32 +26,35 @@ public class SimGUI extends JFrame
 	private Simulation model;
 	
 	//Toplogy variables
-	//private NodeDisplayPanel topologyCanvas;
+	//private HashMap<String, Ellipse2D> graphNodes;
 	private List<Ellipse2D> graphNodes;
 	private List<Line2D> graphConnections;
 	private List<String> nodeNames;
-		//Topology values
+	private List<List<String>> nodeMessages = new ArrayList<>();
+	//Topology values
 	private final int radius = 40;
-	private int xval = 0;
-	private int yval = 0;
-	private boolean alternate = false;
+	private int xval;
+	private int yval;
+	private boolean alternate;
 	
 	public SimGUI()
 	{
+		//Variable initializations
+		//graphNodes = new HashMap<String, Ellipse2D>();
+		graphNodes = new ArrayList<Ellipse2D>();
+		graphConnections = new ArrayList<Line2D>();
+		nodeNames = new ArrayList<String>();
+		alternate = false;
+		xval = 0;
+		yval = 0;
+		
 		//Initial settings
 		this.setTitle("Topology View");
 		this.setLayout(new GridBagLayout());
 		this.model = new Simulation();
 		this.controller = new SimController(this, model);
 		
-		//Panel setup
-		consolePanel = new JPanel();
-		JTextArea console = new JTextArea();
-		new TextAreaConsole(console);
-		consolePanel.add(console);
-		//topologyCanvas = new NodeDisplayPanel();
-		//this.add(topologyCanvas);
-		this.add(consolePanel);
+		//Panel setup (Want to add consolePanel as a display of console)
 		
 		//Right click menu
 		this.addMouseListener(new RightClickListener());
@@ -61,14 +67,26 @@ public class SimGUI extends JFrame
 		//Menu Bar setup
 		JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
+        JMenuItem simulate = new JMenuItem("Simulate");
+        simulate.addActionListener(controller);
         JMenuItem reset = new JMenuItem("Reset");
         reset.addActionListener(controller);
         JMenuItem exit = new JMenuItem("Exit");
         exit.addActionListener(controller);
+        fileMenu.add(simulate);
         fileMenu.add(reset);
         fileMenu.add(exit);
         menuBar.add(fileMenu);
         this.setJMenuBar(menuBar);
+        
+        //Topology View Setup
+        GridBagConstraints c = new GridBagConstraints();
+		c.gridx = 1;
+		c.gridy = 0;
+		c.weightx = 1;
+		c.weighty = 1;
+		c.fill = GridBagConstraints.BOTH;
+		//this.getContentPane().add(topologyCanvas, c);
         
         //Final settings
       	this.setSize(500, 500);
@@ -86,6 +104,14 @@ public class SimGUI extends JFrame
 	}
 	
 	/*
+	 * Updates all necessary GUI fields
+	 */
+	public void update()
+	{
+		
+	}
+	
+	/*
 	 * Gracefully closes the GUI
 	 */
 	public void close()
@@ -94,10 +120,24 @@ public class SimGUI extends JFrame
 		this.dispose();
 	}
 	
+	@Override
+	public void reset() {
+		graphNodes.clear();
+		nodeNames.clear();
+		nodeMessages.clear();
+		graphConnections.clear();
+		
+		xval = 0;
+		yval = 0;
+		updateTopologyPanel();
+	}
 	
+	/*
+	 * Main of SimGUI, starts this whole monster!
+	 */
 	public static void main(String[] args)
 	{
-		SimGUI sim = new SimGUI();
+		new SimGUI();
 	}
 	
 // <<< Mutators >>>
@@ -166,19 +206,6 @@ public class SimGUI extends JFrame
 	    }
 	}
 	
-	//TextArea Console
-	public class TextAreaConsole extends OutputStream {
-	    private JTextArea textControl;
-
-	    public TextAreaConsole(JTextArea control) {
-	        textControl = control;
-	    }
-
-	    public void write( int b ) throws IOException {
-	        // append the data as characters to the JTextArea control
-	        textControl.append( String.valueOf( ( char )b ) );
-	    }  
-	}
 	
 	//Graph view class
 	/*private class NodeDisplayPanel extends JPanel {	

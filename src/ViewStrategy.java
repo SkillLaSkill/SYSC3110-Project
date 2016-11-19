@@ -1,5 +1,3 @@
-import java.awt.event.ActionListener;
-
 public interface ViewStrategy {
 	//To GUI
 	public void addNode(String name);
@@ -21,14 +19,11 @@ public interface ViewStrategy {
 	public void addMessage(String message, String node);
 	public void removeMessage(String message, String node);
 	public void updateMessage(String message, String currentNode, String newNode);
+	public void update(int steps, int sendRate);
 	public void reset();
 	
 	/**
 	 * Needs to be called at the end of a simulation step.
 	 */
 	public void simStepComplete();
-	
-	public void setActionListener(ActionListener listener);
-
-	
 }
