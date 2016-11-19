@@ -25,13 +25,8 @@ public class SimGUI extends JFrame
 	//References
 	private SimController controller;
 	private Simulation model;
+	private GUINodeList nodeList;
 	
-	//Toplogy variables
-	private HashMap<String, Ellipse2D> graphNodes;
-	//private List<Ellipse2D> graphNodes;
-	private List<Line2D> graphConnections;
-	//private List<String> nodeNames;
-	private List<List<String>> nodeMessages = new ArrayList<>();
 	//Topology values
 	private final int radius = 40;
 	private int xval;
@@ -41,8 +36,9 @@ public class SimGUI extends JFrame
 	public SimGUI()
 	{
 		//Variable initializations
-		graphNodes = new HashMap<String, Ellipse2D>();
-		graphConnections = new ArrayList<Line2D>();
+		nodeList = new GUINodeList();
+		//graphNodes = new HashMap<String, Ellipse2D>();
+		//graphConnections = new ArrayList<Line2D>();
 		alternate = false;
 		xval = 0;
 		yval = 0;
@@ -58,8 +54,8 @@ public class SimGUI extends JFrame
 		topologyCanvas = new NodeDisplayPanel();
 		JTextArea console = new JTextArea();
 		console.setText("Whaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-		this.add(topologyCanvas);
-		this.add(console);
+		//this.add(topologyCanvas);
+		//this.add(console);
 		
 		//Right click menu
 		this.addMouseListener(new RightClickListener());
@@ -87,7 +83,7 @@ public class SimGUI extends JFrame
 		c.weightx = 1;
 		c.weighty = 1;
 		c.fill = GridBagConstraints.BOTH;
-		//this.getContentPane().add(topologyCanvas, c);
+		this.add(topologyCanvas, c);
         
         //Final settings
       	this.setSize(500, 500);
@@ -144,10 +140,8 @@ public class SimGUI extends JFrame
 		{
 			double[] loc = findGoodXY();
 			Ellipse2D gNode = new Ellipse2D.Double(loc[0], loc[1], radius, radius);
-			graphNodes.put(node.getName(), gNode);
-			//nodeMessages.add(new ArrayList<String>());
+			nodeList.addGUINode(node.getName(),gNode);
 			
-			updateTopologyPanel();
 		}
 		
 		//Add all connections
@@ -155,8 +149,8 @@ public class SimGUI extends JFrame
 		{
 			for(Node con: model.getGraph().getConnections(node))
 			{
-				Ellipse2D eA = graphNodes.get(node);
-				Ellipse2D eB = graphNodes.get(con);
+				Ellipse2D eA = nodeList.getEllipse(node.getName());
+				Ellipse2D eB = nodeList.getEllipse(con.getName());
 				
 				// Calculate where the edge of the line should be so it goes from edge of Node A to edge of Node B
 				double epX = eA.getCenterX() - eB.getCenterX();
@@ -167,11 +161,10 @@ public class SimGUI extends JFrame
 				double xPrime = (radius/2) * (epX / hyp);
 				double yPrime = (radius/2) * (epY / hyp);
 				
-				graphConnections.add(new Line2D.Double(eA.getCenterX() - xPrime, eA.getCenterY() - yPrime, eB.getCenterX() + xPrime, eB.getCenterY() + yPrime));
-				//connectionColors.add(Color.BLACK);
-				updateTopologyPanel();
+				nodeList.addConnection(new Line2D.Double(eA.getCenterX() - xPrime, eA.getCenterY() - yPrime, eB.getCenterX() + xPrime, eB.getCenterY() + yPrime));
 			}
 		}
+		updateTopologyPanel();
 		
 	}
 	
@@ -188,9 +181,7 @@ public class SimGUI extends JFrame
 	 * Resets the GUI interface to a fully cleared state
 	 */
 	public void reset() {
-		graphNodes.clear();
-		nodeMessages.clear();
-		graphConnections.clear();
+		nodeList.clear();
 		
 		xval = 0;
 		yval = 0;
@@ -265,32 +256,55 @@ public class SimGUI extends JFrame
 			super.paintComponent(g);
 			Graphics2D g2d = (Graphics2D) g;
 			g2d.setColor(Color.black);
-			if(graphNodes == null || graphNodes.keySet() == null || graphNodes.entrySet() == null)
-			{
-				System.out.println("Null for some reason?");
-				return;
+			
+			for (String nodeName : nodeList) {
+				Ellipse2D el = nodeList.getEllipse(nodeName);
+				g2d.draw(el);
+				
+				double nameX = el.getCenterX();
+				double nameY = el.getCenterY();
+				
+				g2d.drawString(nodeName, (int)nameX, (int)nameY);
+				
+				StringBuilder sb = new StringBuilder();
+				/*
+				for (String message : nodeList.getMessages(nodeName)) {
+					sb.append(message + ", ");
+				}*/
+				
+				if (sb.length() != 0) {
+					sb.deleteCharAt(sb.length()-1);
+					sb.deleteCharAt(sb.length()-1);
+					g2d.drawString(sb.toString(), (int)nameX + radius/2, (int)nameY);
+				}
+				
+				// Draw connections.
+				for (Line2D conn : nodeList.getAllConnections()) {
+					g2d.draw(conn);
+				}
 			}
-			for (int i = 0; i < graphNodes.size(); i++) {
-				g2d.draw(graphNodes.get(i));
-				double nameX = graphNodes.get(i).getCenterX();
-				double nameY = graphNodes.get(i).getCenterY();
+			
+			/*for (String key : graphNodes.keySet()) {
+				g2d.draw(graphNodes.get(key));
+				double nameX = graphNodes.get(key).getCenterX();
+				double nameY = graphNodes.get(key).getCenterY();
 				ArrayList<String> nodeNames = (ArrayList<String>) graphNodes.keySet();
-				g2d.drawString(nodeNames.get(i), (int)nameX, (int)nameY);
+				g2d.drawString(nodeNames.get(key), (int)nameX, (int)nameY);
 				
 				StringBuilder sb = new StringBuilder();
 				for (int j = 0; j < nodeMessages.get(i).size(); j++) {
-					sb.append(nodeMessages.get(i).get(j) + ", ");
+					sb.append(nodeMessages.get(key).get(j) + ", ");
 				}
 				if (sb.length() != 0) {
 					sb.deleteCharAt(sb.length()-1);
 					sb.deleteCharAt(sb.length()-1);
 					g2d.drawString(sb.toString(), (int)nameX + radius/2, (int)nameY);
-				}	
+				}
 			}
+
 			for (int i = 0; i < graphConnections.size(); i++) {
-				Line2D l = graphConnections.get(i);
-				g2d.draw(l);
-			}
+				
+			}*/
 		}
 	}
 }
