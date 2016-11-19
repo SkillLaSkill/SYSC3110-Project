@@ -135,6 +135,10 @@ public class Simulation extends Thread {
 		simulating = false;
 	}
 	
+	/*
+	 * Every time something has been changed notifyView calls view and
+	 * remakes the GUI graph, thus updating the view. 
+	 */
 	public void notifyView()
 	{
 		view.update();
