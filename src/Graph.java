@@ -44,6 +44,11 @@ public class Graph {
 			System.out.println("Was given null Node! UH OH!");
 			return;
 		}
+		else if(!contains(A) && contains(B))
+		{
+			System.out.println("One or both nodes don't exist!");
+			return;
+		}
 
 		for (Node node: nodes) {	//NEW
 			if (node.equals(A)) node.addConnection(B);

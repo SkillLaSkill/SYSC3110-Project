@@ -8,13 +8,13 @@ public interface ViewStrategy {
 	public void removeConnection(String A, String B);
 	
 	//From GUI
-	public String getNewNodeName();
-	public String getNewConnectionNodeName();
-	public String getConnectionList();
-	public String getNodeNameToDelete();
-	public String getConnectionToDelete();
-	public int getSendRate();
-	public int getSimSteps();
+	//public String getNewNodeName();
+	//public String getNewConnectionNodeName();
+	//public String getConnectionList();
+	//public String getNodeNameToDelete();
+	//public String getConnectionToDelete();
+	//public int getSendRate();
+	//public int getSimSteps();
 	public void setOutput(String text);
 	
 	public String getSelectedAlgorithm();

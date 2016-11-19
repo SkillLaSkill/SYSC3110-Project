@@ -106,7 +106,7 @@ public class Node {
 	}
 	
 	/**
-	 * Checks if the nodes have the name names
+	 * Checks if the nodes have the same names
 	 * 
 	 * @param o (Object)
 	 * 
@@ -114,11 +114,10 @@ public class Node {
 	 */
 	@Override
 	public boolean equals(Object o) {
-		// Parameter is empty or Parameter isn't a node
-		if (o == null || !(o instanceof Node)) return false;
-		// Makes sure that object is a node, then check that their names are the same
-		Node n = (Node)o;
-		return this.name.equals(n.name);
+		if(o instanceof Node)
+			return this.getName() == ((Node) o ).getName();
+		return false;
+		
 	}
 	
 	@Override
