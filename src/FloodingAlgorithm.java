@@ -10,6 +10,7 @@ public class FloodingAlgorithm extends RoutingAlgorithm {
 		for (Node n : getGraph().getNodes()) {
 			for (Packet p : n.getPackets()) {
 				if (!p.isTransfered()) {
+					p.setTransfered(true);
 					
 					// Packet has reached it's destination, so remove it.
 					if (n.equals(p.getDestination())) {
@@ -22,7 +23,7 @@ public class FloodingAlgorithm extends RoutingAlgorithm {
 						// Need to make the node to send to is not the node the packet came from.
 						
 						conn.addPacket(p);
-						p.setTransfered(true);
+						
 					}
 				}
 			}
