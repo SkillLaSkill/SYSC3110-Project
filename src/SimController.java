@@ -95,9 +95,12 @@ public class SimController implements ActionListener {
 	 */
 	private void removeConnection()
 	{
-		String[] s = view.createPrompt("Enter two node connection").split(" ");
-		model.getGraph().removeConnection(s[0], s[1]);
+		String A = view.createPrompt("Enter first node name");
+		String B = view.createPrompt("Enter second node name");
+		model.getGraph().removeConnection(model.getGraph().getNode(A), model.getGraph().getNode(B));
 		model.notifyView();
+		
+		
 	}
 	
 	/**
@@ -150,7 +153,7 @@ public class SimController implements ActionListener {
 	private void reset()
 	{
 		model.reset();
-		view.reset();
+		model.notifyView();
 	}
 	
 	private void exit()
@@ -171,6 +174,8 @@ public class SimController implements ActionListener {
 		else if(actionCommand.equals("Delete Connection"))	removeConnection();
 		// Calls private method to deal with reset on both model and view
 		else if(actionCommand.equals("Reset"))	reset();
+		//Hard refresh
+		else if(actionCommand.equals("Refresh"))	view.update();
 		//Exits the program
 		else if(actionCommand.equals("Exit"))	exit();
 		// Calls private method to start the simulation
