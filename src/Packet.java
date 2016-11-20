@@ -2,6 +2,7 @@
 import java.util.Random;
 
 import java.util.List;
+import java.util.ArrayList;
 /**
  * This class creates and manipulates Transfers, which store the current node position, the destination and the message
  * 
@@ -9,6 +10,7 @@ import java.util.List;
  */
 public class Packet {
 	
+	private Node previousPostion;
 	private Node destination;
 	private String message;
 	private Random rand = new Random();
@@ -25,8 +27,13 @@ public class Packet {
 	public Packet(Graph graph)
 	{
 		List<Node> nodes = graph.getNodes();
-
-		destination = nodes.get(rand.nextInt((int)	nodes.size()));
+		List<Node> nodesCopy = new ArrayList<Node>();
+		for(Node n : nodes) {
+			nodesCopy.add(n);
+		}
+		destination = nodesCopy.get(rand.nextInt((int)	nodesCopy.size()));
+		nodesCopy.remove(destination);
+		nodesCopy.get(rand.nextInt((int)   nodesCopy.size())).addPacket(this);
 		id = count++;
 		message = "Hi " + id;
 	}
