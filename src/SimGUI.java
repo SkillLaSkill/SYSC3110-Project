@@ -181,7 +181,7 @@ public class SimGUI extends JFrame implements ViewStrategy
 	 */
 	public void reset() {
 		nodeList.clear();
-		
+		alternate = false;
 		xval = 0;
 		yval = 0;
 	}

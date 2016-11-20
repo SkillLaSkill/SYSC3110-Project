@@ -36,7 +36,7 @@ public class SimController implements ActionListener {
 	private void createNode()
 	{
 		String name = view.createPrompt("Enter node name");
-		if (name.isEmpty() || name.equals(null)) return;
+		if (name == null || name.isEmpty()) return;
 		else if(model.getGraph().contains(name))
 		{
 			System.out.println("Node was not added!");
@@ -56,7 +56,7 @@ public class SimController implements ActionListener {
 	private void removeNode()
 	{
 		String name = view.createPrompt("Enter node name");
-		if (name.isEmpty() || name.equals(null)) return;
+		if (name == null || name.isEmpty());
 		model.getGraph().removeNode(name);
 		model.notifyView();
 	}
@@ -71,7 +71,7 @@ public class SimController implements ActionListener {
 	{
 		String A = view.createPrompt("Enter first node name");
 		String B = view.createPrompt("Enter second node name");
-		if (A.isEmpty() || B.isEmpty()) return;
+		if (A == null || B == null || A.isEmpty() || B.isEmpty()) return;
 		model.getGraph().addConnection(model.getGraph().getNode(A), model.getGraph().getNode(B));
 		model.notifyView();
 	}
@@ -105,7 +105,7 @@ public class SimController implements ActionListener {
 	{
 		String A = view.createPrompt("Enter first node name");
 		String B = view.createPrompt("Enter second node name");
-		if (A.isEmpty() || B.isEmpty()) return;
+		if (A == null || B == null || A.isEmpty() || B.isEmpty()) return;
 		model.getGraph().removeConnection(model.getGraph().getNode(A), model.getGraph().getNode(B));
 		model.notifyView();
 		
