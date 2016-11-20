@@ -16,6 +16,20 @@ public class RandomAlgorithm extends RoutingAlgorithm {
 		if (!isSimulating()) {
 			return;
 		}
+		
+		for (Node n : getGraph().getNodes()) {
+			for (Packet p : n.getPackets()) {
+				if (!p.isTransfered()) {
+					int nextNodeIndex = rand.nextInt((n.getConnections().size()));
+					n.removePacket(p);
+					n.getConnections().get(nextNodeIndex).addPacket(p);
+					p.setTransfered(true);
+				}
+			}
+		}
+		
+		resetTransfered();
+		/*
 		for(Packet packet : packetList)
 		{
 			//System.out.println();
@@ -41,6 +55,8 @@ public class RandomAlgorithm extends RoutingAlgorithm {
 				//	completedTransferCount++;
 				//}
 		}
+		
+		*/
 	}
 
 }
