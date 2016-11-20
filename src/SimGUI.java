@@ -9,10 +9,16 @@ import java.awt.geom.*;
 
 import javax.swing.*;
 
+/**
+ * Creates the GUI in which the simulation will be displayed. This GUI will show the nodes
+ * as well as lines connecting them together.
+ * 
+ * @author Team GetterDone
+ *
+ */
 public class SimGUI extends JFrame implements ViewStrategy
 {
 	private static final long serialVersionUID = 1L;
-	// <<< Class Variables >>>
 	//Basic Window Construction
 	private NodeDisplayPanel topologyCanvas;
 	private JPanel consolePanel;
