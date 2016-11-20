@@ -19,7 +19,8 @@ public class Packet {
 	
 	/**
 	 * Creates new transfer based on the given graph.
-	 * @param graph (Graph)
+	 * 
+	 * @param graph (Graph) - Graph that packet will use
 	 */
 	public Packet(Graph graph)
 	{
@@ -30,6 +31,11 @@ public class Packet {
 		message = "Hi " + id;
 	}
 	
+	/**
+	 * Creates a copy of another Packet
+	 * 
+	 * @param t (Packet) - Packet you want copied
+	 */
 	public Packet(Packet t) {
 		this.destination = t.destination;
 		this.message = t.message;
@@ -38,9 +44,9 @@ public class Packet {
 	}
 
 	/**
-	 * Get Id of a transfer.
+	 * Gets the Id of the packet.
 	 * 
-	 * @return id (Integer)
+	 * @return id (Integer) - Packet ID
 	 */
 	public int getId(){
 		return id;
@@ -55,10 +61,11 @@ public class Packet {
 	}
 	
 
+
 	/**
 	 * Return the destination node of the transfer.
 	 * 
-	 * @return destination (Node)
+	 * @return destination (Node) - Packet destination
 	 */
 	public Node getDestination()
 	{
@@ -68,7 +75,7 @@ public class Packet {
 	/**
 	 * Return the message the transfer is carrying.
 	 * 
-	 * @return message (String)
+	 * @return String - Message that you want sent
 	 */
 	public String getMessage()
 	{
@@ -78,6 +85,7 @@ public class Packet {
 	/**
 	 * Sets the message of the transfer.
 	 * 
+	 * @param message (String) - Message you want sent
 	 */
 	public void setMesssage(String message)
 	{
@@ -88,7 +96,7 @@ public class Packet {
 	 * Returns the number of hops(steps) the transfer has
 	 * completed up to this point.
 	 *
-	 * @return hops (Integer)
+	 * @return hops (Integer) - Number of hops taken
 	 */
 	public int getHops()
 	{
@@ -97,17 +105,29 @@ public class Packet {
 	
 	/**
 	 * Resets the Id Counter to 0
-	 * 
 	 */
 	public void resetId()
 	{
 		count = 0;
 	}
+	
+	/**
+	 * Checks if the given packet is the exact same as this packet
+	 * 
+	 * @param o (Object) - Object you want compared to this packet
+	 * @return boolean - True = same packet; False = different packet
+	 */
 	@Override
 	public boolean equals(Object o) {
 		Packet f = (Packet) o;
 		return this.id == f.id;
 	}
+	
+	/**
+	 * Provides the hashcode for the object
+	 * 
+	 * @return int - The Hashcode
+	 */
 	@Override 
 	public int hashCode() {
 		return id;

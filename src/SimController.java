@@ -9,7 +9,6 @@ import javax.swing.JFrame;
  * Creates a instance of a simulation controller
  * 
  * @author Team GetterDone
- *
  */
 public class SimController implements ActionListener {
 	
@@ -19,8 +18,8 @@ public class SimController implements ActionListener {
 	/**
 	 * Simulation controller constructor (initializes view and model)
 	 * 
-	 * @param v (ViewStrategy)
-	 * @param m (Simulation)
+	 * @param v (ViewStrategy) - ViewStrategy object wanted used
+	 * @param m (Simulation) - Instance of Simuation that will run
 	 */
 	public SimController(SimGUI v, Simulation m)
 	{
@@ -29,30 +28,33 @@ public class SimController implements ActionListener {
 	}
 	
 	/**
-	 * Creates a node on the graph
-	 * 
-	 * @param name (String)
+	 * Creates nodes on the graph from a string the user gives. This string contains multiple
+	 * node names separated by a space
 	 */
 	private void createNodes()
 	{
 		String name = view.createPrompt("Enter node name");
+
 		if (name == null || name.isEmpty()) return;
 		else if(model.getGraph().contains(name))
 		{
 			System.out.println("Node was not added!");
 			return;
 		}
-		model.getGraph().addNode(new Node(name));
-		System.out.println("Node " + name + " has been added!");
-		model.notifyView();
 
+		// Splits the node names into separate strings then creates nodes from them
+		String allNames[] = name.split(" ");
+		for (String s : allNames) {
+			model.getGraph().addNode(new Node(s));
+			System.out.println("Node " + s + " has been added!");
+			model.notifyView();
+		}
 	}
 	
 	
 	/**
-	 * Removes a node from the graph
-	 * 
-	 * @param name (String)
+	 * Removes a node from the graph from a string the user gives. This string is the
+	 * name of the node that will be removed from the simulation
 	 */
 	private void removeNode()
 	{
@@ -63,10 +65,7 @@ public class SimController implements ActionListener {
 	}
 	
 	/**
-	 * Creates a connection between two node on the graph
-	 * 
-	 * @param A (Node)
-	 * @param B (Node)
+	 * Creates a connection between two node on the graph from two string the user gives.
 	 */
 	private void makeConnection()
 	{
@@ -79,10 +78,7 @@ public class SimController implements ActionListener {
 	}
 	
 	/**
-	 * Create connections from the node to all the nodes in the list
-	 * 
-	 * @param node	(Node)
-	 * @param conList (List<Node>)
+	 * Create connections from the node to all the nodes in the list from two string the user gives.
 	 */
 	private void makeConnections() 
 	{
@@ -100,7 +96,7 @@ public class SimController implements ActionListener {
 	
 	
 	/**
-	 * Removes a connection between 2 nodes
+	 * Removes a connection between 2 nodes from two string the user gives.
 	 */
 	private void removeConnection()
 	{
@@ -114,6 +110,12 @@ public class SimController implements ActionListener {
 		
 	}
 	
+	/**
+	 * Starts the simulation
+	 * 
+	 * @param s (String) - Number of steps that will be taken
+	 * @param r (String) - The step rate the simulation will use
+	 */
 	private void startSim(String s, String r)
 	{
 		if(	!(this.isNumeric(s) && this.isNumeric(r)) )	return;
@@ -129,6 +131,12 @@ public class SimController implements ActionListener {
 			model.simulateStep(sendRate);
 	}
 	
+	/**
+	 * Checks if the given string can become an integer.
+	 * 
+	 * @param str (String) - String needed to be checks
+	 * @return boolean - True = is an integer; False = isn't an integer
+	 */
 	private boolean isNumeric(String str)  
 	{  
 	  try  
@@ -143,50 +151,6 @@ public class SimController implements ActionListener {
 	}
 	
 	/**
-	 * Starts the simulation
-	 * 
-	 * @param steps (int)
-	 * @param sendRate (int)
-	 */
-	/*private void startSim(String s, String r)
-	{
-		int steps = Integer.parseInt(s);
-		int sendRate = Integer.parseInt(r);
-		while(steps-- != 0 && sendRate != 0)
-		{
-			//get values for steps and sendrate from user
-			if(model != null && model.getGraph().size() > 0) {
-				List<Transfer> before = model.getTransfers();
-				model.simulateStep(sendRate);
-				view.simStepComplete();
-				List<Transfer> after = model.getTransfers();
-				
-				for (Transfer t2 : before) {
-					// If the transfer no longer exists in the model
-					if (!after.contains(t2)) {
-						view.removeMessage(t2.getMessage()  + ": " + t2.getDestination().getName(), t2.getPosition().getName());
-					}
-				}
-				for (Transfer t : after) {
-					// If the transfer didn't exist before the simulation step
-					if (!before.contains(t)) {
-						view.addMessage(t.getMessage() + ": " + t.getDestination().getName(), t.getPosition().getName());
-					}
-					else {
-						int idx = before.indexOf(t);
-						String beforePos = before.get(idx).getPosition().getName();
-						String afterPos = t.getPosition().getName();
-						
-						view.updateMessage(t.getMessage() + ": " + t.getDestination().getName(), beforePos, afterPos);
-					}
-				}
-				view.setOutput(Integer.toString(model.getTotalHops()));
-			}
-		}
-		view.setOutput("Total packets transmitted: " + model.getTotalHops());
-	}*/
-	
-	/**
 	 * Resets the simulation environment
 	 */
 	private void reset()
@@ -195,11 +159,17 @@ public class SimController implements ActionListener {
 		model.notifyView();
 	}
 	
+	/**
+	 * Closes the simulation
+	 */
 	private void exit()
 	{
 		view.close();
 	}
 	
+	/**
+	 * Checks that action the user wants to take, then acts accordingly
+	 */
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		String actionCommand = arg0.getActionCommand();
@@ -224,5 +194,4 @@ public class SimController implements ActionListener {
 		//else if(actionCommand.equals("Simulate Step"))	startSim(1, view.createPrompt("Enter send rate (ms)"));		
 
 	}
-
 }
