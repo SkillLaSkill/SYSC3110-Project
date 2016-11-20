@@ -119,23 +119,6 @@ public class Graph {
 		return nodes; 
 	}
 	
-	/**
-	 * Returns all the connections of a node
-	 * 
-	 * @param n (Node)
-	 * 
-	 * @return List<Node> 
-	 */
-	public List<Node> getConnections(Node n) {
-		List<Node> lit = new ArrayList<Node>();
-		List<String> af = n.getConnections();
-		for(Node nd : nodes){
-			for(String s : af) {
-				if (nd.getName().equals(s)) lit.add(nd);
-			}
-		}
-		return lit;
-	}
 	
 	/**
 	 * Removes a given node 
@@ -158,29 +141,6 @@ public class Graph {
 		
 	}
 
-	/**
-	 * Removes the given node connection from the given node
-	 * @param A
-	 * @param B
-	 */
-	public void removeConnection(Node A, Node B) {
-		if(A == null || B == null)	return;
-		else if(	!(this.contains(A) || this.contains(B))	) return;
-		A.removeConnection(B.getName());
-		B.removeConnection(A.getName());
-	}
-	
-	/**
-	 * Removes connection given String names
-	 */
-	public void removeConnection(String A, String B) {
-		if(A == null || B == null)	return;
-		else if(	!(this.contains(A) || this.contains(B))	)	return;
-		Node a = this.getNode(A);
-		Node b = this.getNode(B);
-		this.removeConnection(a, b);
-		
-	}
 	
 	/*
 	 * Check node list for given name of node
@@ -228,7 +188,7 @@ public class Graph {
 		
 		if(contains(A) && contains(B))
 		{
-			return A.isConnected(B.getName());
+			return A.isConnected(B);
 		}
 		System.out.println("Graph does not contain one or both of those nodes!");
 		return false;
