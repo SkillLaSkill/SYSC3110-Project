@@ -129,4 +129,14 @@ public class Graph {
 		System.out.println("Graph does not contain one or both of those nodes!");
 		return false;
 	}
+	
+	public boolean packetsExist() {
+		for(Node n : nodes) {
+			if(n.getPackets().size() > 1) {
+				return true;
+			}
+		}
+		return false;
+
+	}
 }
