@@ -14,6 +14,7 @@ public class Packet {
 	private int hops = 0;
 	private static int count = 0;
 	private final int id;
+	private boolean transfered = false;
 	
 	/**
 	 * Creates new transfer based on the given graph.
@@ -109,5 +110,13 @@ public class Packet {
 	@Override 
 	public int hashCode() {
 		return id;
+	}
+
+	public boolean isTransfered() {
+		return transfered;
+	}
+
+	public void setTransfered(boolean transfered) {
+		this.transfered = transfered;
 	}
 }

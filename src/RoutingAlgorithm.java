@@ -21,4 +21,15 @@ public abstract class RoutingAlgorithm {
 	public void setSimulating(boolean simulating) {
 		this.simulating = simulating;
 	}
+	
+	/**
+	 * Sets the transfered boolean value in all packets to false to indicate they are ready to transfer again.
+	 */
+	public void resetTransfered() {
+		for (Node n : getGraph().getNodes()) {
+			for (Packet p : n.getPackets()) {
+				p.setTransfered(false);
+			}
+		}
+	}
 }
