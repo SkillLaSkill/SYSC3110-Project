@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class Node {
 	private String name;
-	private List<String> connections = new ArrayList<String>();
+	private List<Node> connections = new ArrayList<Node>();
 	private List<Packet> packets = new ArrayList<Packet>();
 	
 	/**
@@ -54,39 +54,43 @@ public class Node {
 
 	//	NEW
 	public void addConnection(String n) {
-		if(!connections.contains(n) || !(n.equals(null)))	
-		{
-			connections.add(n);
-			return;
-		}
-		System.out.println("Couldn't add connection!");
+		addConnection(new Node(n));		
 	}
+	
 	
 	public void addConnection(Node n)
 	{
-		this.addConnection(n.getName());
+		if (connections.contains(n)) {
+			System.out.println("Couldn't add connection!");
+			return;
+		}
+		connections.add(n);
 	}
 
 	
 	//	NEW
 	public void removeConnection(String n) {
-		if(connections.contains(n) || !(n.equals(null)))
-		{
-			connections.remove(n);
+		removeConnection(new Node(n));
+		
+	}
+	
+	public void removeConnection(Node n) {
+		if (!connections.contains(n)) {
+			System.out.println("Couldn't remove connection!");
 			return;
 		}
-		System.out.println("Couldn't remove connection!");
+		connections.remove(n);
 	}
 	
 	//	NEW
-	public List<String> getConnections() {
+	public List<Node> getConnections() {
 		return connections;
 	}
 	
 	//	NEW
-	public boolean isConnected(String n) {
-		if(n.equals(null))	System.out.println("Null string!");
-		for (String node : connections)
+	public boolean isConnected(Node n) {
+		if(n == null)	System.out.println("Null string!");
+		for (Node node : connections)
 			if (node.equals(n)) return true;
 		return false;
 	}
