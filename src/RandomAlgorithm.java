@@ -19,6 +19,7 @@ public class RandomAlgorithm extends RoutingAlgorithm {
 		for (Node n : getGraph().getNodes()) {
 			for (Packet p : n.getPackets()) {
 				if (!p.isTransfered()) {
+					p.setTransfered(true);
 					
 					// Packet has reached it's destination, so remove it.
 					if (n.equals(p.getDestination())) {
@@ -28,7 +29,7 @@ public class RandomAlgorithm extends RoutingAlgorithm {
 					int nextNodeIndex = rand.nextInt((n.getConnections().size()));
 					n.removePacket(p);
 					n.getConnections().get(nextNodeIndex).addPacket(p);
-					p.setTransfered(true);
+					
 				}
 			}
 		}

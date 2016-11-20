@@ -1,5 +1,5 @@
 
-public class FloodingAlgorithm extends RoutingAlgorithm {
+public class ShortestPathAlgorithm extends RoutingAlgorithm {
 
 	@Override
 	public void simulateStep() {
@@ -11,26 +11,26 @@ public class FloodingAlgorithm extends RoutingAlgorithm {
 			for (Packet p : n.getPackets()) {
 				if (!p.isTransfered()) {
 					p.setTransfered(true);
-					
 					// Packet has reached it's destination, so remove it.
 					if (n.equals(p.getDestination())) {
 						n.removePacket(p);
-						// Need to remove all copies that exist of this packet elsewhere.
 					}
 					
 					n.removePacket(p);
-					for (Node conn : n.getConnections()) {
-						// Need to make the node to send to is not the node the packet came from.
-						
-						conn.addPacket(p);
-						
+					Node next = findNextNodeBFS(n, p.getDestination());
+					if (next != null) {
+						next.addPacket(p);
 					}
+					
 				}
 			}
 		}
 		
 		resetTransfered();
-
+	}
+	
+	private Node findNextNodeBFS(Node currentPosition, Node destination) {
+		return null;
 	}
 
 }
