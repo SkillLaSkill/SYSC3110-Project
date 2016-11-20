@@ -15,7 +15,6 @@ public class Simulation extends Thread {
 	private Graph graph;
 	private List<ViewStrategy> views;
 	private Random rand = new Random();
-	private ArrayList<Packet> packetList;
 	private boolean simulating = false;
 	private int stepCounter = 0;
 	private int totalHops = 0;
@@ -34,7 +33,6 @@ public class Simulation extends Thread {
 	public Simulation(Graph graph) {
 		this.graph = graph;
 		rand = new Random();
-		packetList = new ArrayList<Packet>();
 	}
 	
 	/**
@@ -81,20 +79,10 @@ public class Simulation extends Thread {
 	public int getTotalHops() {
 		return totalHops;
 	}
-	
-	public List<Packet> getTransfers() {
-		List<Packet> tList = new ArrayList<>();
-		for (Packet t : packetList) {
-			tList.add(new Packet(t));
-		}
-		return tList;
-	}
-	
 	/**
 	 * Resets the simulation
 	 */
 	public void reset(){
-		packetList = new ArrayList<Packet>();
 		simulating = false;
 		stepCounter = 0;
 		totalHops = 0;
@@ -112,16 +100,6 @@ public class Simulation extends Thread {
 	public void simulateStep(int sendRate) {
 		simulating = true;
 		int i = 0;
-		System.out.println("Step: " + stepCounter);
-		// Continue simulating until another object tells us to stop.
-		// Creates a new transfer every 3rd step, or at beginning
-		
-		for (Node n : graph.getNodes()) {
-			System.out.println(n.getName());
-			
-			for (Node x : n.getConnections())
-				System.out.println("-" + x.getName());
-		}
 		
 		if (simulating == true) {
 
