@@ -6,16 +6,10 @@ import java.awt.GridBagLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.*;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map.Entry;
 
 import javax.swing.*;
 
-public class SimGUI extends JFrame
+public class SimGUI extends JFrame implements ViewStrategy
 {
 // <<< Class Variables >>>
 	//Basic Window Construction

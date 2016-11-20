@@ -37,6 +37,11 @@ public class SimController implements ActionListener {
 	{
 		String name = view.createPrompt("Enter node name");
 		if (name.isEmpty() || name.equals(null)) return;
+		else if(model.getGraph().contains(name))
+		{
+			System.out.println("Node was not added!");
+			return;
+		}
 		model.getGraph().addNode(new Node(name));
 		System.out.println("Node " + name + " has been added!");
 		model.notifyView();

@@ -10,7 +10,7 @@ public class Graph {
 	 * @param n (Node)
 	 */
 	public void addNode(Node n) {
-		if(!(n == null) || !nodes.contains(n))	
+		if(!(n == null) && !nodes.contains(n))	
 		{
 			nodes.add(n);
 			return;
@@ -23,7 +23,13 @@ public class Graph {
 	 */
 	public void addNode(String s)
 	{
-		this.addNode(new Node(s));
+		if(!this.contains(s))
+		{
+			this.addNode(new Node(s));
+			return;
+		}
+		
+		System.out.println("Couldn't add node!");
 	}
 	
 	/**
@@ -34,16 +40,17 @@ public class Graph {
 	 */
 	public void addConnection(Node A, Node B) {
 		
-		if (A.equals(B)) 
-		{
-			System.out.println("Can't add duplicate connections!");
-			return;
-		}
-		else if(A == null || B == null)
+		if(A == null || B == null)
 		{
 			System.out.println("Was given null Node! UH OH!");
 			return;
 		}
+		else if (A.equals(B)) 
+		{
+			System.out.println("Can't add duplicate connections!");
+			return;
+		}
+		
 		else if(!contains(A) && contains(B))
 		{
 			System.out.println("One or both nodes don't exist!");
@@ -180,6 +187,8 @@ public class Graph {
 	 * @param B
 	 */
 	public void removeConnection(Node A, Node B) {
+		if(A == null || B == null)	return;
+		else if(	!(this.contains(A) || this.contains(B))	) return;
 		A.removeConnection(B.getName());
 		B.removeConnection(A.getName());
 	}
@@ -188,6 +197,8 @@ public class Graph {
 	 * Removes connection given String names
 	 */
 	public void removeConnection(String A, String B) {
+		if(A == null || B == null)	return;
+		else if(	!(this.contains(A) || this.contains(B))	)	return;
 		Node a = this.getNode(A);
 		Node b = this.getNode(B);
 		this.removeConnection(a, b);
