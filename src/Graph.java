@@ -7,10 +7,9 @@ public class Graph {
 	/**
 	 * Adds a node to array of nodes
 	 * 
-	 * @param n (Node)
+	 * @param n (Node) - Node you want connected
 	 */
 	public void addNode(Node n) {
-		System.out.println(nodes.size());
 		if(!(n == null) && !(nodes.contains(n)) || nodes.size() == 0)	
 		{
 			nodes.add(n);
@@ -18,8 +17,10 @@ public class Graph {
 		else System.out.println("Couldn't add node!");
 	}
 	
-	/*
+	/**
 	 * Adds new node by string/name
+	 * 
+	 * @param s (String) - Name of node you want connected
 	 */
 	public void addNode(String s)
 	{
@@ -31,10 +32,10 @@ public class Graph {
 	}
 	
 	/**
-	 * Creates connections for the given node to the other given node
+	 * Creates connections from one node to the other node
 	 * 
-	 * @param A (Node)
-	 * @param B (Node)
+	 * @param A (Node) - One side of connection
+	 * @param B (Node) - Other side of connection
 	 */
 	public void addConnection(Node A, Node B) {
 		
@@ -64,8 +65,8 @@ public class Graph {
 	/**
 	 * Adds multiple nodeInformation to the given Node 
 	 * 
-	 * @param A (Node)
-	 * @param nodesToAdd (List<Node>)
+	 * @param A (Node) - Node you want connections added
+	 * @param nodesToAdd (List<Node>) - List of all nodes you want to connect to A
 	 *
 	 */
 	public void addNodeConnections(Node A, List<Node> nodesToAdd) {
@@ -74,6 +75,13 @@ public class Graph {
 		}
 	}
 	
+	/**
+	 * Adds multiple connections to a node given a string containing all of their names which will
+	 * be parsed and added to the connection list
+	 * 
+	 * @param A (Node) - Node you want connections added
+	 * @param nodesToAdd (String) - String containing connection node names
+	 */
 	public void addNodeConnections(Node A, String nodesToAdd)
 	{
 		String[] nodes = nodesToAdd.split(" ");
@@ -96,9 +104,8 @@ public class Graph {
 	/**
 	 * Gets a node given its name
 	 * 
-	 * @param name (String)
-	 * 
-	 * @return Node
+	 * @param name (String) - Name of the node
+	 * @return Node - Node with the given name
 	 */
 	public Node getNode(String name) {
 		for (Node n : nodes) {
@@ -109,9 +116,9 @@ public class Graph {
 	}
 	
 	/**
-	 * Gets a list of all the nodes
+	 * Gets a list of all the nodes in the graph
 	 * 
-	 * @return List<Node>
+	 * @return List<Node> - All nodes in the graph
 	 */
 	public List<Node> getNodes() {
 		return nodes; 
@@ -120,9 +127,8 @@ public class Graph {
 	/**
 	 * Returns all the connections of a node
 	 * 
-	 * @param n (Node)
-	 * 
-	 * @return List<Node> 
+	 * @param n (Node) - Node you want connections of
+	 * @return List<Node> - List of connections
 	 */
 	public List<Node> getConnections(Node n) {
 		List<Node> lit = new ArrayList<Node>();
@@ -136,15 +142,20 @@ public class Graph {
 	}
 	
 	/**
-	 * Removes a given node 
+	 * Removes a given node give the nodes name 
 	 * 
-	 * @param n (Node)
+	 * @param n (Node) - Name of the node
 	 */
 	public void removeNode(String name) {
 		if(contains(name))	removeNode(getNode(name));
 		else	System.out.println("Node was not removed!");
 	}
 	
+	/**
+	 * Removes a given node
+	 * 
+	 * @param n - Node you want removed
+	 */
 	public void removeNode(Node n)
 	{
 		if(contains(n))
@@ -158,8 +169,9 @@ public class Graph {
 
 	/**
 	 * Removes the given node connection from the given node
-	 * @param A
-	 * @param B
+	 * 
+	 * @param A (Node) - One side of the connection
+	 * @param B (Node) - Other side of the connection
 	 */
 	public void removeConnection(Node A, Node B) {
 		if(A == null || B == null)	return;
@@ -170,6 +182,9 @@ public class Graph {
 	
 	/**
 	 * Removes connection given String names
+	 * 
+	 * @param B (String) - Name of node on one side of the connection
+	 * @param A (String) - Name of node on the other side of the connection
 	 */
 	public void removeConnection(String A, String B) {
 		if(A == null || B == null)	return;
@@ -180,8 +195,11 @@ public class Graph {
 		
 	}
 	
-	/*
+	/**
 	 * Check node list for given name of node
+	 * 
+	 * @param n (String) - Name of node 
+	 * @return boolean - True = graph contains this node; False = graph doesn't contain this node
 	 */
 	public boolean contains(String n) {
 		for(Node node: nodes) {
@@ -193,27 +211,35 @@ public class Graph {
 	/**
 	 * Checks if the node list contains the given node
 	 * 
-	 * @param n (Node)
-	 * 
-	 * @return boolean
+	 * @param n (Node) - Node you want checked
+	 * @return boolean - True = graph contains this node; False = graph doesn't contain this node
 	 */
 	public boolean contains(Node n) {
 		return this.contains(n.getName());
 	}
 	
 	/** 
-	 * Removes all of the nodes
+	 * Removes all of the nodes from the graph
 	 */
 	public void clear()	{
 		nodes.clear();
 	}
 	
+	/**
+	 * Gets the size of the graph
+	 * 
+	 * @return int - Number of nodes
+	 */
 	public int size() {
 		return nodes.size();
 	}
 	
-	/*
-	 * Checks if two nodes are connected
+	/**
+	 * Checks if two nodes are connected given the names of the nodes
+	 * 
+	 * @param First (String) - Name of one node
+	 * @param Second (String) - Name of the other node
+	 * @return boolean - True = they are connected; False = they are not connected
 	 */
 	public boolean isConnected(String First, String Second) {
 		Node A =  getNode(First);
@@ -221,7 +247,13 @@ public class Graph {
 		return isConnected(A, B);
 	}
 
-	
+	/**
+	 * Checks if two nodes are connected given the nodes
+	 * 
+	 * @param First (String) - One side of the connection
+	 * @param Second (String) - Other side of the connection
+	 * @return boolean - True = they are connected; False = they are not connected
+	 */
 	public boolean isConnected(Node A, Node B) {
 		
 		if(contains(A) && contains(B))

@@ -16,7 +16,7 @@ public class Node {
 	/**
 	 *  Creates a node with a name but no connections or message
 	 *  
-	 * @param n (String)
+	 * @param n (String) - The name of the node
 	 */
 	public Node(String n){
 		name = n;
@@ -26,7 +26,7 @@ public class Node {
 	/**
 	 * Return the nodes name 
 	 * 
-	 * @return String
+	 * @return String - Name of the node
 	 */
 	public String getName() {
 		return name;
@@ -35,7 +35,7 @@ public class Node {
 	/**
 	 * Returns the message that the node holds
 	 * 
-	 * @return String
+	 * @return String - Message of the node
 	 */
 	public String getMessage() {
 		return message;
@@ -44,7 +44,7 @@ public class Node {
 	/**
 	 * Sets the nodes name 
 	 * 
-	 * @param String
+	 * @param String - Desired name
 	 */
 	public void setName(String n) {
 		name = n;
@@ -53,13 +53,17 @@ public class Node {
 	/**
 	 * Sets the message to the given incoming message
 	 * 
-	 * @param m (String)
+	 * @param m (String) - Desired message
 	 */
 	public void setMessage(String m){
 		message = m;
 	}
 	
-	//	NEW
+	/**
+	 * Adds a connection to the node using a string
+	 * 
+	 * @param n (String) - Name of the connected node
+	 */
 	public void addConnection(String n) {
 		if(!connections.contains(n) && !(n.equals(null)))	
 		{
@@ -69,13 +73,22 @@ public class Node {
 		System.out.println("Couldn't add connection!");
 	}
 	
+	/**
+	 * Adds a connection to the node using the node you want it connected to
+	 * 
+	 * @param n (Node) - Node you want connected
+	 */
 	public void addConnection(Node n)
 	{
 		this.addConnection(n.getName());
 	}
 
 	
-	//	NEW
+	/**
+	 * Removes a connections from the node
+	 * 
+	 * @param n (String) - Node name that is wanted to be removed
+	 */
 	public void removeConnection(String n) {
 		if(connections.contains(n) && !(n.equals(null)))
 		{
@@ -85,12 +98,21 @@ public class Node {
 		System.out.println("Couldn't remove connection!");
 	}
 	
-	//	NEW
+	/**
+	 * Gets a list of all names of the nodes connected
+	 * 
+	 * @return List<String> - Connections list
+	 */
 	public List<String> getConnections() {
 		return connections;
 	}
 	
-	//	NEW
+	/**
+	 * Checks if the node is connected to another node given its name
+	 * 
+	 * @param n
+	 * @return n (String) - Node name you want to check is connected
+	 */
 	public boolean isConnected(String n) {
 		if(n.equals(null))	System.out.println("Null string!");
 		for (String node : connections)
@@ -107,11 +129,10 @@ public class Node {
 	}
 	
 	/**
-	 * Checks if the nodes have the same names
+	 * Checks if the given node is the exact same as this node
 	 * 
-	 * @param o (Object)
-	 * 
-	 * @return boolean
+	 * @param o (Object) - Object you want compared to this node
+	 * @return boolean - True = same node; False = different node
 	 */
 	@Override
 	public boolean equals(Object o) {
@@ -124,6 +145,11 @@ public class Node {
 		
 	}
 	
+	/**
+	 * Provides the hashcode for the object
+	 * 
+	 * @return int - The Hashcode
+	 */
 	@Override
 	public int hashCode() {
 		return name.hashCode();

@@ -4,7 +4,7 @@ import java.util.Random;
 
 /**
  * Creates an Simulation thread that will run the different types of algorithms
- * (Only random transfer algorithm right now)
+ * (Random, Flood, Breadth-first, )
  * 
  * @author Team GetterDone
  *
@@ -28,7 +28,7 @@ public class Simulation extends Thread {
 	/**
 	 * Creates a new simulator
 	 * 
-	 * @param graph (Graph)
+	 * @param graph (Graph) - Graph the contains all the nodes and information that simulation uses
 	 */
 	public Simulation(Graph graph) {
 		this.graph = graph;
@@ -39,7 +39,7 @@ public class Simulation extends Thread {
 	/**
 	 * Checks if the simulator is running
 	 * 
-	 * @return boolean
+	 * @return boolean - True = running; False = stopped
 	 */
 	public boolean isSimulating() {
 		return simulating;
@@ -48,7 +48,7 @@ public class Simulation extends Thread {
 	/**
 	 * Sets the simulator to running
 	 * 
-	 * @param simulating (boolean)
+	 * @param simulating (boolean) - Sets the simulation to running or stopped
 	 */
 	public void setSimulating(boolean simulating) {
 		this.simulating = simulating;
@@ -57,7 +57,7 @@ public class Simulation extends Thread {
 	/**
 	 * Returns the graph information
 	 * 
-	 * @return Graph
+	 * @return Graph - Graph that the simulation uses
 	 */
 	public Graph getGraph() {
 		return graph;
@@ -66,7 +66,7 @@ public class Simulation extends Thread {
 	/**
 	 * Gets the number steps taken
 	 * 
-	 * @return stepCounter (int)
+	 * @return stepCounter (int) - Number of steps simulation has taken
 	 */
 	public int getSteps(){
 		return stepCounter;
@@ -75,7 +75,7 @@ public class Simulation extends Thread {
 	/**
 	 * Get totalHops (packets) transfered
 	 * 
-	 * @return totalHops (int)
+	 * @return totalHops (int) - Number of packet transfers
 	 */
 	public int getTotalHops() {
 		return totalHops;
@@ -106,15 +106,14 @@ public class Simulation extends Thread {
 	/**
 	 * Runs one step into the simulation.
 	 *
-	 * @param sendRate (int)
+	 * @param sendRate (int) - Rate in which the packets are sent
 	 */
 	public void simulateStep(int sendRate) {
 		simulating = true;
 		int i = 0;
 		System.out.println("Step: " + stepCounter);
-		/** Continue simulating until another object tells us to stop.
-		*   Creates a new transfer every 3rd step, or at beginning
-		*/
+		// Continue simulating until another object tells us to stop.
+		// Creates a new transfer every 3rd step, or at beginning
 		
 		for (Node n : graph.getNodes()) {
 			System.out.println("Node " + i + " name: " + n.getName());
@@ -132,7 +131,7 @@ public class Simulation extends Thread {
 	
 	/*
 	 * Every time something has been changed notifyView calls view and
-	 * remakes the GUI graph, thus updating the view. 
+	 * re-makes the GUI graph, thus updating the view. 
 	 */
 	public void notifyView()
 	{
