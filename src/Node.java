@@ -9,7 +9,6 @@ import java.util.List;
  *
  */
 public class Node {
-	private String message;
 	private String name;
 	private List<String> connections = new ArrayList<String>();
 	private List<Packet> packets = new ArrayList<Packet>();
@@ -21,7 +20,6 @@ public class Node {
 	 */
 	public Node(String n){
 		name = n;
-		message = "";
 	}
 	
 	public void addPacket(Packet p) {
@@ -29,6 +27,10 @@ public class Node {
 	}
 	public void removePacket(Packet p) {
 		packets.remove(p);
+	}
+	
+	public List<Packet> getPackets() {
+		return packets;
 	}
 	
 	/**
@@ -39,16 +41,7 @@ public class Node {
 	public String getName() {
 		return name;
 	}
-	
-	/**
-	 * Returns the message that the node holds
-	 * 
-	 * @return String
-	 */
-	public String getMessage() {
-		return message;
-	}
-	
+
 	/**
 	 * Sets the nodes name 
 	 * 
@@ -58,15 +51,7 @@ public class Node {
 		name = n;
 	}
 	
-	/**
-	 * Sets the message to the given incoming message
-	 * 
-	 * @param m (String)
-	 */
-	public void setMessage(String m){
-		message = m;
-	}
-	
+
 	//	NEW
 	public void addConnection(String n) {
 		if(!connections.contains(n) || !(n.equals(null)))	
@@ -111,7 +96,7 @@ public class Node {
 	 */
 	public void displayNode(){
 		System.out.println("Node: " + name);
-		System.out.println("Message: " + message);
+		//System.out.println("Message: " + message);
 	}
 	
 	/**
