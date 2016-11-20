@@ -7,7 +7,7 @@ public class Graph {
 	/**
 	 * Adds a node to array of nodes
 	 * 
-	 * @param n (Node)
+	 * @param n (Node) - Node you want connected
 	 */
 	public void addNode(Node n) {
 		if(!(n == null) && !nodes.contains(n))	
