@@ -11,7 +11,6 @@ public class Packet {
 	
 	private Node destination;
 	private String message;
-	private Random rand = new Random();
 	private int hops = 0;
 	private static int count = 0;
 	private final int id;
@@ -22,13 +21,12 @@ public class Packet {
 	 * 
 	 * @param graph (Graph) - Graph that packet will use
 	 */
-	public Packet(Graph graph)
+	public Packet(String message, Node destination)
 	{
-		List<Node> nodes = graph.getNodes();
-
-		destination = nodes.get(rand.nextInt((int)	nodes.size()));
+		this.message = message;
+		this.destination = destination;
 		id = count++;
-		message = "Hi " + id;
+
 	}
 	
 	/**
