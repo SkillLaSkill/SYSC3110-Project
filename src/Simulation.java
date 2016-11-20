@@ -11,6 +11,7 @@ import java.util.Random;
  */
 public class Simulation extends Thread {
 
+	private RoutingAlgorithm alg;
 	private Graph graph;
 	private List<ViewStrategy> views;
 	private Random rand = new Random();
@@ -127,7 +128,7 @@ public class Simulation extends Thread {
 			if(packetList.isEmpty() || (stepCounter % sendRate) == 0)
 				packetList.add(new Packet(graph));
 
-			randomTransferAlgorithm();
+			alg.simulateStep();
 			stepCounter++;
 		}
 		simulating = false;
@@ -142,36 +143,14 @@ public class Simulation extends Thread {
 		for(ViewStrategy view: views)
 			view.update();
 	}
-	
-	/**
-	 * Begins the random transfer algorithm.
-	 * Performs one step into the simulation for each transfer.
-	 */
-	private void randomTransferAlgorithm() {
-		ArrayList<Packet> completedTransferList = new ArrayList<Packet>();
-		
-		if (!simulating) {
-			return;
-		}
-		for(Packet trans : packetList)
-		{
-			//Set a new random position node for the transfer	
-			List<Node> cons = graph.getConnections(trans.getPosition());
-		
-			int nextNodeIndex = rand.nextInt(cons.size());
-			trans.setPosition(cons.get(nextNodeIndex));
-			trans.incrementHops();
-			totalHops++;
-			
-			// Prints the change name as well as the next node that the message will be sent to as long as it didn't reach the destinations
-			if(trans.getPosition().equals(trans.getDestination())) {
-				completedTransferList.add(trans);
-			}
-			
-		}
-		//Removes all completed transfers from the list of all transfers
-		if(completedTransferList.isEmpty() == false) {
-			packetList.removeAll(completedTransferList);
-		}
+
+	public RoutingAlgorithm getAlgorithm() {
+		return alg;
 	}
+
+	public void setAlgorithm(RoutingAlgorithm alg) {
+		this.alg = alg;
+		alg.setGraph(graph);
+	}
+	
 }
