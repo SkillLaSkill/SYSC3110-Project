@@ -36,7 +36,7 @@ public class SimGUI extends JFrame
 	public SimGUI()
 	{
 		//Frame Icon
-		ImageIcon img = new ImageIcon("218.png");
+		ImageIcon img = new ImageIcon("src/218.png");
 		this.setIconImage(img.getImage());
 		
 		//Variable initializations
