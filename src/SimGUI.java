@@ -153,7 +153,7 @@ public class SimGUI extends JFrame implements ViewStrategy
 		//Add all connections
 		for(Node node: model.getGraph().getNodes())
 		{
-			for(Node con: model.getGraph().getConnections(node))
+			for(Node con: node.getConnections())
 			{
 				Ellipse2D eA = nodeList.getEllipse(node.getName());
 				Ellipse2D eB = nodeList.getEllipse(con.getName());
