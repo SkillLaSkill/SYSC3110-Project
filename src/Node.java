@@ -12,6 +12,7 @@ public class Node {
 	private String message;
 	private String name;
 	private List<String> connections = new ArrayList<String>();
+	private List<Packet> packets = new ArrayList<Packet>();
 	
 	/**
 	 *  Creates a node with a name but no connections or message
@@ -21,6 +22,13 @@ public class Node {
 	public Node(String n){
 		name = n;
 		message = "";
+	}
+	
+	public void addPacket(Packet p) {
+		packets.add(p);
+	}
+	public void removePacket(Packet p) {
+		packets.remove(p);
 	}
 	
 	/**

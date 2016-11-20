@@ -8,7 +8,6 @@ import java.util.List;
  */
 public class Packet {
 	
-	private Node position;
 	private Node destination;
 	private String message;
 	private Random rand = new Random();
@@ -22,17 +21,14 @@ public class Packet {
 	 */
 	public Packet(Graph graph)
 	{
-		int x = rand.nextInt(graph.size());
 		List<Node> nodes = graph.getNodes();
-		position = nodes.get(x);
-		nodes.remove(x);
+
 		destination = nodes.get(rand.nextInt((int)	nodes.size()));
 		id = count++;
 		message = "Hi " + id;
 	}
 	
 	public Packet(Packet t) {
-		this.position = t.position;
 		this.destination = t.destination;
 		this.message = t.message;
 		this.hops = t.hops;
@@ -56,23 +52,6 @@ public class Packet {
 		hops++;
 	}
 	
-	/**
-	 * Return the node where the transfer currently is.
-	 * 
-	 * @return position (Node)
-	 */
-	public Node getPosition()
-	{
-		return position;
-	}
-	
-	/**
-	 * Set the current position of the node
-	 */
-	public void setPosition(Node position)
-	{
-		this.position = position;
-	}
 
 	/**
 	 * Return the destination node of the transfer.
