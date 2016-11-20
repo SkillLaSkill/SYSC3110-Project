@@ -1,6 +1,6 @@
 
 import java.util.Random;
-import java.util.ArrayList;
+
 import java.util.List;
 /**
  * This class creates and manipulates Transfers, which store the current node position, the destination and the message
@@ -9,13 +9,13 @@ import java.util.List;
  */
 public class Packet {
 	
-	private Node position;
 	private Node destination;
 	private String message;
 	private Random rand = new Random();
 	private int hops = 0;
 	private static int count = 0;
 	private final int id;
+	private boolean transfered = false;
 	
 	/**
 	 * Creates new transfer based on the given graph.
@@ -23,22 +23,14 @@ public class Packet {
 	 */
 	public Packet(Graph graph)
 	{
-		int x = rand.nextInt(graph.size());
 		List<Node> nodes = graph.getNodes();
-		List<Node> nodesCopy = new ArrayList<Node>();
-		for(Node nodeToCopy : nodes)
-			{
-			nodesCopy.add(nodeToCopy);
-			}
-		position = nodesCopy.get(x);
-		nodesCopy.remove(x);
-		destination = nodesCopy.get(rand.nextInt(nodesCopy.size()));
+
+		destination = nodes.get(rand.nextInt((int)	nodes.size()));
 		id = count++;
 		message = "Hi " + id;
 	}
 	
 	public Packet(Packet t) {
-		this.position = t.position;
 		this.destination = t.destination;
 		this.message = t.message;
 		this.hops = t.hops;
@@ -62,23 +54,6 @@ public class Packet {
 		hops++;
 	}
 	
-	/**
-	 * Return the node where the transfer currently is.
-	 * 
-	 * @return position (Node)
-	 */
-	public Node getPosition()
-	{
-		return position;
-	}
-	
-	/**
-	 * Set the current position of the node
-	 */
-	public void setPosition(Node position)
-	{
-		this.position = position;
-	}
 
 	/**
 	 * Return the destination node of the transfer.
@@ -136,5 +111,13 @@ public class Packet {
 	@Override 
 	public int hashCode() {
 		return id;
+	}
+
+	public boolean isTransfered() {
+		return transfered;
+	}
+
+	public void setTransfered(boolean transfered) {
+		this.transfered = transfered;
 	}
 }

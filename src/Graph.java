@@ -28,70 +28,6 @@ public class Graph {
 			this.addNode(new Node(s));
 			return;
 		}
-		
-		System.out.println("Couldn't add node!");
-	}
-	
-	/**
-	 * Creates connections for the given node to the other given node
-	 * 
-	 * @param A (Node)
-	 * @param B (Node)
-	 */
-	public void addConnection(Node A, Node B) {
-		
-		if(A == null || B == null)
-		{
-			System.out.println("Was given null Node! UH OH!");
-			return;
-		}
-		else if (A.equals(B)) 
-		{
-			System.out.println("Can't add duplicate connections!");
-			return;
-		}
-		
-		else if(!contains(A) && contains(B))
-		{
-			System.out.println("One or both nodes don't exist!");
-			return;
-		}
-
-		for (Node node: nodes) {	//NEW
-			if (node.equals(A)) node.addConnection(B);
-			if (node.equals(B)) node.addConnection(A);
-		}	
-	}
-	
-	/**
-	 * Adds multiple nodeInformation to the given Node 
-	 * 
-	 * @param A (Node)
-	 * @param nodesToAdd (List<Node>)
-	 *
-	 */
-	public void addNodeConnections(Node A, List<Node> nodesToAdd) {
-		for (Node n : nodesToAdd) {
-			addConnection(A, n);
-		}
-	}
-	
-	public void addNodeConnections(Node A, String nodesToAdd)
-	{
-		String[] nodes = nodesToAdd.split(" ");
-		ArrayList<Node> nodesToAdd1 = new ArrayList<Node>();
-		for(int i = 0; i < nodes.length; i++)
-		{
-			try
-			{
-				nodesToAdd1.add(this.getNode(nodes[i]));
-			}
-			catch(NullPointerException N)
-			{
-				System.out.println("Can't add a node that doesn't exist!");
-			}
-		}
-		this.addNodeConnections(A, nodesToAdd1);
 	}
 	
 	
@@ -119,23 +55,6 @@ public class Graph {
 		return nodes; 
 	}
 	
-	/**
-	 * Returns all the connections of a node
-	 * 
-	 * @param n (Node)
-	 * 
-	 * @return List<Node> 
-	 */
-	public List<Node> getConnections(Node n) {
-		List<Node> lit = new ArrayList<Node>();
-		List<String> af = n.getConnections();
-		for(Node nd : nodes){
-			for(String s : af) {
-				if (nd.getName().equals(s)) lit.add(nd);
-			}
-		}
-		return lit;
-	}
 	
 	/**
 	 * Removes a given node 
@@ -157,53 +76,7 @@ public class Graph {
 		else	System.out.println("Node was not removed!");
 		
 	}
-	
-	/**
-	 * Removes a node given its name
-	 * 
-	 * @param name (String)
-	 */
-	/*public void removeNode(String name)	{
-		int b = 0;
-		for (int i = 0; i < nodes.size(); i++) {
-			if (nodes.get(i).getName().equals(name)) {
-				nodes.remove(i);
-				System.out.print("YAS");
-				b++;
-			}
-			if (nodes.get(i).isConnected(name)) {
-				nodes.get(i).removeConnection(name);
-				System.out.print("YAS");
-				b++;
-			}
-		}
-		System.out.println(b);
-		if (b != 2) System.out.println("No node with that name was found!");
-	}*/
 
-	/**
-	 * Removes the given node connection from the given node
-	 * @param A
-	 * @param B
-	 */
-	public void removeConnection(Node A, Node B) {
-		if(A == null || B == null)	return;
-		else if(	!(this.contains(A) || this.contains(B))	) return;
-		A.removeConnection(B.getName());
-		B.removeConnection(A.getName());
-	}
-	
-	/**
-	 * Removes connection given String names
-	 */
-	public void removeConnection(String A, String B) {
-		if(A == null || B == null)	return;
-		else if(	!(this.contains(A) || this.contains(B))	)	return;
-		Node a = this.getNode(A);
-		Node b = this.getNode(B);
-		this.removeConnection(a, b);
-		
-	}
 	
 	/*
 	 * Check node list for given name of node
@@ -251,7 +124,7 @@ public class Graph {
 		
 		if(contains(A) && contains(B))
 		{
-			return A.isConnected(B.getName());
+			return A.isConnected(B);
 		}
 		System.out.println("Graph does not contain one or both of those nodes!");
 		return false;

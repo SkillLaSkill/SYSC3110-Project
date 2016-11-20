@@ -116,13 +116,17 @@ public class Simulation extends Thread {
 		// Creates a new transfer every 3rd step, or at beginning
 		
 		for (Node n : graph.getNodes()) {
-			System.out.println("Node " + i + " name: " + n.getName());
-			i++;
-			for (Node x : graph.getConnections(n)) System.out.println("Connection-" + x.getName());
+			System.out.println(n.getName());
+			
+			for (Node x : n.getConnections())
+				System.out.println("-" + x.getName());
 		}
 		
 		if (simulating == true) {
-			if(packetList.isEmpty() || (stepCounter % sendRate) == 0) packetList.add(new Packet(graph));
+
+			if(packetList.isEmpty() || (stepCounter % sendRate) == 0)
+				packetList.add(new Packet(graph));
+
 			randomTransferAlgorithm();
 			stepCounter++;
 		}
