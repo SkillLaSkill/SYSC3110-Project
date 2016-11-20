@@ -61,7 +61,7 @@ public class Node {
 	
 	//	NEW
 	public void addConnection(String n) {
-		if(!connections.contains(n) || !(n == null))	
+		if(!connections.contains(n) || !(n.equals(null)))	
 		{
 			connections.add(n);
 			return;
@@ -77,7 +77,7 @@ public class Node {
 	
 	//	NEW
 	public void removeConnection(String n) {
-		if(connections.contains(n) || !(n == null))
+		if(connections.contains(n) || !(n.equals(null)))
 		{
 			connections.remove(n);
 			return;
@@ -92,8 +92,9 @@ public class Node {
 	
 	//	NEW
 	public boolean isConnected(String n) {
+		if(n.equals(null))	System.out.println("Null string!");
 		for (String node : connections)
-			if (node == n) return true;
+			if (node.equals(n)) return true;
 		return false;
 	}
 	

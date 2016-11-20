@@ -124,7 +124,7 @@ public class Graph {
 		List<String> af = n.getConnections();
 		for(Node nd : nodes){
 			for(String s : af) {
-				if (nd.getName() == s) lit.add(nd);
+				if (nd.getName().equals(s)) lit.add(nd);
 			}
 		}
 		return lit;
@@ -147,7 +147,7 @@ public class Graph {
 	public void removeNode(String name)	{
 		int b = 0;
 		for (int i = 0; i < nodes.size(); i++) {
-			if (nodes.get(i).getName() == name) {
+			if (nodes.get(i).getName().equals(name)) {
 				nodes.remove(i);
 				System.out.print("YAS");
 				b++;
@@ -177,7 +177,7 @@ public class Graph {
 	public void removeConnection(String A, String B) {
 		if (!isConnected(A, B)) return;
 		for (int i = 0; i <= nodes.size(); i++) {
-			if (nodes.get(i).getName() == A) {
+			if (nodes.get(i).getName().equals(A)) {
 				nodes.get(i).removeConnection(B);
 			}
 		}
