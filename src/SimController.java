@@ -33,9 +33,10 @@ public class SimController implements ActionListener {
 	 * 
 	 * @param name (String)
 	 */
-	private void createNode(String name)
+	private void createNode()
 	{
-		if (name.isEmpty()) return;
+		String name = view.createPrompt("Enter node name");
+		if (name.isEmpty() || name.equals(null)) return;
 		model.getGraph().addNode(new Node(name));
 		System.out.println("Node " + name + " has been added!");
 		model.notifyView();
@@ -50,6 +51,7 @@ public class SimController implements ActionListener {
 	private void removeNode()
 	{
 		String name = view.createPrompt("Enter node name");
+		if (name.isEmpty() || name.equals(null)) return;
 		model.getGraph().removeNode(name);
 		model.notifyView();
 	}
@@ -64,6 +66,7 @@ public class SimController implements ActionListener {
 	{
 		String A = view.createPrompt("Enter first node name");
 		String B = view.createPrompt("Enter second node name");
+		if (A.isEmpty() || B.isEmpty()) return;
 		model.getGraph().addConnection(model.getGraph().getNode(A), model.getGraph().getNode(B));
 		model.notifyView();
 	}
@@ -97,6 +100,7 @@ public class SimController implements ActionListener {
 	{
 		String A = view.createPrompt("Enter first node name");
 		String B = view.createPrompt("Enter second node name");
+		if (A.isEmpty() || B.isEmpty()) return;
 		model.getGraph().removeConnection(model.getGraph().getNode(A), model.getGraph().getNode(B));
 		model.notifyView();
 		
@@ -165,7 +169,7 @@ public class SimController implements ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		String actionCommand = arg0.getActionCommand();
 		// Calls the private method to deal with Node creation in both model and view
-		if(actionCommand.equals("Create Node"))	createNode(view.createPrompt("Enter node name"));
+		if(actionCommand.equals("Create Node"))	createNode();
 		// Calls private method to deal with Connection establishment in both model and view
 		else if(actionCommand.equals("Add Connection")) makeConnection();
 		// Calls Private method to deal with Node removal in both model and view
