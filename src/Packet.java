@@ -41,7 +41,7 @@ public class Packet {
 		this.message = t.message;
 		this.hops = t.hops;
 		this.id = t.id;
-		this.transfered = transfered;
+		this.transfered = t.transfered;
 	}
 
 	/**
