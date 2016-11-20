@@ -35,6 +35,10 @@ public class SimGUI extends JFrame
 	
 	public SimGUI()
 	{
+		//Frame Icon
+		ImageIcon img = new ImageIcon("218.png");
+		this.setIconImage(img.getImage());
+		
 		//Variable initializations
 		nodeList = new GUINodeList();
 		//graphNodes = new HashMap<String, Ellipse2D>();
