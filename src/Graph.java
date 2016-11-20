@@ -135,8 +135,20 @@ public class Graph {
 	 * 
 	 * @param n (Node)
 	 */
-	public void removeNode(Node n) {
-		removeNode(n.getName());
+	public void removeNode(String name) {
+		if(contains(name))	removeNode(getNode(name));
+		else	System.out.println("Node was not removed!");
+	}
+	
+	public void removeNode(Node n)
+	{
+		if(contains(n))
+		{
+			nodes.remove(n);
+			for(Node node: nodes)	node.removeConnection(n.getName());
+		}
+		else	System.out.println("Node was not removed!");
+		
 	}
 	
 	/**
@@ -144,7 +156,7 @@ public class Graph {
 	 * 
 	 * @param name (String)
 	 */
-	public void removeNode(String name)	{
+	/*public void removeNode(String name)	{
 		int b = 0;
 		for (int i = 0; i < nodes.size(); i++) {
 			if (nodes.get(i).getName().equals(name)) {
@@ -160,7 +172,7 @@ public class Graph {
 		}
 		System.out.println(b);
 		if (b != 2) System.out.println("No node with that name was found!");
-	}
+	}*/
 
 	/**
 	 * Removes the given node connection from the given node
@@ -168,19 +180,18 @@ public class Graph {
 	 * @param B
 	 */
 	public void removeConnection(Node A, Node B) {
-		removeConnection(A.getName(), B.getName());
+		A.removeConnection(B.getName());
+		B.removeConnection(A.getName());
 	}
 	
 	/**
 	 * Removes connection given String names
 	 */
 	public void removeConnection(String A, String B) {
-		if (!isConnected(A, B)) return;
-		for (int i = 0; i <= nodes.size(); i++) {
-			if (nodes.get(i).getName().equals(A)) {
-				nodes.get(i).removeConnection(B);
-			}
-		}
+		Node a = this.getNode(A);
+		Node b = this.getNode(B);
+		this.removeConnection(a, b);
+		
 	}
 	
 	/*
@@ -201,7 +212,7 @@ public class Graph {
 	 * @return boolean
 	 */
 	public boolean contains(Node n) {
-		return nodes.contains(n);
+		return this.contains(n.getName());
 	}
 	
 	/** 
@@ -221,16 +232,17 @@ public class Graph {
 	public boolean isConnected(String First, String Second) {
 		Node A =  getNode(First);
 		Node B = getNode(Second);
-		if(contains(A) && contains(B))
-		{
-			return isConnected(A, B);
-		}
-		System.out.println("Does not contain one or both of those nodes!");
-		return false;
+		return isConnected(A, B);
 	}
 
 	
 	public boolean isConnected(Node A, Node B) {
-		return isConnected(A.getName(), B.getName());
+		
+		if(contains(A) && contains(B))
+		{
+			return A.isConnected(B.getName());
+		}
+		System.out.println("Graph does not contain one or both of those nodes!");
+		return false;
 	}
 }

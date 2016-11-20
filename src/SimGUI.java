@@ -68,10 +68,13 @@ public class SimGUI extends JFrame
         simulate.addActionListener(controller);
         JMenuItem reset = new JMenuItem("Reset");
         reset.addActionListener(controller);
+        JMenuItem refresh = new JMenuItem("Refresh");
+        refresh.addActionListener(controller);
         JMenuItem exit = new JMenuItem("Exit");
         exit.addActionListener(controller);
         fileMenu.add(simulate);
         fileMenu.add(reset);
+        fileMenu.add(refresh);
         fileMenu.add(exit);
         menuBar.add(fileMenu);
         this.setJMenuBar(menuBar);
