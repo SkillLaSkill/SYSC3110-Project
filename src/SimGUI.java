@@ -6,18 +6,13 @@ import java.awt.GridBagLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.*;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map.Entry;
 
 import javax.swing.*;
 
-public class SimGUI extends JFrame
+public class SimGUI extends JFrame implements ViewStrategy
 {
-// <<< Class Variables >>>
+	private static final long serialVersionUID = 1L;
+	// <<< Class Variables >>>
 	//Basic Window Construction
 	private NodeDisplayPanel topologyCanvas;
 	private JPanel consolePanel;
@@ -35,14 +30,12 @@ public class SimGUI extends JFrame
 	
 	public SimGUI()
 	{
-		//Frame Icon
+		//Frame Icon (Kappa TM)
 		ImageIcon img = new ImageIcon("src/218.png");
 		this.setIconImage(img.getImage());
 		
 		//Variable initializations
 		nodeList = new GUINodeList();
-		//graphNodes = new HashMap<String, Ellipse2D>();
-		//graphConnections = new ArrayList<Line2D>();
 		alternate = false;
 		xval = 0;
 		yval = 0;
@@ -189,10 +182,9 @@ public class SimGUI extends JFrame
 	 */
 	public void reset() {
 		nodeList.clear();
-		
+		alternate = false;
 		xval = 0;
 		yval = 0;
-		//updateTopologyPanel();
 	}
 	
 	/*
@@ -205,13 +197,14 @@ public class SimGUI extends JFrame
 	
 // <<< Local classes >>>
 	//Right click menu
-	class RightClickMenu extends JPopupMenu {
-	    JMenuItem createNode;
+	class RightClickMenu extends JPopupMenu { 
+		private static final long serialVersionUID = 1L;
+		JMenuItem createNode;
 	    public RightClickMenu(){
 	    	
 	    	//Add Node
-	        createNode = new JMenuItem("Create Node");
-	        createNode.setActionCommand("Create Node");
+	        createNode = new JMenuItem("Create Nodes");
+	        createNode.setActionCommand("Create Nodes");
 	        createNode.addActionListener(controller);
 	        this.add(createNode);
 	        
@@ -259,59 +252,34 @@ public class SimGUI extends JFrame
 		private static final long serialVersionUID = 1L;
 
 		@Override 
-		public void paintComponent(Graphics g) {
+		public void paintComponent(Graphics g) 
+		{
 			super.paintComponent(g);
 			Graphics2D g2d = (Graphics2D) g;
 			g2d.setColor(Color.black);
 			
-			for (String nodeName : nodeList) {
+			for (String nodeName : nodeList) 
+			{
+				//Makes the circle representation for the node
 				Ellipse2D el = nodeList.getEllipse(nodeName);
 				g2d.draw(el);
-				
 				double nameX = el.getCenterX();
 				double nameY = el.getCenterY();
-				
 				g2d.drawString(nodeName, (int)nameX, (int)nameY);
 				
+				//Adds node name as text on top of Node
 				StringBuilder sb = new StringBuilder();
-				/*
-				for (String message : nodeList.getMessages(nodeName)) {
-					sb.append(message + ", ");
-				}*/
-				
-				if (sb.length() != 0) {
+				if (sb.length() != 0) 
+				{
 					sb.deleteCharAt(sb.length()-1);
 					sb.deleteCharAt(sb.length()-1);
 					g2d.drawString(sb.toString(), (int)nameX + radius/2, (int)nameY);
 				}
 				
-				// Draw connections.
-				for (Line2D conn : nodeList.getAllConnections()) {
-					g2d.draw(conn);
-				}
-			}
-			
-			/*for (String key : graphNodes.keySet()) {
-				g2d.draw(graphNodes.get(key));
-				double nameX = graphNodes.get(key).getCenterX();
-				double nameY = graphNodes.get(key).getCenterY();
-				ArrayList<String> nodeNames = (ArrayList<String>) graphNodes.keySet();
-				g2d.drawString(nodeNames.get(key), (int)nameX, (int)nameY);
-				
-				StringBuilder sb = new StringBuilder();
-				for (int j = 0; j < nodeMessages.get(i).size(); j++) {
-					sb.append(nodeMessages.get(key).get(j) + ", ");
-				}
-				if (sb.length() != 0) {
-					sb.deleteCharAt(sb.length()-1);
-					sb.deleteCharAt(sb.length()-1);
-					g2d.drawString(sb.toString(), (int)nameX + radius/2, (int)nameY);
-				}
+				// Draw connections via lines
+				for (Line2D conn : nodeList.getAllConnections()) g2d.draw(conn);
 			}
 
-			for (int i = 0; i < graphConnections.size(); i++) {
-				
-			}*/
 		}
 	}
 }

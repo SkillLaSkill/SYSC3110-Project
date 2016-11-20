@@ -33,13 +33,21 @@ public class SimController implements ActionListener {
 	 * 
 	 * @param name (String)
 	 */
-	private void createNode()
+	private void createNodes()
 	{
-		String name = view.createPrompt("Enter node name");
-		if (name.isEmpty() || name.equals(null)) return;
-		model.getGraph().addNode(new Node(name));
-		System.out.println("Node " + name + " has been added!");
-		model.notifyView();
+		String name = view.createPrompt("Enter node names seperated by a space (multiple)");
+		if (name == null || name.isEmpty()) return;
+		else if(model.getGraph().contains(name))
+		{
+			System.out.println("Node was not added!");
+			return;
+		}
+		String allNames[] = name.split(" ");
+		for (String s : allNames) {
+			model.getGraph().addNode(new Node(s));
+			System.out.println("Node " + s + " has been added!");
+			model.notifyView();
+		}
 	}
 	
 	
@@ -51,7 +59,7 @@ public class SimController implements ActionListener {
 	private void removeNode()
 	{
 		String name = view.createPrompt("Enter node name");
-		if (name.isEmpty() || name.equals(null)) return;
+		if (name == null || name.isEmpty());
 		model.getGraph().removeNode(name);
 		model.notifyView();
 	}
@@ -66,7 +74,7 @@ public class SimController implements ActionListener {
 	{
 		String A = view.createPrompt("Enter first node name");
 		String B = view.createPrompt("Enter second node name");
-		if (A.isEmpty() || B.isEmpty()) return;
+		if (A == null || B == null || A.isEmpty() || B.isEmpty()) return;
 		model.getGraph().addConnection(model.getGraph().getNode(A), model.getGraph().getNode(B));
 		model.notifyView();
 	}
@@ -100,11 +108,39 @@ public class SimController implements ActionListener {
 	{
 		String A = view.createPrompt("Enter first node name");
 		String B = view.createPrompt("Enter second node name");
-		if (A.isEmpty() || B.isEmpty()) return;
+		if (A == null || B == null || A.isEmpty() || B.isEmpty()) return;
 		model.getGraph().removeConnection(model.getGraph().getNode(A), model.getGraph().getNode(B));
 		model.notifyView();
 		
 		
+	}
+	
+	private void startSim(String s, String r)
+	{
+		if(	!(this.isNumeric(s) && this.isNumeric(r)) )	return;
+		int steps = Integer.parseInt(s);
+		int sendRate = Integer.parseInt(r);
+		
+		if(	!(sendRate > 0 )	|| !(steps > 0)	)
+		{
+			System.out.println("Sendrate and steps must be above zero!");
+			return;
+		}
+		for(int i = 0; i < steps; i++) 
+			model.simulateStep(sendRate);
+	}
+	
+	private boolean isNumeric(String str)  
+	{  
+	  try  
+	  {  
+	    Integer.parseInt(str);  
+	  }  
+	  catch(NumberFormatException nfe)  
+	  {  
+	    return false;  
+	  }  
+	  return true;  
 	}
 	
 	/**
@@ -169,7 +205,7 @@ public class SimController implements ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		String actionCommand = arg0.getActionCommand();
 		// Calls the private method to deal with Node creation in both model and view
-		if(actionCommand.equals("Create Node"))	createNode();
+		if(actionCommand.equals("Create Nodes")) createNodes();
 		// Calls private method to deal with Connection establishment in both model and view
 		else if(actionCommand.equals("Add Connection")) makeConnection();
 		// Calls Private method to deal with Node removal in both model and view
@@ -179,14 +215,14 @@ public class SimController implements ActionListener {
 		// Calls private method to deal with reset on both model and view
 		else if(actionCommand.equals("Reset"))	reset();
 		//Hard refresh
-		else if(actionCommand.equals("Refresh"))	view.update();
+		else if(actionCommand.equals("Refresh")) view.update();
 		//Exits the program
-		else if(actionCommand.equals("Exit"))	exit();
+		else if(actionCommand.equals("Exit")) exit();
 		// Calls private method to start the simulation
-		else if(actionCommand.equals("Simulate"))	//startSim(view.createPrompt("Enter number of steps"), view.createPrompt("Enter send rate (ms)"));
+		else if(actionCommand.equals("Simulate")) startSim(view.createPrompt("Enter number of steps"), view.createPrompt("Enter send rate (ms)"));
 		// Calls private method to step once through the simulation
 		//else if(actionCommand.equals("Simulate Step"))	startSim(1, view.createPrompt("Enter send rate (ms)"));		
-		System.out.println("Nothing Happened");
+		else System.out.println("Nothing Happened");
 	}
 
 }

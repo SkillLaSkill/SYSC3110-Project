@@ -61,7 +61,7 @@ public class Node {
 	
 	//	NEW
 	public void addConnection(String n) {
-		if(!connections.contains(n) || !(n.equals(null)))	
+		if(!connections.contains(n) && !(n.equals(null)))	
 		{
 			connections.add(n);
 			return;
@@ -77,7 +77,7 @@ public class Node {
 	
 	//	NEW
 	public void removeConnection(String n) {
-		if(connections.contains(n) || !(n.equals(null)))
+		if(connections.contains(n) && !(n.equals(null)))
 		{
 			connections.remove(n);
 			return;

@@ -3,7 +3,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class SimulationTest extends Simulation {
+public class SimulationTest {
+
 	Simulation s;
 	Node pos;
 	Node n;
