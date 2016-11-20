@@ -34,6 +34,9 @@ public class SimGUI extends JFrame implements ViewStrategy
 	private int yval;
 	private boolean alternate;
 	
+	/**
+	 * Creates the simulation GUI
+	 */
 	public SimGUI()
 	{
 		//Frame Icon (Kappa TM)
@@ -97,8 +100,10 @@ public class SimGUI extends JFrame implements ViewStrategy
       	this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
 	
-	/*
+	/**
 	 * Finds a suitable X and Y co-ordinates for a new node
+	 * 
+	 * @return double[] - Array containing the X,Y coordinates
 	 */
 	private double[] findGoodXY() {
 		// Later make sure not on / inbetween nodes 
@@ -125,7 +130,7 @@ public class SimGUI extends JFrame implements ViewStrategy
 		topologyCanvas.repaint();
 	}
 	
-	/*
+	/**
 	 * Creates pop-up prompt with given text and returns the String entered
 	 */
 	public String createPrompt(String q)
@@ -134,7 +139,7 @@ public class SimGUI extends JFrame implements ViewStrategy
                 this, q);
 	}
 	
-	/*
+	/**
 	 * Updates all necessary GUI fields
 	 */
 	public void update()
@@ -174,7 +179,7 @@ public class SimGUI extends JFrame implements ViewStrategy
 		
 	}
 	
-	/*
+	/**
 	 * Gracefully closes the GUI
 	 */
 	public void close()
@@ -183,7 +188,7 @@ public class SimGUI extends JFrame implements ViewStrategy
 		this.dispose();
 	}
 	
-	/*
+	/**
 	 * Resets the GUI interface to a fully cleared state
 	 */
 	public void reset() {
@@ -193,7 +198,7 @@ public class SimGUI extends JFrame implements ViewStrategy
 		yval = 0;
 	}
 	
-	/*
+	/**
 	 * Main of SimGUI, starts this whole monster!
 	 */
 	public static void main(String[] args)
@@ -202,10 +207,20 @@ public class SimGUI extends JFrame implements ViewStrategy
 	}
 	
 // <<< Local classes >>>
-	//Right click menu
+	/**
+	 * Creates an instance of right click that will allow the user to do
+	 * multiple actions
+	 * 
+	 * @author Team GetterDone
+	 *
+	 */
 	class RightClickMenu extends JPopupMenu { 
 		private static final long serialVersionUID = 1L;
 		JMenuItem createNode;
+		
+		/**
+		 * Creates the right click menu
+		 */
 	    public RightClickMenu(){
 	    	
 	    	//Add Node
@@ -234,17 +249,34 @@ public class SimGUI extends JFrame implements ViewStrategy
 	    }
 	}
 	
-	//Right click listener
+	/**
+	 * Creates a mouse listener for the right click menu
+	 * 
+	 * @author Team GetterDone
+	 */
 	class RightClickListener extends MouseAdapter {
+	
+		/**
+		 * Does action for when the mouse is pressed
+		 */
 	    public void mousePressed(MouseEvent e){
 	        if (e.isPopupTrigger())
 	            doPop(e);
 	    }
 
+		/**
+		 * Does action for when the mouse is released
+		 */
 	    public void mouseReleased(MouseEvent e){
 	        if (e.isPopupTrigger())
 	            doPop(e);
 	    }
+
+		/**
+	     * Creates the menu at the mouses position
+	     * 
+	     * @param e (MouseEvent) - The mouse event that occurred 
+	     */
 
 	    private void doPop(MouseEvent e){
 	        RightClickMenu menu = new RightClickMenu();
@@ -253,10 +285,18 @@ public class SimGUI extends JFrame implements ViewStrategy
 	}
 	
 	
-	//Graph view class
+		/**
+	 * Creates the node display panel which displays the nodes as well as connections.
+	 * This is updated.
+	 * 
+	 * @author Team GetterDone
+	 */
 	private class NodeDisplayPanel extends JPanel {	
 		private static final long serialVersionUID = 1L;
 
+		/**
+		 * Creates the node display
+		 */
 		@Override 
 		public void paintComponent(Graphics g) 
 		{
