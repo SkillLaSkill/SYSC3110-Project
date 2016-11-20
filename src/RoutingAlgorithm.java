@@ -2,7 +2,8 @@
 public abstract class RoutingAlgorithm {
 	private Graph graph;
 	private boolean simulating;
-	public RoutingAlgorithm(Graph g){
+
+	public void setGraph(Graph g) {
 		this.graph = g;
 	}
 	

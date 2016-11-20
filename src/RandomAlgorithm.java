@@ -4,8 +4,7 @@ import java.util.Random;
 
 public class RandomAlgorithm extends RoutingAlgorithm {
 	private Random rand;
-	public RandomAlgorithm(Graph g) {
-		super(g);
+	public RandomAlgorithm() {
 		rand = new Random();
 	}
 
@@ -20,6 +19,12 @@ public class RandomAlgorithm extends RoutingAlgorithm {
 		for (Node n : getGraph().getNodes()) {
 			for (Packet p : n.getPackets()) {
 				if (!p.isTransfered()) {
+					
+					// Packet has reached it's destination, so remove it.
+					if (n.equals(p.getDestination())) {
+						n.removePacket(p);
+					}
+					
 					int nextNodeIndex = rand.nextInt((n.getConnections().size()));
 					n.removePacket(p);
 					n.getConnections().get(nextNodeIndex).addPacket(p);
