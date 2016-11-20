@@ -6,7 +6,7 @@ import java.util.List;
  * 
  * @author Team GetterDone
  */
-public class Transfer {
+public class Packet {
 	
 	private Node position;
 	private Node destination;
@@ -20,18 +20,18 @@ public class Transfer {
 	 * Creates new transfer based on the given graph.
 	 * @param graph (Graph)
 	 */
-	public Transfer(Graph graph)
+	public Packet(Graph graph)
 	{
 		int x = rand.nextInt(graph.size());
 		List<Node> nodes = graph.getNodes();
 		position = nodes.get(x);
 		nodes.remove(x);
-		destination = nodes.get(rand.nextInt(nodes.size()));
+		destination = nodes.get(rand.nextInt((int)	nodes.size()));
 		id = count++;
 		message = "Hi " + id;
 	}
 	
-	public Transfer(Transfer t) {
+	public Packet(Packet t) {
 		this.position = t.position;
 		this.destination = t.destination;
 		this.message = t.message;
@@ -124,7 +124,7 @@ public class Transfer {
 	}
 	@Override
 	public boolean equals(Object o) {
-		Transfer f = (Transfer) o;
+		Packet f = (Packet) o;
 		return this.id == f.id;
 	}
 	@Override 

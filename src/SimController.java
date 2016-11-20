@@ -112,6 +112,34 @@ public class SimController implements ActionListener {
 		
 	}
 	
+	private void startSim(String s, String r)
+	{
+		if(	!(this.isNumeric(s) && this.isNumeric(r)) )	return;
+		int steps = Integer.parseInt(s);
+		int sendRate = Integer.parseInt(r);
+		
+		if(	!(sendRate > 0 )	|| !(steps > 0)	)
+		{
+			System.out.println("Sendrate and steps must be above zero!");
+			return;
+		}
+		for(int i = 0; i < steps; i++)
+			model.simulateStep(sendRate);
+	}
+	
+	private boolean isNumeric(String str)  
+	{  
+	  try  
+	  {  
+	    Integer.parseInt(str);  
+	  }  
+	  catch(NumberFormatException nfe)  
+	  {  
+	    return false;  
+	  }  
+	  return true;  
+	}
+	
 	/**
 	 * Starts the simulation
 	 * 
@@ -188,7 +216,7 @@ public class SimController implements ActionListener {
 		//Exits the program
 		else if(actionCommand.equals("Exit"))	exit();
 		// Calls private method to start the simulation
-		else if(actionCommand.equals("Simulate"))	//startSim(view.createPrompt("Enter number of steps"), view.createPrompt("Enter send rate (ms)"));
+		else if(actionCommand.equals("Simulate"))	startSim(view.createPrompt("Enter number of steps"), view.createPrompt("Enter send rate (ms)"));
 		// Calls private method to step once through the simulation
 		//else if(actionCommand.equals("Simulate Step"))	startSim(1, view.createPrompt("Enter send rate (ms)"));		
 		System.out.println("Nothing Happened");

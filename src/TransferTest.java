@@ -3,7 +3,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class TransferTest {
-	Transfer t;
+	Packet t;
 	Node pos;
 	Node n;
 	
@@ -15,7 +15,7 @@ public class TransferTest {
 		Graph g = new Graph();
 		g.addNode(pos);
 		g.addNode(n);
-		t = new Transfer(g);
+		t = new Packet(g);
 	}
 	
 	@Test

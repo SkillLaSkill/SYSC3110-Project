@@ -29,14 +29,12 @@ public class SimGUI extends JFrame implements ViewStrategy
 	
 	public SimGUI()
 	{
-		//Frame Icon
+		//Frame Icon (Kappa TM)
 		ImageIcon img = new ImageIcon("src/218.png");
 		this.setIconImage(img.getImage());
 		
 		//Variable initializations
 		nodeList = new GUINodeList();
-		//graphNodes = new HashMap<String, Ellipse2D>();
-		//graphConnections = new ArrayList<Line2D>();
 		alternate = false;
 		xval = 0;
 		yval = 0;
@@ -186,7 +184,6 @@ public class SimGUI extends JFrame implements ViewStrategy
 		
 		xval = 0;
 		yval = 0;
-		//updateTopologyPanel();
 	}
 	
 	/*
@@ -253,59 +250,34 @@ public class SimGUI extends JFrame implements ViewStrategy
 		private static final long serialVersionUID = 1L;
 
 		@Override 
-		public void paintComponent(Graphics g) {
+		public void paintComponent(Graphics g) 
+		{
 			super.paintComponent(g);
 			Graphics2D g2d = (Graphics2D) g;
 			g2d.setColor(Color.black);
 			
-			for (String nodeName : nodeList) {
+			for (String nodeName : nodeList) 
+			{
+				//Makes the circle representation for the node
 				Ellipse2D el = nodeList.getEllipse(nodeName);
 				g2d.draw(el);
-				
 				double nameX = el.getCenterX();
 				double nameY = el.getCenterY();
-				
 				g2d.drawString(nodeName, (int)nameX, (int)nameY);
 				
+				//Adds node name as text on top of Node
 				StringBuilder sb = new StringBuilder();
-				/*
-				for (String message : nodeList.getMessages(nodeName)) {
-					sb.append(message + ", ");
-				}*/
-				
-				if (sb.length() != 0) {
+				if (sb.length() != 0) 
+				{
 					sb.deleteCharAt(sb.length()-1);
 					sb.deleteCharAt(sb.length()-1);
 					g2d.drawString(sb.toString(), (int)nameX + radius/2, (int)nameY);
 				}
 				
-				// Draw connections.
-				for (Line2D conn : nodeList.getAllConnections()) {
-					g2d.draw(conn);
-				}
-			}
-			
-			/*for (String key : graphNodes.keySet()) {
-				g2d.draw(graphNodes.get(key));
-				double nameX = graphNodes.get(key).getCenterX();
-				double nameY = graphNodes.get(key).getCenterY();
-				ArrayList<String> nodeNames = (ArrayList<String>) graphNodes.keySet();
-				g2d.drawString(nodeNames.get(key), (int)nameX, (int)nameY);
-				
-				StringBuilder sb = new StringBuilder();
-				for (int j = 0; j < nodeMessages.get(i).size(); j++) {
-					sb.append(nodeMessages.get(key).get(j) + ", ");
-				}
-				if (sb.length() != 0) {
-					sb.deleteCharAt(sb.length()-1);
-					sb.deleteCharAt(sb.length()-1);
-					g2d.drawString(sb.toString(), (int)nameX + radius/2, (int)nameY);
-				}
+				// Draw connections via lines
+				for (Line2D conn : nodeList.getAllConnections()) g2d.draw(conn);
 			}
 
-			for (int i = 0; i < graphConnections.size(); i++) {
-				
-			}*/
 		}
 	}
 }

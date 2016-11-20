@@ -157,29 +157,6 @@ public class Graph {
 		else	System.out.println("Node was not removed!");
 		
 	}
-	
-	/**
-	 * Removes a node given its name
-	 * 
-	 * @param name (String)
-	 */
-	/*public void removeNode(String name)	{
-		int b = 0;
-		for (int i = 0; i < nodes.size(); i++) {
-			if (nodes.get(i).getName().equals(name)) {
-				nodes.remove(i);
-				System.out.print("YAS");
-				b++;
-			}
-			if (nodes.get(i).isConnected(name)) {
-				nodes.get(i).removeConnection(name);
-				System.out.print("YAS");
-				b++;
-			}
-		}
-		System.out.println(b);
-		if (b != 2) System.out.println("No node with that name was found!");
-	}*/
 
 	/**
 	 * Removes the given node connection from the given node

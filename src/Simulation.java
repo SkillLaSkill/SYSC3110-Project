@@ -14,7 +14,7 @@ public class Simulation extends Thread {
 	private Graph graph;
 	private List<ViewStrategy> views;
 	private Random rand = new Random();
-	private ArrayList<Transfer> transferList;
+	private ArrayList<Packet> packetList;
 	private boolean simulating = false;
 	private int stepCounter = 0;
 	private int totalHops = 0;
@@ -36,7 +36,7 @@ public class Simulation extends Thread {
 	public Simulation(Graph graph) {
 		this.graph = graph;
 		rand = new Random();
-		transferList = new ArrayList<Transfer>();
+		packetList = new ArrayList<Packet>();
 	}
 	
 	/**
@@ -84,10 +84,10 @@ public class Simulation extends Thread {
 		return totalHops;
 	}
 	
-	public List<Transfer> getTransfers() {
-		List<Transfer> tList = new ArrayList<>();
-		for (Transfer t : transferList) {
-			tList.add(new Transfer(t));
+	public List<Packet> getTransfers() {
+		List<Packet> tList = new ArrayList<>();
+		for (Packet t : packetList) {
+			tList.add(new Packet(t));
 		}
 		return tList;
 	}
@@ -96,7 +96,7 @@ public class Simulation extends Thread {
 	 * Resets the simulation
 	 */
 	public void reset(){
-		transferList = new ArrayList<Transfer>();
+		packetList = new ArrayList<Packet>();
 		simulating = false;
 		stepCounter = 0;
 		totalHops = 0;
@@ -120,16 +120,14 @@ public class Simulation extends Thread {
 		for (Node n : graph.getNodes()) {
 			System.out.println(n.getName());
 			
-			for (Node x : graph.getConnections(n)) {
+			for (Node x : graph.getConnections(n))
 				System.out.println("-" + x.getName());
-			}
 		}
 		
 		if (simulating == true) {
-			if(transferList.isEmpty() || (stepCounter % sendRate) == 0){
-				Transfer transfer1 = new Transfer(graph);
-				transferList.add(transfer1);
-			}
+			if(packetList.isEmpty() || (stepCounter % sendRate) == 0)
+				packetList.add(new Packet(graph));
+			
 			randomTransferAlgorithm();
 			stepCounter++;
 		}
@@ -151,12 +149,12 @@ public class Simulation extends Thread {
 	 * Performs one step into the simulation for each transfer.
 	 */
 	private void randomTransferAlgorithm() {
-		ArrayList<Transfer> completedTransferList = new ArrayList<Transfer>();
+		ArrayList<Packet> completedTransferList = new ArrayList<Packet>();
 		
 		if (!simulating) {
 			return;
 		}
-		for(Transfer trans : transferList)
+		for(Packet trans : packetList)
 		{
 			//System.out.println();
 			//Set a new random position node for the transfer	
@@ -175,7 +173,7 @@ public class Simulation extends Thread {
 		}
 		//Removes all completed transfers from the list of all transfers
 		if(completedTransferList.isEmpty() == false) {
-			transferList.removeAll(completedTransferList);
+			packetList.removeAll(completedTransferList);
 				//for(Transfer trans : completedTransferList) {
 				//	completedHops += trans.getHops();
 				//	completedTransferCount++;
