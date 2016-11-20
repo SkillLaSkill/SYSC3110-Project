@@ -72,7 +72,7 @@ public class SimController implements ActionListener {
 		String A = view.createPrompt("Enter first node name");
 		String B = view.createPrompt("Enter second node name");
 		if (A == null || B == null || A.isEmpty() || B.isEmpty()) return;
-		model.getGraph().addConnection(model.getGraph().getNode(A), model.getGraph().getNode(B));
+		model.getGraph().getNode(A).addConnection(B);
 		model.notifyView();
 	}
 	
@@ -86,11 +86,10 @@ public class SimController implements ActionListener {
 	{
 		String node = view.createPrompt("Enter node name");
 		String[] s = view.createPrompt("Enter nodes you would like to connect to").split(" ");
-		List<String>  conList = Arrays.asList(s);
-		for (String con : conList) {
+		for (String con : s) {
 			if(model.getGraph().contains(node) && model.getGraph().contains(con))
 			{
-				model.getGraph().addConnection(model.getGraph().getNode(node), model.getGraph().getNode(con));
+				model.getGraph().getNode(node).addConnection(con);
 			}
 			else System.out.println("A node pair was not connected!");
 		}	
@@ -106,7 +105,7 @@ public class SimController implements ActionListener {
 		String A = view.createPrompt("Enter first node name");
 		String B = view.createPrompt("Enter second node name");
 		if (A == null || B == null || A.isEmpty() || B.isEmpty()) return;
-		model.getGraph().removeConnection(model.getGraph().getNode(A), model.getGraph().getNode(B));
+		model.getGraph().getNode(A).removeConnection(B);
 		model.notifyView();
 		
 		
@@ -219,7 +218,7 @@ public class SimController implements ActionListener {
 		else if(actionCommand.equals("Simulate"))	startSim(view.createPrompt("Enter number of steps"), view.createPrompt("Enter send rate (ms)"));
 		// Calls private method to step once through the simulation
 		//else if(actionCommand.equals("Simulate Step"))	startSim(1, view.createPrompt("Enter send rate (ms)"));		
-		System.out.println("Nothing Happened");
+		//System.out.println("Nothing Happened");
 	}
 
 }

@@ -32,68 +32,6 @@ public class Graph {
 		System.out.println("Couldn't add node!");
 	}
 	
-	/**
-	 * Creates connections for the given node to the other given node
-	 * 
-	 * @param A (Node)
-	 * @param B (Node)
-	 */
-	public void addConnection(Node A, Node B) {
-		
-		if(A == null || B == null)
-		{
-			System.out.println("Was given null Node! UH OH!");
-			return;
-		}
-		else if (A.equals(B)) 
-		{
-			System.out.println("Can't add duplicate connections!");
-			return;
-		}
-		
-		else if(!contains(A) && contains(B))
-		{
-			System.out.println("One or both nodes don't exist!");
-			return;
-		}
-
-		for (Node node: nodes) {	//NEW
-			if (node.equals(A)) node.addConnection(B);
-			if (node.equals(B)) node.addConnection(A);
-		}	
-	}
-	
-	/**
-	 * Adds multiple nodeInformation to the given Node 
-	 * 
-	 * @param A (Node)
-	 * @param nodesToAdd (List<Node>)
-	 *
-	 */
-	public void addNodeConnections(Node A, List<Node> nodesToAdd) {
-		for (Node n : nodesToAdd) {
-			addConnection(A, n);
-		}
-	}
-	
-	public void addNodeConnections(Node A, String nodesToAdd)
-	{
-		String[] nodes = nodesToAdd.split(" ");
-		ArrayList<Node> nodesToAdd1 = new ArrayList<Node>();
-		for(int i = 0; i < nodes.length; i++)
-		{
-			try
-			{
-				nodesToAdd1.add(this.getNode(nodes[i]));
-			}
-			catch(NullPointerException N)
-			{
-				System.out.println("Can't add a node that doesn't exist!");
-			}
-		}
-		this.addNodeConnections(A, nodesToAdd1);
-	}
-	
 	
 	/**
 	 * Gets a node given its name
