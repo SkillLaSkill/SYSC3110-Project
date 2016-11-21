@@ -67,6 +67,7 @@ public class Node {
 			return;
 		}
 		connections.add(n);
+		n.addConnection(this);
 	}
 
 	
@@ -86,6 +87,7 @@ public class Node {
 			return;
 		}
 		connections.remove(n);
+		n.removeConnection(this);
 	}
 	
 	/**
