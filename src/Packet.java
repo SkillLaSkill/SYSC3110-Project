@@ -2,6 +2,7 @@
 import java.util.Random;
 
 import java.util.List;
+import java.util.ArrayList;
 /**
  * This class creates and manipulates Transfers, which store the current node position, the destination and the message
  * 
@@ -9,6 +10,7 @@ import java.util.List;
  */
 public class Packet {
 	
+	private Node previousPostion;
 	private Node destination;
 	private String message;
 	private int hops = 0;
@@ -25,6 +27,7 @@ public class Packet {
 	{
 		this.message = message;
 		this.destination = destination;
+
 		id = count++;
 
 	}
