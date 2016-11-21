@@ -147,9 +147,11 @@ public class SimController implements ActionListener {
 			System.out.println("Sendrate and steps must be above zero!");
 			return;
 		}
-		if(choice.equals("Random"))
+		if(choice.equals("Random")) {
+			model.setAlgorithm(new RandomAlgorithm());
 			for(int i = 0; i < steps; i++) 
 				model.simulateStep(sendRate);
+		}
 		else System.out.println("Algorithm not implemented!");
 	}
 	
