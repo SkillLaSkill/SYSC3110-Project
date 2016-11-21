@@ -24,9 +24,17 @@ public class FloodingAlgorithm extends RoutingAlgorithm {
 				if(n.countainsPacket(p)) {
 					for(Node con : n.getConnections()) {
 						if(!con.hasSeenPacket(p)) {
+							p.incrementHops();
+							//node has reach destination
+							if(con.equals(p.getDestination())) {
+								n.addSeenPacket(p);
+								n.removePacket(p);	
+								Packet.addHopsToTotal(p.getHops());
+							}
+							else {
 							con.addPacket(p);
 							con.addSeenPacket(p);
-							p.incrementHops();
+							}
 						}
 					}
 				}
@@ -34,5 +42,7 @@ public class FloodingAlgorithm extends RoutingAlgorithm {
 			}
 		}
 		
+	
+	
 	}
 }
