@@ -14,8 +14,6 @@ public class Packet {
 	private Node destination;
 	private String message;
 	private int hops = 0;
-	private static int totalHops = 0;
-	private static int completedTransfers = 0;
 	private static int count = 0;
 	private final int id;
 	private boolean Transfered = false;
@@ -64,15 +62,6 @@ public class Packet {
 		hops++;
 	}
 	
-	public static void incrementCompletedTransfers() {
-		completedTransfers++;
-	}
-	
-	public static void addHopsToTotal(int hops)
-	{
-		totalHops += hops;
-	}
-	
 	/**
 	 * Return the destination node of the Packet.
 	 * 
@@ -115,18 +104,6 @@ public class Packet {
 	}
 	
 	/**
-	 * Returns the total number of hops(steps) all
-	 * packets have completed
-	 *
-	 * @return totalHops (int) - Number of hops taken
-	 */
-	
-	public static int getTotalHops()
-	{
-		return totalHops;
-	}
-	
-	/**
 	 * Resets the Id Counter to 0
 	 */
 	public void resetId()
@@ -134,12 +111,6 @@ public class Packet {
 		count = 0;
 	}
 	
-	/**
-	 * Resets the TotalHops Counter to 0
-	 */
-	public void resetTotalHops() {
-		totalHops = 0;
-	}
 	/**
 	 * Checks if the given packet is the exact same as this packet
 	 * 

@@ -29,7 +29,7 @@ public class FloodingAlgorithm extends RoutingAlgorithm {
 							if(con.equals(p.getDestination())) {
 								n.addSeenPacket(p);
 								n.removePacket(p);	
-								Packet.addHopsToTotal(p.getHops());
+								//need some metric stuff here
 							}
 							else {
 							con.addPacket(p);

@@ -21,10 +21,11 @@ public class RandomAlgorithm extends RoutingAlgorithm {
 				Packet p = n.getPackets().get(j);
 				if (!p.isTransfered()) {
 					p.setTransfered(true);
+					p.incrementHops();
 					
 					// Packet has reached it's destination, so add its hops counter to the totalHops then remove it.
 					if (n.equals(p.getDestination())) {
-						p.addHopsToTotal();
+						//need some metric stuff here
 						n.removePacket(p);
 						return;
 					}
