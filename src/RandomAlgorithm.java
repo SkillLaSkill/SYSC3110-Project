@@ -4,14 +4,13 @@ import java.util.Random;
 
 public class RandomAlgorithm extends RoutingAlgorithm {
 	private Random rand;
+	
 	public RandomAlgorithm() {
 		rand = new Random();
 	}
 
 	@Override
 	public void simulateStep() {
-		ArrayList<Packet> completedTransferList = new ArrayList<Packet>();
-		
 		if (!isSimulating()) {
 			return;
 		}
@@ -23,9 +22,11 @@ public class RandomAlgorithm extends RoutingAlgorithm {
 				if (!p.isTransfered()) {
 					p.setTransfered(true);
 					
-					// Packet has reached it's destination, so remove it.
+					// Packet has reached it's destination, so add its hops counter to the totalHops then remove it.
 					if (n.equals(p.getDestination())) {
+						p.addHopsToTotal();
 						n.removePacket(p);
+						return;
 					}
 					
 					int nextNodeIndex = rand.nextInt((n.getConnections().size()));
