@@ -1,11 +1,10 @@
-import java.util.LinkedList;
-import java.util.Queue;
 
-public class ShortestPathAlgorithm extends RoutingAlgorithm {
+import java.util.Stack;
+
+public class DepthFirstAlgorithm extends RoutingAlgorithm {
 
 	@Override
 	public void simulateStep() {
-		
 		if (!isSimulating()) {
 			return;
 		}
@@ -23,7 +22,7 @@ public class ShortestPathAlgorithm extends RoutingAlgorithm {
 					
 					n.removePacket(p);
 					
-					Node next = findNextNodeBFS(n, p.getDestination());
+					Node next = findNextNodeDFS(n, p.getDestination());
 					
 					if (next != null) {
 						next.addPacket(p);
@@ -36,18 +35,18 @@ public class ShortestPathAlgorithm extends RoutingAlgorithm {
 		}
 		
 		resetTransfered();
+		
 	}
 	
-	private Node findNextNodeBFS(Node currentPosition, Node destination) {
-		Queue<SearchNode> q = new LinkedList<>();
+	private Node findNextNodeDFS(Node currentPosition, Node destination) {
+		Stack<SearchNode> stk = new Stack<SearchNode>();
 		
 		// Enqueue the root.
 		SearchNode root = new SearchNode(currentPosition);
 		root.setDistance(0);
-		q.add(root);
-		
-		while (!q.isEmpty()) {
-			SearchNode current = q.poll();
+		stk.push(root);
+		while (!stk.isEmpty()) {
+			SearchNode current = stk.pop();
 			//System.out.println("Current: " + current.getNode().getName() + " Dist: " + current.getDistance());
 			
 			// If the destination node is found, follow the parents up until before the root and return.
@@ -66,42 +65,12 @@ public class ShortestPathAlgorithm extends RoutingAlgorithm {
 					bn.setDistance(current.getDistance() + 1);
 					bn.setParent(current);
 					
-					q.add(bn);
+					stk.push(bn);
 				}	
 			}
 		}
 		return null;
 	}
 
-	public static void main(String[] args) {
-		ShortestPathAlgorithm al = new ShortestPathAlgorithm();
-		Graph g = new Graph();
-		Node A = new Node("A");
-		Node B = new Node("B");
-		Node C = new Node("C");
-		Node D = new Node("D");
-		Node E = new Node("E");
-		
-		A.addConnection(B);
-		A.addConnection(C);
-		A.addConnection(E);
-		B.addConnection(D);
-		B.addConnection(E);
-		C.addConnection(D);
-		
-		g.addNode(A);
-		g.addNode(B);
-		g.addNode(C);
-		g.addNode(D);
-		g.addNode(E);
-		
-		Packet p = new Packet("Hello", D);
-		E.addPacket(p);
-		
-		
-		al.setGraph(g);
-		al.setSimulating(true);
-		
-		al.simulate(3);
-	}
+
 }
