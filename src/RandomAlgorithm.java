@@ -16,8 +16,10 @@ public class RandomAlgorithm extends RoutingAlgorithm {
 			return;
 		}
 		
-		for (Node n : getGraph().getNodes()) {
-			for (Packet p : n.getPackets()) {
+		for (int i = 0; i < getGraph().getNodes().size(); i++){
+			Node n = getGraph().getNodes().get(i);
+			for (int j = 0; j < n.getPackets().size(); j++) {
+				Packet p = n.getPackets().get(j);
 				if (!p.isTransfered()) {
 					p.setTransfered(true);
 					
