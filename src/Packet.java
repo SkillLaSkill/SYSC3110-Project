@@ -130,6 +130,12 @@ public class Packet {
 	}
 	
 	/**
+	 * Resets the TotalHops Counter to 0
+	 */
+	public void resetTotalHops() {
+		totalHops = 0;
+	}
+	/**
 	 * Checks if the given packet is the exact same as this packet
 	 * 
 	 * @param o (Object) - Object you want compared to this packet

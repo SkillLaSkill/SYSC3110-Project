@@ -132,11 +132,17 @@ public class Graph {
 	
 	public boolean packetsExist() {
 		for(Node n : nodes) {
-			if(n.getPackets().size() > 1) {
+			if(n.getPackets().size() > 0) {
 				return true;
 			}
 		}
 		return false;
-
+	}
+	
+	public void resetPackets() {
+		for(Node n : nodes) {
+			List<Packet> packets = new ArrayList<Packet>();
+			n.setPackets(packets);
+		}
 	}
 }

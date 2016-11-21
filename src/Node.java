@@ -12,6 +12,7 @@ public class Node {
 	private String name;
 	private List<Node> connections = new ArrayList<Node>();
 	private List<Packet> packets = new ArrayList<Packet>();
+	private List<Packet> packetsSeen = new ArrayList<Packet>();
 	
 	/**
 	 *  Creates a node with a name but no connections or message
@@ -31,6 +32,11 @@ public class Node {
 	
 	public List<Packet> getPackets() {
 		return packets;
+	}
+	
+	public void setPackets(List<Packet> packets) {
+		this.packets = packets;
+		
 	}
 	
 	/**
