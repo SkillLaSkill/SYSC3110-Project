@@ -4,7 +4,7 @@ import java.util.Random;
 import java.util.List;
 import java.util.ArrayList;
 /**
- * This class creates and manipulates Transfers, which store the current node position, the destination and the message
+ * This class creates and manipulates Packets, which store the current node position, the destination and the message
  * 
  * @author Team GetterDone
  */
@@ -14,12 +14,13 @@ public class Packet {
 	private Node destination;
 	private String message;
 	private int hops = 0;
+	private static int totalHops = 0;
 	private static int count = 0;
 	private final int id;
-	private boolean transfered = false;
+	private boolean Packeted = false;
 	
 	/**
-	 * Creates new transfer based on the given graph.
+	 * Creates new Packet based on the given graph.
 	 * 
 	 * @param graph (Graph) - Graph that packet will use
 	 */
@@ -42,7 +43,7 @@ public class Packet {
 		this.message = t.message;
 		this.hops = t.hops;
 		this.id = t.id;
-		this.transfered = t.transfered;
+		this.Packeted = t.Packeted;
 	}
 
 	/**
@@ -65,7 +66,7 @@ public class Packet {
 
 
 	/**
-	 * Return the destination node of the transfer.
+	 * Return the destination node of the Packet.
 	 * 
 	 * @return destination (Node) - Packet destination
 	 */
@@ -75,7 +76,7 @@ public class Packet {
 	}
 	
 	/**
-	 * Return the message the transfer is carrying.
+	 * Return the message the Packet is carrying.
 	 * 
 	 * @return String - Message that you want sent
 	 */
@@ -85,7 +86,7 @@ public class Packet {
 	}
 	
 	/**
-	 * Sets the message of the transfer.
+	 * Sets the message of the Packet.
 	 * 
 	 * @param message (String) - Message you want sent
 	 */
@@ -95,14 +96,26 @@ public class Packet {
 	}
 	
 	/**
-	 * Returns the number of hops(steps) the transfer has
+	 * Returns the number of hops(steps) the Packet has
 	 * completed up to this point.
 	 *
-	 * @return hops (Integer) - Number of hops taken
+	 * @return hops (int) - Number of hops taken
 	 */
 	public int getHops()
 	{
 		return hops;
+	}
+	
+	/**
+	 * Returns the total number of hops(steps) all
+	 * packets have completed
+	 *
+	 * @return totalHops (int) - Number of hops taken
+	 */
+	
+	public int getTotalHops()
+	{
+		return totalHops;
 	}
 	
 	/**
@@ -135,11 +148,11 @@ public class Packet {
 		return id;
 	}
 
-	public boolean isTransfered() {
-		return transfered;
+	public boolean isPacketed() {
+		return Packeted;
 	}
 
-	public void setTransfered(boolean transfered) {
-		this.transfered = transfered;
+	public void setPacketed(boolean Packeted) {
+		this.Packeted = Packeted;
 	}
 }
