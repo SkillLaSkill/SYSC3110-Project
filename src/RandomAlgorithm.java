@@ -11,9 +11,6 @@ public class RandomAlgorithm extends RoutingAlgorithm {
 
 	@Override
 	public void simulateStep() {
-		if (!isSimulating()) {
-			return;
-		}
 		
 		for (int i = 0; i < getGraph().getNodes().size(); i++){
 			Node n = getGraph().getNodes().get(i);

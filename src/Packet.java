@@ -25,10 +25,10 @@ public class Packet {
 	 */
 	public Packet(String message, Node destination)
 	{
-		this.message = message;
 		this.destination = destination;
 
 		id = count++;
+		this.message = message + id;
 
 	}
 	
