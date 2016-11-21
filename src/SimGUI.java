@@ -140,6 +140,15 @@ public class SimGUI extends JFrame implements ViewStrategy
 	}
 	
 	/**
+	 * Create combo box prompt
+	 */
+	public String comboPrompt(String[] choices)
+	{
+		return (String)	JOptionPane.showInputDialog(null, "Choose algorithm", "Start Simulation", JOptionPane.QUESTION_MESSAGE
+				, null, choices, choices[0]);
+	}
+	
+	/**
 	 * Updates all necessary GUI fields
 	 */
 	public void update()

@@ -116,9 +116,14 @@ public class SimController implements ActionListener {
 	 * @param s (String) - Number of steps that will be taken
 	 * @param r (String) - The step rate the simulation will use
 	 */
-	private void startSim(String s, String r)
+	private void startSim()
 	{
+		String[] choices = {"Random", "Flood", "Breadth-first" };
+		String choice = view.comboPrompt(choices);
+		String s = view.createPrompt("Enter number of steps");
+		String r = view.createPrompt("Enter send rate (ms)");
 		if(	!(this.isNumeric(s) && this.isNumeric(r)) )	return;
+		
 		int steps = Integer.parseInt(s);
 		int sendRate = Integer.parseInt(r);
 		
@@ -127,8 +132,10 @@ public class SimController implements ActionListener {
 			System.out.println("Sendrate and steps must be above zero!");
 			return;
 		}
-		for(int i = 0; i < steps; i++) 
-			model.simulateStep(sendRate);
+		if(choice.equals("Random"))
+			for(int i = 0; i < steps; i++) 
+				model.simulateStep(sendRate);
+		else System.out.println("Algorithm not implemented!");
 	}
 	
 	/**
@@ -188,7 +195,7 @@ public class SimController implements ActionListener {
 		//Exits the program
 		else if(actionCommand.equals("Exit")) exit();
 		// Calls private method to start the simulation
-		else if(actionCommand.equals("Simulate")) startSim(view.createPrompt("Enter number of steps"), view.createPrompt("Enter send rate"));
+		else if(actionCommand.equals("Simulate")) startSim();
 
 		// Calls private method to step once through the simulation
 		//else if(actionCommand.equals("Simulate Step"))	startSim(1, view.createPrompt("Enter send rate (ms)"));		
