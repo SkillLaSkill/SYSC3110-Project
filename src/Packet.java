@@ -17,7 +17,7 @@ public class Packet {
 	private static int totalHops = 0;
 	private static int count = 0;
 	private final int id;
-	private boolean Packeted = false;
+	private boolean Transfered = false;
 	
 	/**
 	 * Creates new Packet based on the given graph.
@@ -43,7 +43,7 @@ public class Packet {
 		this.message = t.message;
 		this.hops = t.hops;
 		this.id = t.id;
-		this.Packeted = t.Packeted;
+		this.Transfered = t.Transfered;
 	}
 
 	/**
@@ -147,12 +147,22 @@ public class Packet {
 	public int hashCode() {
 		return id;
 	}
-
-	public boolean isPacketed() {
-		return Packeted;
+	
+	/**
+	 * Checks to see if that packet has already been transfered during a simulation step
+	 * 
+	 * @return transfered (Boolean) - Status of whether packet has been transfered True = has been transfered; False = has not been transfered
+	 */
+	public boolean isTransfered() {
+		return Transfered;
 	}
-
-	public void setPacketed(boolean Packeted) {
-		this.Packeted = Packeted;
+	
+	/**
+	 * Sets the status of packet
+	 * 
+	 * @param Transfered (Boolean) - Sets status of whether packet has been transfered
+	 */
+	public void setTransfered(boolean Transfered) {
+		this.Transfered = Transfered;
 	}
 }
