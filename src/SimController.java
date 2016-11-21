@@ -36,19 +36,26 @@ public class SimController implements ActionListener {
 		String name = view.createPrompt("Enter node name");
 
 		if (name == null || name.isEmpty()) return;
+		
 		else if(model.getGraph().contains(name))
 		{
 			System.out.println("Node was not added!");
 			return;
 		}
-
+		
+		Node n = new Node(name);
+		model.getGraph().addNode(n);
+		System.out.println("Node " + name + " has been added!");
+		
+		model.notifyView();
+		/*
 		// Splits the node names into separate strings then creates nodes from them
 		String allNames[] = name.split(" ");
 		for (String s : allNames) {
 			model.getGraph().addNode(new Node(s));
 			System.out.println("Node " + s + " has been added!");
 			model.notifyView();
-		}
+		}*/
 	}
 	
 	
@@ -73,18 +80,23 @@ public class SimController implements ActionListener {
 		String B = view.createPrompt("Enter second node name");
 		if (A == null || B == null || A.isEmpty() || B.isEmpty()) return;
 
-		model.getGraph().getNode(A).addConnection(B);
+		Node nodeA = model.getGraph().getNode(A);
+		Node nodeB = model.getGraph().getNode(B);
+		if (nodeA == null || nodeB == null) return;
+		nodeA.addConnection(nodeB);
 		model.notifyView();
 	}
 	
 	/**
 	 * Create connections from the node to all the nodes in the list from two string the user gives.
 	 */
-	private void makeConnections() 
+	
+	/*private void makeConnections() 
 	{
 		String node = view.createPrompt("Enter node name");
 		String[] s = view.createPrompt("Enter nodes you would like to connect to").split(" ");
 		for (String con : s) {
+			Node n = model.getGraph()
 			if(model.getGraph().contains(node) && model.getGraph().contains(con))
 			{
 				model.getGraph().getNode(node).addConnection(con);
@@ -92,7 +104,7 @@ public class SimController implements ActionListener {
 			else System.out.println("A node pair was not connected!");
 		}	
 		model.notifyView();
-	}
+	}*/
 	
 	
 	/**
@@ -104,10 +116,10 @@ public class SimController implements ActionListener {
 		String B = view.createPrompt("Enter second node name");
 		if (A == null || B == null || A.isEmpty() || B.isEmpty()) return;
 
-		try{
-			model.getGraph().getNode(A).removeConnection(B);
-		}
-		catch(NullPointerException nu){}
+		Node nodeA = model.getGraph().getNode(A);
+		Node nodeB = model.getGraph().getNode(B);
+		if (nodeA == null || nodeB == null) return;
+		nodeA.removeConnection(nodeB);
 		model.notifyView();
 		
 		

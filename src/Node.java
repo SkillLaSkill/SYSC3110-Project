@@ -50,10 +50,6 @@ public class Node {
 		name = n;
 	}
 	
-	public void addConnection(String n) {
-		addConnection(new Node(n));		
-	}
-	
 	
 	/**
 	 * Adds a connection to the node using the node you want it connected to
@@ -67,20 +63,14 @@ public class Node {
 			return;
 		}
 		connections.add(n);
-		n.addConnection(this);
+		n.connections.add(this);
 	}
 
-	
 	/**
-	 * Removes a connections from the node
-	 * 
-	 * @param n (String) - Node name that is wanted to be removed
+	 * Removes the connection of two nodes.
+	 * @param n
+	 * Connected node to remove connection with.
 	 */
-	public void removeConnection(String n) {
-		removeConnection(new Node(n));
-		
-	}
-	
 	public void removeConnection(Node n) {
 		try{
 			if (!connections.contains(n)) {
@@ -88,7 +78,7 @@ public class Node {
 				return;
 			}
 			connections.remove(n);
-			n.removeConnection(this);
+			n.connections.remove(this);
 		}
 		catch(NullPointerException nu)
 		{}

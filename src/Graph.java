@@ -71,7 +71,7 @@ public class Graph {
 		if(contains(n))
 		{
 			nodes.remove(n);
-			for(Node node: nodes)	node.removeConnection(n.getName());
+			for(Node node: nodes)	node.removeConnection(n);
 		}
 		else	System.out.println("Node was not removed!");
 		
