@@ -48,14 +48,6 @@ public class SimController implements ActionListener {
 		System.out.println("Node " + name + " has been added!");
 		
 		model.notifyView();
-		/*
-		// Splits the node names into separate strings then creates nodes from them
-		String allNames[] = name.split(" ");
-		for (String s : allNames) {
-			model.getGraph().addNode(new Node(s));
-			System.out.println("Node " + s + " has been added!");
-			model.notifyView();
-		}*/
 	}
 	
 	

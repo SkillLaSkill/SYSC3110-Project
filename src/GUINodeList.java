@@ -54,7 +54,7 @@ public class GUINodeList implements Iterable<String> {
 		 * @return List<String> - List of all messaged
 		 */
 		public List<String> getMessages(String name) {
-			return null;
+			return nodeMessages.get(nodeNames.indexOf(name));
 		}
 		
 		/**
@@ -63,9 +63,10 @@ public class GUINodeList implements Iterable<String> {
 		 * @param name (String) - Name of the object
 		 * @param node (Ellipse2D) - Node visual object
 		 */
-		public void addGUINode(String name, Ellipse2D node) {
+		public void addGUINode(String name, Ellipse2D node, List<String> messages) {
 			nodeNames.add(name);
 			nodes.add(node);
+			nodeMessages.add(messages);
 		}
 		
 		/**

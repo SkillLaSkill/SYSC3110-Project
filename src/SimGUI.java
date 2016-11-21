@@ -6,6 +6,8 @@ import java.awt.GridBagLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.*;
 
@@ -160,8 +162,13 @@ public class SimGUI extends JFrame implements ViewStrategy
 		{
 			double[] loc = findGoodXY();
 			Ellipse2D gNode = new Ellipse2D.Double(loc[0], loc[1], radius, radius);
-			nodeList.addGUINode(node.getName(),gNode);
 			
+			// Have GUINodeList contain messages within the node.
+			List<String> messages = new ArrayList<>();
+			for (Packet p : node.getPackets()) {
+				messages.add(p.getMessage());
+			}
+			nodeList.addGUINode(node.getName(),gNode, messages);
 		}
 		
 		//Add all connections
@@ -322,14 +329,18 @@ public class SimGUI extends JFrame implements ViewStrategy
 				double nameY = el.getCenterY();
 				g2d.drawString(nodeName, (int)nameX, (int)nameY);
 				
-				//Adds node name as text on top of Node
+				//Adds node messages as text on top of Node
 				StringBuilder sb = new StringBuilder();
+				for (String s : nodeList.getMessages(nodeName)) {
+					sb.append(s + ", ");
+				}
 				if (sb.length() != 0) 
 				{
 					sb.deleteCharAt(sb.length()-1);
 					sb.deleteCharAt(sb.length()-1);
 					g2d.drawString(sb.toString(), (int)nameX + radius/2, (int)nameY);
 				}
+					
 				
 				// Draw connections via lines
 				for (Line2D conn : nodeList.getAllConnections()) g2d.draw(conn);
