@@ -99,6 +99,7 @@ public class Simulation extends Thread {
 	 */
 	public void simulateStep(int sendRate) {
 		simulating = true;
+		alg.setGraph(graph);
 		
 		if (simulating == true) {
 
@@ -113,6 +114,7 @@ public class Simulation extends Thread {
 					source = nodes.get(rand.nextInt((int)	nodes.size()));
 				}
 				source.addPacket(p);
+				source.addSeenPacket(p);
 			}
 			alg.simulateStep();
 			stepCounter++;

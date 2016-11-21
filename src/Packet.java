@@ -15,6 +15,7 @@ public class Packet {
 	private String message;
 	private int hops = 0;
 	private static int totalHops = 0;
+	private static int completedTransfers = 0;
 	private static int count = 0;
 	private final int id;
 	private boolean Transfered = false;
@@ -63,9 +64,13 @@ public class Packet {
 		hops++;
 	}
 	
-	public void addHopsToTotal()
+	public static void incrementCompletedTransfers() {
+		completedTransfers++;
+	}
+	
+	public static void addHopsToTotal(int hops)
 	{
-		totalHops += this.getHops();
+		totalHops += hops;
 	}
 	
 	/**
@@ -116,7 +121,7 @@ public class Packet {
 	 * @return totalHops (int) - Number of hops taken
 	 */
 	
-	public int getTotalHops()
+	public static int getTotalHops()
 	{
 		return totalHops;
 	}

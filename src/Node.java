@@ -39,6 +39,18 @@ public class Node {
 		
 	}
 	
+	public boolean countainsPacket(Packet p) {
+		return packets.contains(p);
+	}
+	
+	public void addSeenPacket(Packet p) {
+		packetsSeen.add(p);
+	}
+	
+	public boolean hasSeenPacket(Packet p) {
+		return packetsSeen.contains(p);
+	}
+	
 	/**
 	 * Return the nodes name 
 	 * 
