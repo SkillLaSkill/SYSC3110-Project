@@ -63,8 +63,11 @@ public class Packet {
 		hops++;
 	}
 	
-
-
+	public void addHopsToTotal()
+	{
+		totalHops += this.getHops();
+	}
+	
 	/**
 	 * Return the destination node of the Packet.
 	 * 
