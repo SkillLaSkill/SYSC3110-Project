@@ -113,13 +113,14 @@ public class Simulation extends Thread {
 					source = nodes.get(rand.nextInt((int)	nodes.size()));
 				}
 				source.addPacket(p);
+			}
 			alg.simulateStep();
 			stepCounter++;
 			notifyView();
 		}
 		simulating = false;
 	}
-	}
+	
 	
 	/*
 	 * Every time something has been changed notifyView calls view and
