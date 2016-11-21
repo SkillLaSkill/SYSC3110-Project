@@ -104,7 +104,10 @@ public class SimController implements ActionListener {
 		String B = view.createPrompt("Enter second node name");
 		if (A == null || B == null || A.isEmpty() || B.isEmpty()) return;
 
-		model.getGraph().getNode(A).removeConnection(B);
+		try{
+			model.getGraph().getNode(A).removeConnection(B);
+		}
+		catch(NullPointerException nu){}
 		model.notifyView();
 		
 		

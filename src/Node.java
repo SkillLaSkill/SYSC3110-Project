@@ -82,12 +82,16 @@ public class Node {
 	}
 	
 	public void removeConnection(Node n) {
-		if (!connections.contains(n)) {
-			System.out.println("Couldn't remove connection!");
-			return;
+		try{
+			if (!connections.contains(n)) {
+				System.out.println("Couldn't remove connection!");
+				return;
+			}
+			connections.remove(n);
+			n.removeConnection(this);
 		}
-		connections.remove(n);
-		n.removeConnection(this);
+		catch(NullPointerException nu)
+		{}
 	}
 	
 	/**
