@@ -7,7 +7,7 @@ public class Graph {
 	/**
 	 * Adds a node to array of nodes
 	 * 
-	 * @param n (Node) - Node you want connected
+	 * @param n (Node) - Node you want added
 	 */
 	public void addNode(Node n) {
 		if(!(n == null) && !nodes.contains(n))	
@@ -18,8 +18,10 @@ public class Graph {
 		System.out.println("Couldn't add node!");
 	}
 	
-	/*
+	/**
 	 * Adds new node by string/name
+	 * 
+	 * @param s (String) - Name of node being added
 	 */
 	public void addNode(String s)
 	{
@@ -34,9 +36,8 @@ public class Graph {
 	/**
 	 * Gets a node given its name
 	 * 
-	 * @param name (String)
-	 * 
-	 * @return Node
+	 * @param name (String) - Name of node wanted
+	 * @return Node - Node with the given name
 	 */
 	public Node getNode(String name) {
 		for (Node n : nodes) {
@@ -49,7 +50,7 @@ public class Graph {
 	/**
 	 * Gets a list of all the nodes
 	 * 
-	 * @return List<Node>
+	 * @return List<Node> - List of all nodes in the graph
 	 */
 	public List<Node> getNodes() {
 		return nodes; 
@@ -57,15 +58,20 @@ public class Graph {
 	
 	
 	/**
-	 * Removes a given node 
+	 * Removes a given node given its name
 	 * 
-	 * @param n (Node)
+	 * @param n (String) - Name of node being removed
 	 */
 	public void removeNode(String name) {
 		if(contains(name))	removeNode(getNode(name));
 		else	System.out.println("Node was not removed!");
 	}
 	
+	/**
+	 * Removes a given node given the node
+	 * 
+	 * @param n (Node) - Node being removed
+	 */
 	public void removeNode(Node n)
 	{
 		if(contains(n))
@@ -78,8 +84,11 @@ public class Graph {
 	}
 
 	
-	/*
+	/**
 	 * Check node list for given name of node
+	 * 
+	 * @param n (String) - Name of node being checked for
+	 * @return boolean - True if it is in graph; False if it isn't
 	 */
 	public boolean contains(String n) {
 		for(Node node: nodes) {
@@ -91,9 +100,8 @@ public class Graph {
 	/**
 	 * Checks if the node list contains the given node
 	 * 
-	 * @param n (Node)
-	 * 
-	 * @return boolean
+	 * @param n (Node) - Node being checked for
+	 * @return boolean - True if it is in graph; False if it isn't
 	 */
 	public boolean contains(Node n) {
 		return this.contains(n.getName());
@@ -106,12 +114,22 @@ public class Graph {
 		nodes.clear();
 	}
 	
+	
+	/**
+	 * Gets the number of nodes in the graph
+	 * 
+	 * @return int - Number of nodes in graph
+	 */
 	public int size() {
 		return nodes.size();
 	}
 	
-	/*
+	/**
 	 * Checks if two nodes are connected
+	 * 
+	 * @param First (string) - First node being checked
+	 * @param Second (String) - Other side of connection
+	 * @return boolean - True if connected; False if not connected
 	 */
 	public boolean isConnected(String First, String Second) {
 		Node A =  getNode(First);
@@ -119,7 +137,13 @@ public class Graph {
 		return isConnected(A, B);
 	}
 
-	
+	/**
+	 * Checks if two nodes are connected
+	 * 
+	 * @param First (Node) - First node being checked
+	 * @param Second (Node) - Other side of connection
+	 * @return boolean - True if connected; False if not connected
+	 */
 	public boolean isConnected(Node A, Node B) {
 		
 		if(contains(A) && contains(B))
@@ -130,6 +154,11 @@ public class Graph {
 		return false;
 	}
 	
+	/**
+	 * Checks if packets exist
+	 * 
+	 * @return boolean - True if packet exists; False if not
+	 */
 	public boolean packetsExist() {
 		for(Node n : nodes) {
 			if(n.getPackets().size() > 0) {
@@ -139,6 +168,9 @@ public class Graph {
 		return false;
 	}
 	
+	/**
+	 * Removes all packets from all nodes
+	 */
 	public void resetPackets() {
 		for(Node n : nodes) {
 			List<Packet> packets = new ArrayList<Packet>();

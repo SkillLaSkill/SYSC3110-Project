@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
@@ -24,6 +25,7 @@ public class SimGUI extends JFrame implements ViewStrategy
 	//Basic Window Construction
 	private NodeDisplayPanel topologyCanvas;
 	private JPanel simulationControl;
+	private JTextArea metrics;
 	
 	//References
 	private SimController controller;
@@ -41,11 +43,11 @@ public class SimGUI extends JFrame implements ViewStrategy
 	 */
 	public SimGUI()
 	{
-		//Frame Icon (Kappa TM)
+	//Frame Icon (Kappa TM)
 		ImageIcon img = new ImageIcon("src/218.png");
 		this.setIconImage(img.getImage());
 		
-		//Variable initializations
+	//Variable initializations
 		nodeList = new GUINodeList();
 		alternate = false;
 		xval = 0;
@@ -53,26 +55,34 @@ public class SimGUI extends JFrame implements ViewStrategy
 		this.model = new Simulation(this);
 		this.controller = new SimController(this, model);
 		
-		//Initial settings
+	//Initial settings
 		this.setTitle("Topology View");
 		this.setLayout(new GridBagLayout());
 		
-		//GridBag Layout
+	//GridBag Layout
         GridBagConstraints a = new GridBagConstraints();
-		a.gridx = 1;
+		a.gridx = 0;
 		a.gridy = 0;
 		a.weightx = 1;
 		a.weighty = 1;
 		a.fill = GridBagConstraints.BOTH;
 		GridBagConstraints b = new GridBagConstraints();
-		b.gridx = 1;
+		b.gridx = 0;
 		b.gridy = 1;
 		b.weightx = 0;
 		b.weighty = 0;
 		b.fill = GridBagConstraints.BOTH;
+		GridBagConstraints c = new GridBagConstraints();
+		c.gridx = 1;
+		c.gridy = 0;
+		c.weightx = 0;
+		c.weighty = 0;
+		c.gridwidth = 200;
+		c.fill = GridBagConstraints.BOTH;
 		
-		//Panel setup 
+	//Panel setup 
 		topologyCanvas = new NodeDisplayPanel();
+		//Sim control buttons
 		simulationControl = new JPanel();
 		JButton step = new JButton("Step Simulation");
 		step.addActionListener(controller);
@@ -80,14 +90,24 @@ public class SimGUI extends JFrame implements ViewStrategy
 		startSim.addActionListener(controller);
 		simulationControl.add(startSim);
 		simulationControl.add(step);
+		//Text Area 
+		JTextArea metrics = new JTextArea("Metrics");
+		JPanel display = new JPanel();
+		metrics.setEditable(false);
+		metrics.setText("Test TEST test");
+		JScrollPane scroll = new JScrollPane();
+		scroll.setPreferredSize(new Dimension(200, 350));
+		scroll.add(metrics);
+		display.add(scroll);
 		this.add(topologyCanvas, a);
 		this.add(simulationControl, b);
+		this.add(display, c);
 		
 		
-		//Right click menu
+	//Right click menu
 		topologyCanvas.addMouseListener(new RightClickListener());		
 		
-		//Menu Bar setup
+	//Menu Bar setup
 		JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
         JMenuItem select = new JMenuItem("Select Algorithm");
@@ -105,8 +125,8 @@ public class SimGUI extends JFrame implements ViewStrategy
         menuBar.add(fileMenu);
         this.setJMenuBar(menuBar);
         
-        //Final settings
-      	this.setSize(500, 500);
+     //Final settings
+      	this.setSize(750, 500);
       	this.setVisible(true);
       	this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
@@ -139,6 +159,25 @@ public class SimGUI extends JFrame implements ViewStrategy
 	private void updateTopologyPanel() {
 		topologyCanvas.validate();
 		topologyCanvas.repaint();
+	}
+	
+	/**
+	 * Appends text to the Text Window
+	 * @param s
+	 */
+	public void addText(String s)
+	{
+		if(metrics == null)
+			System.out.println("Its null for some reason");
+		//metrics.append(s);
+	}
+	
+	/**
+	 * Clears the Text Window
+	 */
+	public void clearText()
+	{
+		metrics.setText("");
 	}
 	
 	/**
@@ -221,6 +260,7 @@ public class SimGUI extends JFrame implements ViewStrategy
 		alternate = false;
 		xval = 0;
 		yval = 0;
+		this.clearText();
 	}
 	
 	/**
