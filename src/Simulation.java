@@ -26,6 +26,9 @@ public class Simulation extends Thread {
 		views.add(v);
 	}
 	
+	public Metric getMetric() {
+		return metric;
+	}
 	/**
 	 * Creates a new simulator
 	 * 
