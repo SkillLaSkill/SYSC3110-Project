@@ -10,13 +10,8 @@ public class Metric {
 		totalCompleteTransfers += completeTransfers;
 	}
 	
-
-	@Override 
-	public String toString() {
-		int x;
-		if (totalCompleteTransfers == 0) x = 1;
-		else x = totalCompleteTransfers;
-		return "Total hops: " + totalHops + ".\nAverage hops/Transfer: " + (float)totalHops/x + ".";
-		
+	public double getAverageHopsPerTransfer() {
+		return (double) totalHops / totalCompleteTransfers;
 	}
+	
 }

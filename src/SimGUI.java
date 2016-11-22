@@ -204,8 +204,6 @@ public class SimGUI extends JFrame implements ViewStrategy
 	{
 		reset();
 		
-		this.addText(model.getMetric().toString());
-		
 		//Add all nodes to graph 
 		for(Node node: model.getGraph().getNodes())
 		{

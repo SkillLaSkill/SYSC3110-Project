@@ -2,9 +2,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Runs the random search algorithm which keeps going to a random node until
+ * it reaches the destination.
+ * 
+ * @author Team GetterDone
+ */
 public class RandomAlgorithm extends RoutingAlgorithm {
 	private Random rand = new Random();
 
+	/**
+	 * Steps through the simulation using the random method
+	 */
 	@Override
 	public void simulateStep() {
 		int packetsSentThisStep = 0;
