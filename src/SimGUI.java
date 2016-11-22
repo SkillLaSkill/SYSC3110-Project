@@ -196,6 +196,7 @@ public class SimGUI extends JFrame implements ViewStrategy
 				, null, choices, choices[0]);
 	}
 	
+	
 	/**
 	 * Updates all necessary GUI fields
 	 */
