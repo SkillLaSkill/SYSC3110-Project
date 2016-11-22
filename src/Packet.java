@@ -28,7 +28,7 @@ public class Packet {
 		this.destination = destination;
 
 		id = count++;
-		this.message = message + id;
+		this.message = message + " ID:" + id + " Dst:" + destination.getName();
 
 	}
 	

@@ -104,23 +104,24 @@ public class Simulation extends Thread {
 		alg.setMetric(metric);
 		
 		if (simulating == true) {
-
-			if(!graph.packetsExist() || (stepCounter % sendRate) == 0) {
-				List<Node> nodes = graph.getNodes();
-				
-				Node destination = nodes.get(rand.nextInt((int)	nodes.size()));
-				Node source = nodes.get(rand.nextInt((int)	nodes.size()));
-				
-				Packet p = new Packet("Message", destination);
-				while(destination.equals(source)) {
-					source = nodes.get(rand.nextInt((int)	nodes.size()));
-				}
-				source.addPacket(p);
-				source.addSeenPacket(p);
-			}
+			
 			alg.simulateStep();
 			stepCounter++;
 			notifyView();
+		}
+		
+		if(!graph.packetsExist() || (stepCounter % sendRate) == 0) {
+			List<Node> nodes = graph.getNodes();
+			
+			Node destination = nodes.get(rand.nextInt((int)	nodes.size()));
+			Node source = nodes.get(rand.nextInt((int)	nodes.size()));
+			
+			Packet p = new Packet("Message", destination);
+			while(destination.equals(source)) {
+				source = nodes.get(rand.nextInt((int)	nodes.size()));
+			}
+			source.addPacket(p);
+			source.addSeenPacket(p);
 		}
 		simulating = false;
 	}
