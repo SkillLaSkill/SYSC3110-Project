@@ -52,27 +52,28 @@ public class DepthFirstAlgorithm extends RoutingAlgorithm {
 		stk.push(root);
 		while (!stk.isEmpty()) {
 			SearchNode current = stk.pop();
-			//System.out.println("Current: " + current.getNode().getName() + " Dist: " + current.getDistance());
-			
-			// If the destination node is found, follow the parents up until before the root and return.
-			if (current.getNode().equals(destination)) {
-				// Destination was current Position
-				if (current.getParent() == null) break;
-				while (current.getParent().getParent() != null) {
-					current = current.getParent();
+			// If not discovered
+			if (current.getDistance() == -1) {
+				// Set to discovered.
+				current.setDistance(0);
+				
+				// If the destination node is found, follow the parents up until before the root and return.
+				if (current.getNode().equals(destination)) {
+					// Destination was current Position
+					SearchNode x = null; 
+					while (!stk.isEmpty()) {
+						x = stk.pop();
+					}
+					return x.getNode();
 				}
-				return current.getNode();
-			}
-			
-			for (Node n : current.getNode().getConnections()) {
-				SearchNode bn = new SearchNode(n);
-				if (bn.getDistance() == -1) {
-					bn.setDistance(current.getDistance() + 1);
-					bn.setParent(current);
-					
-					stk.push(bn);
-				}	
-			}
+				
+				for (Node n : current.getNode().getConnections()) {
+					SearchNode bn = new SearchNode(n);
+					if (bn.getDistance() == -1) {
+						stk.push(bn);
+					}	
+				}
+			}			
 		}
 		return null;
 	}
