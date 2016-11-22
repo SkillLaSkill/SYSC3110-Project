@@ -125,6 +125,7 @@ public class SimController implements ActionListener {
 	{
 		String[] choices = {"Random", "Flood", "Breadth-first" };
 		String choice = view.comboPrompt(choices);
+		if(choice == null) return;
 		if(choice.equals("Random")) {
 			model.setAlgorithm(new RandomAlgorithm());
 		}
@@ -143,7 +144,7 @@ public class SimController implements ActionListener {
 	 * 
 	 * @param s (String) - Number of steps that will be taken
 	 * @param r (String) - The step rate the simulation will use
-	 */
+	 */ 
 	private void startSim()
 	{
 		if(model.getAlgorithm() == null)

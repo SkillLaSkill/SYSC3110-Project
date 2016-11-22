@@ -204,7 +204,7 @@ public class SimGUI extends JFrame implements ViewStrategy
 	{
 		reset();
 		
-		//Add all nodes to graph
+		//Add all nodes to graph 
 		for(Node node: model.getGraph().getNodes())
 		{
 			double[] loc = findGoodXY();
