@@ -26,9 +26,6 @@ public class Simulation extends Thread {
 		views.add(v);
 	}
 	
-	public Metric getMetric() {
-		return metric;
-	}
 	/**
 	 * Creates a new simulator
 	 * 
@@ -75,10 +72,20 @@ public class Simulation extends Thread {
 		graph = new Graph();
 	}
 	
+	/**
+	 * Sets the send rate of the simulation
+	 * 
+	 * @param sendRate (int) - Desired send rate
+	 */
 	public void setSendRate(int sendRate) {
 		this.sendRate = sendRate;
 	}
 	
+	/**
+	 * Checks if the simulation has a send rate
+	 * 
+	 * @return boolean - True = has a send rate; False = doesn't have a send rate
+	 */
 	public boolean hasSendRate()
 	{
 		if(sendRate <= 0) return false;

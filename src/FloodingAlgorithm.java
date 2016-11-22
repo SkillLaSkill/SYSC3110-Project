@@ -1,12 +1,17 @@
 import java.util.Set;
 import java.util.HashSet;
 
-
+/**
+ * Runs the flood search algorithm which sends a packet to all the nodes connections. 
+ * 
+ * @author Team GetterDone
+ */
 public class FloodingAlgorithm extends RoutingAlgorithm {
-
-
 	private Set<Packet> packets = new HashSet<Packet>();
 	
+	/**
+	 * Steps through the simulation using the flood method
+	 */
 	@Override
 	public void simulateStep() {
 		int packetsSentThisStep = 0;

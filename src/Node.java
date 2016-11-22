@@ -23,30 +23,68 @@ public class Node {
 		name = n;
 	}
 	
+	/**
+	 * Adds a packet to the list of current packets
+	 * 
+	 * @param p (Packet) - Packet that will be added
+	 */
 	public void addPacket(Packet p) {
 		packets.add(p);
 	}
+	
+	/**
+	 * Removes a packet from the list of current packets
+	 * 
+	 * @param p (Packet) - Packet that will be removed
+	 */
 	public void removePacket(Packet p) {
 		packets.remove(p);
 	}
 	
+	/**
+	 * Gets a list of all the current packets
+	 * 
+	 * @return List<Packet> - List of all current packets
+	 */
 	public List<Packet> getPackets() {
 		return packets;
 	}
 	
+	/**
+	 * Sets the list of all the current packets
+	 * 
+	 * @param packets (List<Packet>) - List of all current packets
+	 */
 	public void setPackets(List<Packet> packets) {
 		this.packets = packets;
 		
 	}
 	
+	/**
+	 * Checks if the current packets contains the given packet
+	 * 
+	 * @param p (Packet) - Packet you want to check
+	 * @return boolean - True if in list; False if not in list
+	 */
 	public boolean countainsPacket(Packet p) {
 		return packets.contains(p);
 	}
 	
+	/**
+	 * Adds a packet to the list of seen packets
+	 * 
+	 * @param p (Packet) - Packet that will be added
+	 */
 	public void addSeenPacket(Packet p) {
 		packetsSeen.add(p);
 	}
 	
+	/**
+	 * Checks if the packet given has been seen
+	 * 
+	 * @param p (Packet) - Packet you want to check for
+	 * @return boolean - True = packet was seen; False = packet was not seen
+	 */
 	public boolean hasSeenPacket(Packet p) {
 		return packetsSeen.contains(p);
 	}
@@ -59,10 +97,11 @@ public class Node {
 	public String getName() {
 		return name;
 	}
+	
 	/**
 	 * Sets the nodes name 
 	 * 
-	 * @param String - Desired name
+	 * @param n (String) - Desired name
 	 */
 	public void setName(String n) {
 		name = n;
@@ -86,8 +125,8 @@ public class Node {
 
 	/**
 	 * Removes the connection of two nodes.
-	 * @param n
-	 * Connected node to remove connection with.
+	 * 
+	 * @param n (Node) - Connected node to remove connection with.
 	 */
 	public void removeConnection(Node n) {
 		try{
@@ -105,10 +144,8 @@ public class Node {
 	/**
 	 * Gets a list of all names of the nodes connected
 	 * 
-	 * @return List<String> - Connections list
+	 * @return List<Node> - Connections list
 	 */
-
-	//	NEW
 	public List<Node> getConnections() {
 		return connections;
 	}
@@ -116,10 +153,9 @@ public class Node {
 	/**
 	 * Checks if the node is connected to another node given its name
 	 * 
-	 * @param n
-	 * @return n (String) - Node name you want to check is connected
+	 * @param n (Node) - Node you want to check is connected
+	 * @return boolean - True = connected; False = not connected
 	 */
-	//	NEW
 	public boolean isConnected(Node n) {
 		if(n == null)	System.out.println("Null string!");
 		for (Node node : connections)

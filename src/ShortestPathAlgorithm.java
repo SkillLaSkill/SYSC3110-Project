@@ -1,8 +1,17 @@
 import java.util.LinkedList;
 import java.util.Queue;
 
+/**
+ * Runs the shortest path search algorithm which sends a packet to add connected nodes which don't
+ * currently have a packet. This keeps going until it has no more nodes without a packet
+ * 
+ * @author Team GetterDone
+ */
 public class ShortestPathAlgorithm extends RoutingAlgorithm {
 
+	/**
+	 * Steps through the simulation using the shortest path method
+	 */
 	@Override
 	public void simulateStep() {
 		int packetsSentThisStep = 0;
@@ -39,6 +48,13 @@ public class ShortestPathAlgorithm extends RoutingAlgorithm {
 		resetTransfered();
 	}
 	
+	/**
+	 * Finds the next node that the breath first method will go to
+	 * 
+	 * @param currentPosition (Node) - The current node packet is at
+	 * @param destination (Node) - The node the packet is trying to reach
+	 * @return Node - The next node packet will go to
+	 */
 	private Node findNextNodeBFS(Node currentPosition, Node destination) {
 		Queue<SearchNode> q = new LinkedList<>();
 		

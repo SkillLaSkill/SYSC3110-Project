@@ -1,6 +1,11 @@
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The Graph in which the list of nodes is stored and accessed by the simulation
+ * 
+ * @author Team GetterDone
+ */
 public class Graph {
 	private List<Node> nodes = new ArrayList<Node>();
 	

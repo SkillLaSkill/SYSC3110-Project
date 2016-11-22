@@ -1,9 +1,17 @@
-
 import java.util.Stack;
 
+/**
+ * Runs the depth first search algorithm which travels as far  as possible. Once it hits a
+ * end point, it goes to the previous location and checks if it can continue there.
+ * 
+ * @author Team GetterDone
+ */
 public class DepthFirstAlgorithm extends RoutingAlgorithm {
 
 
+	/**
+	 * Steps through the simulation using the depth first method
+	 */
 	@Override
 	public void simulateStep() {
 		
@@ -43,6 +51,13 @@ public class DepthFirstAlgorithm extends RoutingAlgorithm {
 		
 	}
 	
+	/**
+	 * Finds the next node that the depth fire method will go to
+	 * 
+	 * @param currentPosition (Node) - The current node packet is at
+	 * @param destination (Node) - The node the packet is trying to reach
+	 * @return Node - The next node packet will go to
+	 */
 	private Node findNextNodeDFS(Node currentPosition, Node destination) {
 		Stack<SearchNode> stk = new Stack<SearchNode>();
 		
@@ -77,6 +92,4 @@ public class DepthFirstAlgorithm extends RoutingAlgorithm {
 		}
 		return null;
 	}
-
-
 }

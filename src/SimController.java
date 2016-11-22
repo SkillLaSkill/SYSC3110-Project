@@ -175,6 +175,9 @@ public class SimController implements ActionListener {
 			model.simulateStep();
 	}
 	
+	/**
+	 * Takes a step in teh simulation
+	 */
 	private void stepSim()
 	{
 		if(!model.hasSendRate())
