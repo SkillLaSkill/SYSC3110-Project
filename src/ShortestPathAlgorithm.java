@@ -73,35 +73,4 @@ public class ShortestPathAlgorithm extends RoutingAlgorithm {
 		}
 		return null;
 	}
-
-	public static void main(String[] args) {
-		ShortestPathAlgorithm al = new ShortestPathAlgorithm(new Metric());
-		Graph g = new Graph();
-		Node A = new Node("A");
-		Node B = new Node("B");
-		Node C = new Node("C");
-		Node D = new Node("D");
-		Node E = new Node("E");
-		
-		A.addConnection(B);
-		A.addConnection(C);
-		A.addConnection(E);
-		B.addConnection(D);
-		B.addConnection(E);
-		C.addConnection(D);
-		
-		g.addNode(A);
-		g.addNode(B);
-		g.addNode(C);
-		g.addNode(D);
-		g.addNode(E);
-		
-		Packet p = new Packet("Hello", D);
-		E.addPacket(p);
-		
-		
-		al.setGraph(g);
-		
-		al.simulate(3);
-	}
 }
