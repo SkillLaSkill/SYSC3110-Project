@@ -16,7 +16,6 @@ public class Simulation extends Thread {
 	private Metric metric = new Metric();
 	private List<ViewStrategy> views;
 	private Random rand = new Random();
-	private boolean simulating = false;
 	private int stepCounter = 0;
 	private int totalHops = 0;
 	
@@ -36,23 +35,6 @@ public class Simulation extends Thread {
 		rand = new Random();
 	}
 	
-	/**
-	 * Checks if the simulator is running
-	 * 
-	 * @return boolean - True = running; False = stopped
-	 */
-	public boolean isSimulating() {
-		return simulating;
-	}
-
-	/**
-	 * Sets the simulator to running
-	 * 
-	 * @param simulating (boolean) - Sets the simulation to running or stopped
-	 */
-	public void setSimulating(boolean simulating) {
-		this.simulating = simulating;
-	}
 
 	/**
 	 * Returns the graph information
@@ -84,7 +66,6 @@ public class Simulation extends Thread {
 	 * Resets the simulation
 	 */
 	public void reset(){
-		simulating = false;
 		stepCounter = 0;
 		totalHops = 0;
 		graph = new Graph();
@@ -99,16 +80,13 @@ public class Simulation extends Thread {
 	 * @param sendRate (int) - Rate in which the packets are sent
 	 */
 	public void simulateStep(int sendRate) {
-		simulating = true;
 		alg.setGraph(graph);
 		alg.setMetric(metric);
 		
-		if (simulating == true) {
 			
-			alg.simulateStep();
-			stepCounter++;
-			notifyView();
-		}
+		alg.simulateStep();
+		stepCounter++;
+		
 		
 		if(!graph.packetsExist() || (stepCounter % sendRate) == 0) {
 			List<Node> nodes = graph.getNodes();
@@ -123,7 +101,7 @@ public class Simulation extends Thread {
 			source.addPacket(p);
 			source.addSeenPacket(p);
 		}
-		simulating = false;
+		notifyView();
 	}
 	
 	

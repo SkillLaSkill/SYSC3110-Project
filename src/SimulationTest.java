@@ -35,15 +35,6 @@ public class SimulationTest {
 		Assert.assertNotNull("Simulation should exist", s);
 	}
 	
-	/**
-	 * Tests the setSimulating by setting it to true and making sure it is simulating by calling
-	 * isSimulating and making sure it returns true.
-	 */
-	@Test
-	public void testSetSimulating() {
-		s.setSimulating(true);
-		Assert.assertEquals("Simulator should be simulating", true, s.isSimulating());
-	}
 
 	/**
 	 * Tests the reset method by resetting the simulation and making sure the numbers of step
