@@ -159,8 +159,9 @@ public class SimController implements ActionListener {
 			System.out.println("Sendrate and steps must be above zero!");
 			return;
 		}
+		model.setSendRate(sendRate);
 		for(int i = 0; i < steps; i++) 
-			model.simulateStep(sendRate);
+			model.simulateStep();
 	}
 	
 	private void stepSim()
@@ -176,7 +177,6 @@ public class SimController implements ActionListener {
 
 		if(model.getAlgorithm() == null)
 			this.selectAlg();
-		//Add your shit here
 		model.simulateStep();
 	}
 	
