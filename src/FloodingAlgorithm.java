@@ -12,6 +12,8 @@ public class FloodingAlgorithm extends RoutingAlgorithm {
 	
 	@Override
 	public void simulateStep() {
+		int packetsSentThisStep = 0;
+		int packetsFinishedThisStep = 0;
 		
 		//creates a set of all packets in the graph
 		for(int i = 0; i < getGraph().getNodes().size(); i++) {
@@ -51,6 +53,8 @@ public class FloodingAlgorithm extends RoutingAlgorithm {
 				}
 				
 			}
+			getMetric().addHops(packetsSentThisStep);
+			getMetric().addCompleteTransfers(packetsFinishedThisStep);
 		}
 		//checks if any of the packets have expired and need to be removed
 		for(int i = 0; i < packetsArray.length; i++) {
