@@ -167,8 +167,6 @@ public class SimController implements ActionListener {
 	{
 		if(model.getAlgorithm() == null)
 			this.selectAlg();
-		String s = view.createPrompt("Test Text Area");
-		view.addText(s);
 		//Add your shit here
 	}
 	

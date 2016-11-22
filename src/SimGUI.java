@@ -91,13 +91,12 @@ public class SimGUI extends JFrame implements ViewStrategy
 		simulationControl.add(startSim);
 		simulationControl.add(step);
 		//Text Area 
-		JTextArea metrics = new JTextArea("Metrics");
+		metrics = new JTextArea("Metrics");
 		JPanel display = new JPanel();
 		metrics.setEditable(false);
-		metrics.setText("Test TEST test");
-		JScrollPane scroll = new JScrollPane();
+		metrics.setText("Test TEST test \n Helllooo");
+		JScrollPane scroll = new JScrollPane(metrics);
 		scroll.setPreferredSize(new Dimension(200, 350));
-		scroll.add(metrics);
 		display.add(scroll);
 		this.add(topologyCanvas, a);
 		this.add(simulationControl, b);
@@ -167,9 +166,7 @@ public class SimGUI extends JFrame implements ViewStrategy
 	 */
 	public void addText(String s)
 	{
-		if(metrics == null)
-			System.out.println("Its null for some reason");
-		//metrics.append(s);
+		metrics.append(s);
 	}
 	
 	/**
