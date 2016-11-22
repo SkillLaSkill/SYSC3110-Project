@@ -54,25 +54,22 @@ Nodes and connections can now be created and deleted by right clicking on the gu
 Updated UML to show inner classes.
 SimTopologyView was replaced with SimGUI and GUINodeList to break up the responsibilities.
 Packets are now displayed before their first hop.
-Flooding, Breadth, Depth
+Flooding, Breadth-First-Search, Depth-First-Search were implemented.
+Added second metric.
 
 <B>Known Issues </B>
-
+Added
+Simulation requires a complete graph to function properly.
 Deleting a node or connection after simulating can cause errors
-
 Trying to delete connection with improper parameters can cause errors
-
-If a node name has a space, it will be considered valid;however, it cannot be connected to other nodes
-
-Exception is thrown if improper parameters for step and send rate are used
 
 <B>Distribution of Work</B>
 
-Ben - Updated the UML diagram and worked on the Controller and Graph
+Ben - Thoroughly updated MVC, View and Controller
 
-Dan - Created the UML diagram and worked on the UnitTests
+Dan - Created the UML diagram,worked on UniTTests JAVADOC, Graph and Node
 
-Josh - Worked on the View and decoupling Node into Graph
+Josh - Worked on the Depth algorhithm, View Graphics, Breadth algorhithm and Metrics.
 
-Thomas - Worked on the Model, Controller, Transfer and Master(changes were incorperated into Controller)
+Thomas - Worked on the Model, Packet, Documentation, Flooding algorithm and Metrics.
 

@@ -160,7 +160,7 @@ public class SimGUI extends JFrame implements ViewStrategy
 		topologyCanvas.validate();
 		topologyCanvas.repaint();
 	}
-	
+	 
 	/**
 	 * Appends text to the Text Window
 	 * @param s
