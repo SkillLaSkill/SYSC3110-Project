@@ -94,13 +94,14 @@ public class SimGUI extends JFrame implements ViewStrategy
 		metrics = new JTextArea("Metrics");
 		JPanel display = new JPanel();
 		metrics.setEditable(false);
-		metrics.setText("Test TEST test \n Helllooo");
+		metrics.setText("Will display important information");
 		JScrollPane scroll = new JScrollPane(metrics);
 		scroll.setPreferredSize(new Dimension(200, 350));
 		display.add(scroll);
 		this.add(topologyCanvas, a);
 		this.add(simulationControl, b);
 		this.add(display, c);
+		
 		
 		
 	//Right click menu
