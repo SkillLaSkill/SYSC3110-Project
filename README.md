@@ -58,10 +58,12 @@ Flooding, Breadth-First-Search, Depth-First-Search were implemented.
 Added second metric.
 
 <B>Known Issues </B>
-Added
+Shouldn't be able to have sendRate less than 1.
 Simulation requires a complete graph to function properly.
 Deleting a node or connection after simulating can cause errors
 Trying to delete connection with improper parameters can cause errors
+Flooding needs to be re-written.
+Number of hops before packets in flooding are destroyed should be based on graph traversal length. (it is arbitrarily set as 6)
 
 <B>Distribution of Work</B>
 
