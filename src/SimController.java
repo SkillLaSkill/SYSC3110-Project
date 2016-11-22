@@ -128,6 +128,9 @@ public class SimController implements ActionListener {
 		if(choice.equals("Random")) {
 			model.setAlgorithm(new RandomAlgorithm());
 		}
+		else if (choice.equals("Breadth-first")){
+			model.setAlgorithm(new ShortestPathAlgorithm());
+		}
 		//Add other algorithm choices here
 		else System.out.println("Algorithm not implemented!");
 	}
