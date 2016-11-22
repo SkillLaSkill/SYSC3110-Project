@@ -3,7 +3,7 @@ public abstract class RoutingAlgorithm {
 	private Graph graph;
 	private Metric metric;
 	
-	public RoutingAlgorithm(Metric metric) {
+	public void setMetric(Metric metric) {
 		this.metric = metric;
 	}
 	

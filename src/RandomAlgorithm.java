@@ -4,11 +4,6 @@ import java.util.Random;
 
 public class RandomAlgorithm extends RoutingAlgorithm {
 	private Random rand;
-	
-	public RandomAlgorithm(Metric metric) {
-		super(metric);
-		rand = new Random();
-	}
 
 	@Override
 	public void simulateStep() {

@@ -4,9 +4,6 @@ import java.util.HashSet;
 
 public class FloodingAlgorithm extends RoutingAlgorithm {
 
-	public FloodingAlgorithm(Metric metric) {
-		super(metric);
-	}
 
 	private Set<Packet> packets = new HashSet<Packet>();
 	

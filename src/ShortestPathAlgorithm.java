@@ -3,10 +3,6 @@ import java.util.Queue;
 
 public class ShortestPathAlgorithm extends RoutingAlgorithm {
 
-	public ShortestPathAlgorithm(Metric metric) {
-		super(metric);
-	}
-
 	@Override
 	public void simulateStep() {
 		int packetsSentThisStep = 0;
