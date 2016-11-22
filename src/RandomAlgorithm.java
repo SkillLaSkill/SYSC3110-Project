@@ -3,7 +3,7 @@ import java.util.List;
 import java.util.Random;
 
 public class RandomAlgorithm extends RoutingAlgorithm {
-	private Random rand;
+	private Random rand = new Random();
 
 	@Override
 	public void simulateStep() {

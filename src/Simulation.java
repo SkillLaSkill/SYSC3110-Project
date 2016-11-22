@@ -13,6 +13,7 @@ public class Simulation extends Thread {
 
 	private RoutingAlgorithm alg;
 	private Graph graph;
+	private Metric metric = new Metric();
 	private List<ViewStrategy> views;
 	private Random rand = new Random();
 	private boolean simulating = false;
@@ -100,6 +101,7 @@ public class Simulation extends Thread {
 	public void simulateStep(int sendRate) {
 		simulating = true;
 		alg.setGraph(graph);
+		alg.setMetric(metric);
 		
 		if (simulating == true) {
 
