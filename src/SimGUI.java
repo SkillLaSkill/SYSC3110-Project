@@ -23,7 +23,7 @@ public class SimGUI extends JFrame implements ViewStrategy
 	private static final long serialVersionUID = 1L;
 	//Basic Window Construction
 	private NodeDisplayPanel topologyCanvas;
-	private JPanel consolePanel;
+	private JPanel simulationControl;
 	
 	//References
 	private SimController controller;
@@ -56,18 +56,36 @@ public class SimGUI extends JFrame implements ViewStrategy
 		//Initial settings
 		this.setTitle("Topology View");
 		this.setLayout(new GridBagLayout());
-
 		
-		//Panel setup (Want to add consolePanel as a display of console)
+		//GridBag Layout
+        GridBagConstraints a = new GridBagConstraints();
+		a.gridx = 1;
+		a.gridy = 0;
+		a.weightx = 1;
+		a.weighty = 1;
+		a.fill = GridBagConstraints.BOTH;
+		GridBagConstraints b = new GridBagConstraints();
+		b.gridx = 1;
+		b.gridy = 1;
+		b.weightx = 0;
+		b.weighty = 0;
+		b.fill = GridBagConstraints.BOTH;
+		
+		//Panel setup 
 		topologyCanvas = new NodeDisplayPanel();
-		JTextArea console = new JTextArea();
-		console.setText("Whaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-		//this.add(topologyCanvas);
-		//this.add(console);
+		simulationControl = new JPanel();
+		JButton step = new JButton("Step Simulation");
+		step.addActionListener(controller);
+		JButton startSim = new JButton("Start Simulation");
+		startSim.addActionListener(controller);
+		simulationControl.add(startSim);
+		simulationControl.add(step);
+		this.add(topologyCanvas, a);
+		this.add(simulationControl, b);
+		
 		
 		//Right click menu
-		this.addMouseListener(new RightClickListener());
-		
+		topologyCanvas.addMouseListener(new RightClickListener());		
 		
 		//Menu Bar setup
 		JMenuBar menuBar = new JMenuBar();
@@ -86,15 +104,6 @@ public class SimGUI extends JFrame implements ViewStrategy
         fileMenu.add(exit);
         menuBar.add(fileMenu);
         this.setJMenuBar(menuBar);
-        
-        //Topology View Setup
-        GridBagConstraints c = new GridBagConstraints();
-		c.gridx = 1;
-		c.gridy = 0;
-		c.weightx = 1;
-		c.weighty = 1;
-		c.fill = GridBagConstraints.BOTH;
-		this.add(topologyCanvas, c);
         
         //Final settings
       	this.setSize(500, 500);
