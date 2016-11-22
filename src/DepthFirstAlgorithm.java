@@ -3,11 +3,13 @@ import java.util.Stack;
 
 public class DepthFirstAlgorithm extends RoutingAlgorithm {
 
+	public DepthFirstAlgorithm(Metric metric) {
+		super(metric);
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public void simulateStep() {
-		if (!isSimulating()) {
-			return;
-		}
 		
 		for (int i = 0; i < getGraph().getNodes().size(); i++){
 			Node n = getGraph().getNodes().get(i);

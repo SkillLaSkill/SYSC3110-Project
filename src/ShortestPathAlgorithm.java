@@ -3,12 +3,13 @@ import java.util.Queue;
 
 public class ShortestPathAlgorithm extends RoutingAlgorithm {
 
+	public ShortestPathAlgorithm(Metric metric) {
+		super(metric);
+	}
+
 	@Override
 	public void simulateStep() {
 		
-		if (!isSimulating()) {
-			return;
-		}
 		
 		for (int i = 0; i < getGraph().getNodes().size(); i++){
 			Node n = getGraph().getNodes().get(i);
@@ -74,7 +75,7 @@ public class ShortestPathAlgorithm extends RoutingAlgorithm {
 	}
 
 	public static void main(String[] args) {
-		ShortestPathAlgorithm al = new ShortestPathAlgorithm();
+		ShortestPathAlgorithm al = new ShortestPathAlgorithm(new Metric());
 		Graph g = new Graph();
 		Node A = new Node("A");
 		Node B = new Node("B");
@@ -100,7 +101,6 @@ public class ShortestPathAlgorithm extends RoutingAlgorithm {
 		
 		
 		al.setGraph(g);
-		al.setSimulating(true);
 		
 		al.simulate(3);
 	}

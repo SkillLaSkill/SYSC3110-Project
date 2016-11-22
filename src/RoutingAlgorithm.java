@@ -1,8 +1,16 @@
 
 public abstract class RoutingAlgorithm {
 	private Graph graph;
-	private boolean simulating;
-
+	private Metric metric;
+	
+	public RoutingAlgorithm(Metric metric) {
+		this.metric = metric;
+	}
+	
+	public Metric getMetric() {
+		return metric;
+	}
+	
 	public void setGraph(Graph g) {
 		this.graph = g;
 	}
@@ -15,12 +23,6 @@ public abstract class RoutingAlgorithm {
 	
 	public Graph getGraph() {
 		return graph;
-	}
-	public boolean isSimulating() {
-		return simulating;
-	}
-	public void setSimulating(boolean simulating) {
-		this.simulating = simulating;
 	}
 	
 	/**
