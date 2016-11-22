@@ -18,11 +18,10 @@ Thomas Carriere 100947281
 
 Running the JAR will launch the user interface which will allow the user to create the topology of the network and run simulations on it.
 
-To create a new node, enter the node's name in the textfield next to "New node name:", then press the Create Node button.
-It will not allow you to create duplicate nodes (nodes with the exact same name). The node will then be displayed on the graphics pane to the right. They nodes are evenly spaced in a grid pattern.
+To create new nodes, right click on the gui and select "Create Nodes" from the list of options to launch the create node prompt. Enter the desired node names into the textfield, seperated by commas, and press "OK".
+It will not allow you to create duplicate nodes (nodes with the exact same name). The node will then be displayed on the graphics pane of the gui. They nodes are evenly spaced in a skewed grid pattern.
 
-To setup the connections of a mode, enter the name of the node next to the textfield next to "Node to set connections",
-then enter a the name of a node in the textfield next to "List of connections:", then click the Establish Connections button.
+To setup the connections of a node, right click on the gui and select "Add connection" from the list of options to launch the set connection prompt. Enter the name of the first node to add a connection to in the textfield, then press "OK", which will launch a second prompt. Enter the name of the second node to add a connection to in the textfield, then press "OK" to establish the connection.
 Note: when connections are established, they are created in a way to keep the graph simple and undirected.
 That is, if node A is connected to B then B will be connected to A. Also, node A cannot connect to itself, a node have multiple connections to the same node. A line is drawn between nodes where connections exist.
 If the connection list does not adhere to these criteria, the duplicate and invalid connections will be ignored.
@@ -32,13 +31,15 @@ If node A already references B
 And the input is "A B C C"
 The resulting connection (for node A) will be "B C"
 
-To delete a node, enter the name of the node to be deleted in the textfield next to "Node to delete" and press the button labeled "Delete Node". If a node is deleted, all of its connections to other nodes will also be removed.
+To delete a node, right click the on the gui and select "Delete Node" from the list of options to launch the delete node prompt. Enter the name of the node to delete in the textfield and press "OK" to delete the node.
 
-To delete a connection between two nodes, enter the name of the two nodes in the textfield next to "Delete Connection" and press the button labeled "Delete Connection".
+To delete a connection between two nodes, right click the gui and select "Delete Connection" from the list of options to launch the delete connection prompt. Enter the name of a node with connections to delete in the textfield and press "OK" to launch the second prompt. Enter the name of a node connected to the first node in the textfield and press "OK" to delete the connection between the two given nodes.
 
-To select a routing algorithm for the simulation to implement, open the drop down menu and select from the available algorithm (only random at the moment).
+To select a routing algorithm for the simulation to implement, click on File from the menubar and press "Select Algorithm" to launch the select algorithm prompt. From the prompt, select the desrired Algorithm from the drop down list and press "OK" to set the algorithm to simulate.
 
-To begin the simulation, enter the desired number steps to be performed into the textfield labeled "Steps" and enter the rate at which new packets should be generated into the text field labeled "Send Rate". Pressing the button labeled "Simulate" run a simulation using the network created by the user, using the specified send rate and number of steps. If there are no more packets in the simulation, and there are still steps that need to be performed, a new packet will be generated, regardless of send rate.
+To begin the simulation, press the button labeled "Start Simulation". If algorithm was selected before hand from the File Menu, a prompt will ask the user to select the desired algorithm from a drop down list. Once selected, press "OK" to launch the Number of Steps prompt. Enter the number of steps for the simulation to run, and press "OK" to launch the Send Rate prompt. Enter the desired Send Rate (the rate at which never packets are introduced into the simulation) and press "OK" to being running the simulation.
+Note: The number of steps and the send rate must both be positive integers. 
+      The Send Rate dicates how many steps must be performed before a new packet is created.
 
 Pressing the button labeled "Simulate Step" will performed one step (i.e. each existing packet will be transfered once) into the simulation. The send rate used is
 
