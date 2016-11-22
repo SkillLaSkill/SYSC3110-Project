@@ -18,6 +18,7 @@ public class Simulation extends Thread {
 	private Random rand = new Random();
 	private int stepCounter = 0;
 	private int totalHops = 0;
+	private int sendRate = 0;
 	
 	public Simulation(SimGUI v) {
 		this(new Graph());
@@ -71,6 +72,16 @@ public class Simulation extends Thread {
 		graph = new Graph();
 	}
 	
+	public void setSendRate(int sendRate) {
+		this.sendRate = sendRate;
+	}
+	
+	public boolean hasSendRate()
+	{
+		if(sendRate <= 0) return false;
+		else return true;
+	}
+	
 	@Override
 	public void run() {}
 	
@@ -79,7 +90,7 @@ public class Simulation extends Thread {
 	 *
 	 * @param sendRate (int) - Rate in which the packets are sent
 	 */
-	public void simulateStep(int sendRate) {
+	public void simulateStep() {
 		alg.setGraph(graph);
 		alg.setMetric(metric);
 		
