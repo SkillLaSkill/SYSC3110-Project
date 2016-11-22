@@ -20,30 +20,30 @@ public class FloodingAlgorithm extends RoutingAlgorithm {
 				packets.add(p);
 			}
 		}
-		Packet[] packetsArray = (Packet[]) packets.toArray();
+		Object[] packetsArray = packets.toArray();
 		//need a Time To Live counter
 		for(int i = 0; i < packetsArray.length; i++) {
-			Packet p = packetsArray[i];
+			Object p = packetsArray[i];
 			
 			for(int j = 0; j < getGraph().getNodes().size(); j++) {
 				Node n = getGraph().getNodes().get(j);
-				if(n.countainsPacket(p)) {
+				if(n.countainsPacket((Packet) p)) {
 					
 					for(int k = 0; k < n.getConnections().size() ; k++) {
 						Node con = n.getConnections().get(k);
 						
-						if(!con.hasSeenPacket(p)) {
+						if(!con.hasSeenPacket((Packet) p)) {
 							packetsSentThisStep++;
 							
 							//node has reach destination
-							if(con.equals(p.getDestination())) {
-								n.addSeenPacket(p);
-								n.removePacket(p);	
+							if(con.equals(((Packet) p).getDestination())) {
+								n.addSeenPacket((Packet) p);
+								n.removePacket((Packet) p);	
 								packetsFinishedThisStep++;
 							}
 							else {
-							con.addPacket(p);
-							con.addSeenPacket(p);
+							con.addPacket((Packet) p);
+							con.addSeenPacket((Packet) p);
 							}
 						}
 					}
@@ -55,14 +55,14 @@ public class FloodingAlgorithm extends RoutingAlgorithm {
 		}
 		//checks if any of the packets have expired and need to be removed
 		for(int i = 0; i < packetsArray.length; i++) {
-			Packet p = packetsArray[i];
+			Object p = packetsArray[i];
 			
-			if(p.getHops() > 6) {
+			if(((Packet) p).getHops() > 6) {
 			
 				for(int j = 0; j < getGraph().getNodes().size(); j++) {
 					Node n = getGraph().getNodes().get(j);
-					if(n.countainsPacket(p)) {
-						n.removePacket(p);
+					if(n.countainsPacket((Packet) p)) {
+						n.removePacket((Packet) p);
 					}
 				}
 			}
