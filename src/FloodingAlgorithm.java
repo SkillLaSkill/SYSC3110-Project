@@ -67,5 +67,25 @@ public class FloodingAlgorithm extends RoutingAlgorithm {
 				}
 			}
 		}
+		
+		for(int i = 0; i < packetsArray.length; i++) {
+			Object p = packetsArray[i];
+			for(int j = 0; j < getGraph().getNodes().size(); j++) {
+				Node n = getGraph().getNodes().get(j);
+				if(n.countainsPacket((Packet) p)) {
+					int total = 0;
+					for(int k = 0; k < n.getConnections().size() ; k++) {
+						Node con = n.getConnections().get(k);
+						if(con.hasSeenPacket((Packet) p)) {
+							total++;
+						}
+					}
+				if(total == n.getConnections().size()){
+					n.removePacket((Packet) p);
+				}
+				}
+			}
+		}
+		
 	}
 }
