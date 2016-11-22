@@ -23,41 +23,49 @@ public class FloodingAlgorithm extends RoutingAlgorithm {
 		Object[] packetsArray = packets.toArray();
 		//need a Time To Live counter
 		for(int i = 0; i < packetsArray.length; i++) {
-			Object p = packetsArray[i];
+			Packet p = (Packet)packetsArray[i];
 			
 			for(int j = 0; j < getGraph().getNodes().size(); j++) {
 				Node n = getGraph().getNodes().get(j);
-				if(n.countainsPacket((Packet) p)) {
+				if(n.countainsPacket(p)) {
 					
+					int seenCounter = 0;
 					for(int k = 0; k < n.getConnections().size() ; k++) {
 						Node con = n.getConnections().get(k);
 						
-						if(!con.hasSeenPacket((Packet) p)) {
+						if(!con.hasSeenPacket(p)) {
+							p.incrementHops();
 							packetsSentThisStep++;
 							
 							//node has reach destination
-							if(con.equals(((Packet) p).getDestination())) {
-								n.addSeenPacket((Packet) p);
-								n.removePacket((Packet) p);	
+							if(con.equals(p.getDestination())) {
+								n.addSeenPacket(p);
+								n.removePacket(p);	
+								
 								packetsFinishedThisStep++;
 							}
 							else {
-							con.addPacket((Packet) p);
-							con.addSeenPacket((Packet) p);
+								con.addPacket(p);
+								con.addSeenPacket(p);
 							}
+						} else {
+							seenCounter++;
 						}
-					}
-				}
-				
+						// All connections already visited.
+						if (seenCounter == n.getConnections().size() - 1) {
+							n.removePacket(p);
+						}
+					}					
+				}		
 			}
 			getMetric().addHops(packetsSentThisStep);
 			getMetric().addCompleteTransfers(packetsFinishedThisStep);
 		}
 		//checks if any of the packets have expired and need to be removed
 		for(int i = 0; i < packetsArray.length; i++) {
-			Object p = packetsArray[i];
+			Packet p = (Packet)packetsArray[i];
 			
-			if(((Packet) p).getHops() > 6) {
+			if(p.getHops() > 8) {
 			
 				for(int j = 0; j < getGraph().getNodes().size(); j++) {
 					Node n = getGraph().getNodes().get(j);
@@ -67,25 +75,7 @@ public class FloodingAlgorithm extends RoutingAlgorithm {
 				}
 			}
 		}
-		
-		for(int i = 0; i < packetsArray.length; i++) {
-			Object p = packetsArray[i];
-			for(int j = 0; j < getGraph().getNodes().size(); j++) {
-				Node n = getGraph().getNodes().get(j);
-				if(n.countainsPacket((Packet) p)) {
-					int total = 0;
-					for(int k = 0; k < n.getConnections().size() ; k++) {
-						Node con = n.getConnections().get(k);
-						if(con.hasSeenPacket((Packet) p)) {
-							total++;
-						}
-					}
-				if(total == n.getConnections().size()){
-					n.removePacket((Packet) p);
-				}
-				}
-			}
-		}
-		
 	}
+	
+	
 }
