@@ -37,15 +37,21 @@ To delete a connection between two nodes, right click the gui and select "Delete
 
 To select a routing algorithm for the simulation to implement, click on File from the menubar and press "Select Algorithm" to launch the select algorithm prompt. From the prompt, select the desrired Algorithm from the drop down list and press "OK" to set the algorithm to simulate.
 
-To begin the simulation, press the button labeled "Start Simulation". If algorithm was selected before hand from the File Menu, a prompt will ask the user to select the desired algorithm from a drop down list. Once selected, press "OK" to launch the Number of Steps prompt. Enter the number of steps for the simulation to run, and press "OK". If it is the first time running the simulation, the user will be prompted to enter a Send Rate (the rate at which never packets are introduced into the simulation); otherwise, the simulation will begin. If prompted, enter the desired Send Rate and press "OK" to launch the simulation.
+To begin the simulation, press the button labeled "Start Simulation". If an algorithm wasn't selected before hand from the File Menu, a prompt will ask the user to select the desired algorithm from a drop down list. Once selected, press "OK" to launch the Number of Steps prompt. Enter the number of steps for the simulation to run, and press "OK". If it is the first time running the simulation, the user will be prompted to enter a Send Rate (the rate at which never packets are introduced into the simulation); otherwise, the simulation will begin. If prompted, enter the desired Send Rate and press "OK" to launch the simulation.
 Note: The number of steps and the send rate must both be positive integers. 
       The Send Rate dicates how many steps must be performed before a new packet is created.
 
-Pressing the button labeled "Simulate Step" will performed one step (i.e. each existing packet will be transfered once) into the simulation. The user will be prompted for a sendRate is one is not already set.
+Pressing the button labeled "Simulate Step" will performed one step (i.e. each existing packet will be transfered once) into the simulation. The user will be prompted for a sendRate and algorhithm if none are already set.
 
 A textArea on the right of the interface is used to display the metrics from the simulation. The textArea is updated after each step is completed, displaying the total number of packets transfered between nodes (i.e. a packet moving between one node and a connection).
 
 A Model-View-Controller design was implemented in order to keep the classes seperate and uncoupled.
+
+There are four algorhithms to select.
+Random: packets are transmitted randomly throughout the simulation, until they reach their destination.
+Breadth-First-Search: uses a BFS technique to determine the shortest path for a packet to take to its destination.
+Depth-First-Search: uses a DFS technique to determine a path to the destination.
+Flooding: floods the network with the packet by sending it to all connections of a node, and all their connections.
 
 <B>Changes made since last milestone</B>
 
@@ -62,7 +68,7 @@ Shouldn't be able to have sendRate less than 1.
 Simulation requires a complete graph to function properly.
 Deleting a node or connection after simulating can cause errors
 Trying to delete connection with improper parameters can cause errors
-Flooding needs to be re-written.
+Flooding: routing algorithm packets get stuck at dead end nodes (class needs to be overhauled).
 Number of hops before packets in flooding are destroyed should be based on graph traversal length. (it is arbitrarily set as 6)
 
 <B>Distribution of Work</B>
