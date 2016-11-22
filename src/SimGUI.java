@@ -90,15 +90,15 @@ public class SimGUI extends JFrame implements ViewStrategy
 		//Menu Bar setup
 		JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
-        JMenuItem simulate = new JMenuItem("Simulate");
-        simulate.addActionListener(controller);
+        JMenuItem select = new JMenuItem("Select Algorithm");
+        select.addActionListener(controller);
         JMenuItem reset = new JMenuItem("Reset");
         reset.addActionListener(controller);
         JMenuItem refresh = new JMenuItem("Refresh");
         refresh.addActionListener(controller);
         JMenuItem exit = new JMenuItem("Exit");
         exit.addActionListener(controller);
-        fileMenu.add(simulate);
+        fileMenu.add(select);
         fileMenu.add(reset);
         fileMenu.add(refresh);
         fileMenu.add(exit);

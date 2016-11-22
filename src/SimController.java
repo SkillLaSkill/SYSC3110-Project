@@ -118,6 +118,20 @@ public class SimController implements ActionListener {
 	}
 	
 	/**
+	 * Selects the algorithm to use in the simulation
+	 */
+	private void selectAlg()
+	{
+		String[] choices = {"Random", "Flood", "Breadth-first" };
+		String choice = view.comboPrompt(choices);
+		if(choice.equals("Random")) {
+			model.setAlgorithm(new RandomAlgorithm());
+		}
+		//Add other algorithm choices here
+		else System.out.println("Algorithm not implemented!");
+	}
+	
+	/**
 	 * Starts the simulation
 	 * 
 	 * @param s (String) - Number of steps that will be taken
@@ -125,10 +139,12 @@ public class SimController implements ActionListener {
 	 */
 	private void startSim()
 	{
-		String[] choices = {"Random", "Flood", "Breadth-first" };
-		String choice = view.comboPrompt(choices);
+		if(model.getAlgorithm() == null)
+			this.selectAlg();
 		String s = view.createPrompt("Enter number of steps");
 		String r = view.createPrompt("Enter send rate (ms)");
+		
+		//Change below here if needed
 		if(	!(this.isNumeric(s) && this.isNumeric(r)) )	return;
 		
 		int steps = Integer.parseInt(s);
@@ -139,13 +155,17 @@ public class SimController implements ActionListener {
 			System.out.println("Sendrate and steps must be above zero!");
 			return;
 		}
-		if(choice.equals("Random")) {
-			model.setAlgorithm(new RandomAlgorithm());
-			for(int i = 0; i < steps; i++) 
-				model.simulateStep(sendRate);
-		}
-		else System.out.println("Algorithm not implemented!");
+		for(int i = 0; i < steps; i++) 
+			model.simulateStep(sendRate);
 	}
+	
+	private void stepSim()
+	{
+		if(model.getAlgorithm() == null)
+			this.selectAlg();
+		//Add your shit here
+	}
+	
 	
 	/**
 	 * Checks if the given string can become an integer.
@@ -204,8 +224,11 @@ public class SimController implements ActionListener {
 		//Exits the program
 		else if(actionCommand.equals("Exit")) exit();
 		// Calls private method to start the simulation
-		else if(actionCommand.equals("Simulate")) startSim();
-
+		else if(actionCommand.equals("Select Algorithm")) selectAlg();
+		// Starts the simulation
+		else if(actionCommand.equals("Start Simulation")) startSim();
+		// Steps once into the simulation
+		else if(actionCommand.equals("Step Simulation"))	stepSim();
 		// Calls private method to step once through the simulation
 		//else if(actionCommand.equals("Simulate Step"))	startSim(1, view.createPrompt("Enter send rate (ms)"));		
 
