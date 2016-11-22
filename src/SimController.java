@@ -33,20 +33,21 @@ public class SimController implements ActionListener {
 	 */
 	private void createNodes()
 	{
-		String name = view.createPrompt("Enter node name");
-
+		//Gets node names from the user
+		String name = view.createPrompt("Enter node names seperated by a comma");
 		if (name == null || name.isEmpty()) return;
-		
 		else if(model.getGraph().contains(name))
 		{
 			System.out.println("Node was not added!");
 			return;
 		}
-		
-		Node n = new Node(name);
-		model.getGraph().addNode(n);
-		System.out.println("Node " + name + " has been added!");
-		
+		// Splits the node names into separate strings then creates nodes from them
+		String allNames[] = name.split(",");
+		for (String s : allNames) {
+			model.getGraph().addNode(new Node(s));
+			System.out.println("Node " + s + " has been added!");
+					
+		}
 		model.notifyView();
 	}
 	
