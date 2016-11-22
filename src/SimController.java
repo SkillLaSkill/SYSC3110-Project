@@ -131,6 +131,9 @@ public class SimController implements ActionListener {
 		else if (choice.equals("Breadth-first")){
 			model.setAlgorithm(new ShortestPathAlgorithm());
 		}
+
+		else if (choice.equals("Flood"))
+			model.setAlgorithm(new FloodingAlgorithm());
 		//Add other algorithm choices here
 		else System.out.println("Algorithm not implemented!");
 	}
