@@ -146,7 +146,7 @@ public class SimController implements ActionListener {
 		if(model.getAlgorithm() == null)
 			this.selectAlg();
 		String s = view.createPrompt("Enter number of steps");
-		String r = view.createPrompt("Enter send rate (ms)");
+		String r = view.createPrompt("Enter send rate");
 		
 		//Change below here if needed
 		if(	!(this.isNumeric(s) && this.isNumeric(r)) )	return;
@@ -165,6 +165,7 @@ public class SimController implements ActionListener {
 	
 	private void stepSim()
 	{
+		String r = view.createPrompt("Enter send rate");
 		if(model.getAlgorithm() == null)
 			this.selectAlg();
 		//Add your shit here
