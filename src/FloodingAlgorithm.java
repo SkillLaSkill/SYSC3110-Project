@@ -36,13 +36,13 @@ public class FloodingAlgorithm extends RoutingAlgorithm {
 						Node con = n.getConnections().get(k);
 						
 						if(!con.hasSeenPacket(p)) {
-							p.incrementHops();
+							packetsSentThisStep++;
 							
 							//node has reach destination
 							if(con.equals(p.getDestination())) {
 								n.addSeenPacket(p);
 								n.removePacket(p);	
-								//need some metric stuff here
+								packetsFinishedThisStep++;
 							}
 							else {
 							con.addPacket(p);
