@@ -123,7 +123,7 @@ public class SimController implements ActionListener {
 	 */
 	private void selectAlg()
 	{
-		String[] choices = {"Random", "Flood", "Breadth-first" };
+		String[] choices = {"Random", "Flood", "Breadth-first", "Depth-first" };
 		String choice = view.comboPrompt(choices);
 		if(choice.equals("Random")) {
 			model.setAlgorithm(new RandomAlgorithm());
@@ -134,6 +134,9 @@ public class SimController implements ActionListener {
 
 		else if (choice.equals("Flood"))
 			model.setAlgorithm(new FloodingAlgorithm());
+		else if (choice.equals("Depth-first")) {
+			model.setAlgorithm(new DepthFirstAlgorithm());
+		}
 		//Add other algorithm choices here
 		else System.out.println("Algorithm not implemented!");
 	}
