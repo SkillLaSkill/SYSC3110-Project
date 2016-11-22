@@ -165,10 +165,19 @@ public class SimController implements ActionListener {
 	
 	private void stepSim()
 	{
-		String r = view.createPrompt("Enter send rate");
+		if(!model.hasSendRate())
+		{
+			String r = view.createPrompt("Enter send rate");
+			if(!(this.isNumeric(r)))
+				return;
+			int sendRate = Integer.parseInt(r);
+			model.setSendRate(sendRate);
+		}
+
 		if(model.getAlgorithm() == null)
 			this.selectAlg();
 		//Add your shit here
+		model.simulateStep();
 	}
 	
 	
