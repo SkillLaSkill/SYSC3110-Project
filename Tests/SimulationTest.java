@@ -6,7 +6,7 @@ import org.junit.Test;
 /**
  * Runs all the tests for the Packet class such as the constructor, incrementHops and ResetID
  * 
- * @author Team GetterDone
+ * @author Team GetterDone 
  */
 public class SimulationTest {
 	Simulation s;

@@ -7,7 +7,7 @@ import org.junit.Test;
  * 
  * @author Team GetterDone
  */
-public class NodeTest {
+public class NodeTest { 
 	Node n, n1;
 
 	/**

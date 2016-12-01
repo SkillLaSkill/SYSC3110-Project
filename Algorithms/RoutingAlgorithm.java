@@ -3,7 +3,7 @@
  * 
  * @author Team GetterDone
  */
-public abstract class RoutingAlgorithm {
+public abstract class RoutingAlgorithm { 
 	private Graph graph;
 	private Metric metric;
 	

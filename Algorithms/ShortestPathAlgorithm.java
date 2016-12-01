@@ -7,7 +7,7 @@ import java.util.Queue;
  * 
  * @author Team GetterDone
  */
-public class ShortestPathAlgorithm extends RoutingAlgorithm {
+public class ShortestPathAlgorithm extends RoutingAlgorithm { 
 
 	/**
 	 * Steps through the simulation using the shortest path method

@@ -17,7 +17,7 @@ import javax.swing.*;
  * as well as lines connecting them together.
  * 
  * @author Team GetterDone
- *
+ * 
  */
 public class SimGUI extends JFrame implements ViewStrategy
 {

@@ -7,7 +7,7 @@ class SearchNode{
 	private Node node;
 	private int distance = -1;
 	private SearchNode parent = null;
-	
+	 
 	/**
 	 * Constructor
 	 * 

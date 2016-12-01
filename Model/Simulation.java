@@ -6,19 +6,19 @@ import java.util.Random;
  * Creates an Simulation thread that will run the different types of algorithms
  * (Random, Flood, Breadth-first, )
  * 
- * @author Team GetterDone
+ * @author Team GetterDone 
  *
  */
-public class Simulation extends Thread {
-
+public class Simulation extends Thread { 
+ 
 	private RoutingAlgorithm alg;
 	private Graph graph;
-	private Metric metric = new Metric();
+	private Metric metric;
 	private List<ViewStrategy> views;
 	private Random rand = new Random();
-	private int stepCounter = 0;
-	private int totalHops = 0;
-	private int sendRate = 0;
+	//private int stepCounter = 0;
+	//private int totalHops = 0;
+	//private int sendRate = 0;
 	
 	public Simulation(SimGUI v) {
 		this(new Graph());
@@ -34,6 +34,7 @@ public class Simulation extends Thread {
 	public Simulation(Graph graph) {
 		this.graph = graph;
 		rand = new Random();
+		metric = new Metric();
 	}
 	
 
@@ -47,29 +48,20 @@ public class Simulation extends Thread {
 	}
 	
 	/**
-	 * Gets the number steps taken
+	 * Gets the metrics of the simulation
 	 * 
 	 * @return stepCounter (int) - Number of steps simulation has taken
 	 */
-	public int getSteps(){
-		return stepCounter;
+	public Metric getSteps(){
+		return metric;
 	}
-	
-	/**
-	 * Get totalHops (packets) transfered
-	 * 
-	 * @return totalHops (int) - Number of packet transfers
-	 */
-	public int getTotalHops() {
-		return totalHops;
-	}
+
 	/**
 	 * Resets the simulation
 	 */
 	public void reset(){
-		stepCounter = 0;
-		totalHops = 0;
 		graph = new Graph();
+		metric = new Metric();
 	}
 	
 	/**

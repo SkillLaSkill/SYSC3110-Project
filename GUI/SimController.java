@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.swing.JFrame;
 
-/**
+/** 
  * Creates a instance of a simulation controller
  * 
  * @author Team GetterDone

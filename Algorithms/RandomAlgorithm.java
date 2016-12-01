@@ -8,7 +8,7 @@ import java.util.Random;
  * 
  * @author Team GetterDone
  */
-public class RandomAlgorithm extends RoutingAlgorithm {
+public class RandomAlgorithm extends RoutingAlgorithm { 
 	private Random rand = new Random();
 
 	/**
