@@ -26,12 +26,12 @@ public class FloodingAlgorithm extends RoutingAlgorithm {
 			for (int j = 0; j < n.getPackets().size(); j++) {
 				Packet p = n.getPackets().get(j);
 				
-				for( int k = 0; k < n.getConnections.size(); k++) {
-					Node con = n.getConnections(k);
+				for( int k = 0; k < n.getConnections().size(); k++) {
+					Node con = n.getConnections().get(k);
 					
-					if(!con.hasSeen(p)){ //checks if connection has seen the packet
+					if(!con.hasSeenPacket(p)){ //checks if connection has seen the packet
 						con.addPacket(p); 
-						con.seen(p); //adds Packet to hasSeen list of Connection
+						con.addSeenPacket(p); //adds Packet to hasSeen list of Connection
 						p.incrementHops();
 						packetsSentThisStep++;
 					}
@@ -62,13 +62,13 @@ public class FloodingAlgorithm extends RoutingAlgorithm {
 		Object[] packetsArray = packets.toArray();
 		for(int i = 0; i < packetsArray.length; i++) {
 			Packet p = (Packet)packetsArray[i];
-			p.decrementTimeToLive();
+			//p.decrementTimeToLive();
 			
 			//if packet has expired, remove all instances of of it from graph
-			if(p.getTimeToLive <= 0) { //if packet has expired, remove all instances of of it from graph
+			if(true) { //if packet has expired, remove all instances of of it from graph
 				for(int j = 0; j < getGraph().getNodes().size(); j++) {
 					Node n = getGraph().getNodes().get(j);
-					if(n.hasPacket(p)) j.removePacket(p);
+					if(n.hasSeenPacket(p)) n.removePacket(p);
 				}
 		
 			}

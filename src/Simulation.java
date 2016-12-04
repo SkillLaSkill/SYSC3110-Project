@@ -68,21 +68,21 @@ public class Simulation extends Thread {
 	 * Sets the send rate of the simulation
 	 * 
 	 * @param sendRate (int) - Desired send rate
-	 */
+	 *
 	public void setSendRate(int sendRate) {
 		this.sendRate = sendRate;
-	}
+	}*/
 	
 	/**
 	 * Checks if the simulation has a send rate
 	 * 
 	 * @return boolean - True = has a send rate; False = doesn't have a send rate
-	 */
+	 *
 	public boolean hasSendRate()
 	{
 		if(sendRate <= 0) return false;
 		else return true;
-	}
+	}*/
 	
 	@Override
 	public void run() {}
@@ -98,10 +98,40 @@ public class Simulation extends Thread {
 		
 			
 		alg.simulateStep();
-		stepCounter++;
+		//stepCounter++;
 		
+		if(!graph.packetsExist()) {
+		//if(!graph.packetsExist() || (stepCounter % sendRate) == 0) {
+			List<Node> nodes = graph.getNodes();
+			
+			Node destination = nodes.get(rand.nextInt((int)	nodes.size()));
+			Node source = nodes.get(rand.nextInt((int)	nodes.size()));
+			
+			Packet p = new Packet("Message", destination);
+			while(destination.equals(source)) {
+				source = nodes.get(rand.nextInt((int)	nodes.size()));
+			}
+			source.addPacket(p);
+			source.addSeenPacket(p);
+		}
+		notifyView();
+	}
+	
+	/**
+	 * Runs one step into the simulation.
+	 *
+	 * @param sendRate (int) - Rate in which the packets are sent
+	 */
+	public void simulateBackStep() {
+		alg.setGraph(graph);
+		alg.setMetric(metric);
 		
-		if(!graph.packetsExist() || (stepCounter % sendRate) == 0) {
+			
+		alg.simulateStep();
+		//stepCounter++;
+		
+		if(!graph.packetsExist()) {
+		//if(!graph.packetsExist() || (stepCounter % sendRate) == 0) {
 			List<Node> nodes = graph.getNodes();
 			
 			Node destination = nodes.get(rand.nextInt((int)	nodes.size()));

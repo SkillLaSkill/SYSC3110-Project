@@ -88,8 +88,11 @@ public class SimGUI extends JFrame implements ViewStrategy
 		step.addActionListener(controller);
 		JButton startSim = new JButton("Start Simulation");
 		startSim.addActionListener(controller);
-		simulationControl.add(startSim);
+		JButton back = new JButton("Step Back");
+		back.addActionListener(controller);
 		simulationControl.add(step);
+		simulationControl.add(back);
+		simulationControl.add(startSim);
 		//Text Area 
 		metrics = new JTextArea("Metrics");
 		JPanel display = new JPanel();

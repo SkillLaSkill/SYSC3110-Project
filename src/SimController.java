@@ -153,14 +153,14 @@ public class SimController implements ActionListener {
 		if(model.getAlgorithm() == null)
 			this.selectAlg();
 		String s = view.createPrompt("Enter number of steps");
-		if(!model.hasSendRate())
+		/*if(!model.hasSendRate())
 		{
 			String r = view.createPrompt("Enter send rate");
 			if(!(this.isNumeric(r)))
 				return;
 			int sendRate = Integer.parseInt(r);
 			model.setSendRate(sendRate);
-		}
+		}*/
 		//Change below here if needed
 		if(	!(this.isNumeric(s)) )	return;
 		
@@ -176,24 +176,31 @@ public class SimController implements ActionListener {
 	}
 	
 	/**
-	 * Takes a step in teh simulation
+	 * Takes a step in the simulation
 	 */
 	private void stepSim()
 	{
-		if(!model.hasSendRate())
+		/*if(!model.hasSendRate())
 		{
 			String r = view.createPrompt("Enter send rate");
 			if(!(this.isNumeric(r)))
 				return;
-			int sendRate = Integer.parseInt(r);
-			model.setSendRate(sendRate);
-		}
+			//int sendRate = Integer.parseInt(r);
+			//model.setSendRate(sendRate);
+		}*/
 
-		if(model.getAlgorithm() == null)
-			this.selectAlg();
+		if(model.getAlgorithm() == null) this.selectAlg();
 		model.simulateStep();
 	}
 	
+	/**
+	 * Takes a step in teh simulation
+	 */
+	private void stepBack()
+	{
+		if(model.getAlgorithm() == null) this.selectAlg();
+		model.simulateBackStep();
+	}
 	
 	/**
 	 * Checks if the given string can become an integer.
@@ -256,7 +263,8 @@ public class SimController implements ActionListener {
 		// Starts the simulation
 		else if(actionCommand.equals("Start Simulation")) startSim();
 		// Steps once into the simulation
-		else if(actionCommand.equals("Step Simulation"))	stepSim();
+		else if(actionCommand.equals("Step Simulation")) stepSim();
+		else if(actionCommand.equals("Step Simulation")) stepBack();
 		// Calls private method to step once through the simulation
 		//else if(actionCommand.equals("Simulate Step"))	startSim(1, view.createPrompt("Enter send rate (ms)"));		
 
