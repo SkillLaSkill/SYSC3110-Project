@@ -131,6 +131,8 @@ public class SimController implements ActionListener {
 	{
 		if(model.getAlgorithm() == null)
 			this.selectAlg();
+		if(model.getAlgorithm() == null)
+			return;
 		String s = view.createPrompt("Enter number of steps");
 		if(s == null || s.isEmpty() )
 			return;
