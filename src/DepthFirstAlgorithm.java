@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 /**
@@ -8,13 +10,13 @@ import java.util.Stack;
  */
 public class DepthFirstAlgorithm extends RoutingAlgorithm { 
 
-
+	private List<SearchNode> searchNodes;
 	/**
 	 * Steps through the simulation using the depth first method
 	 */
 	@Override
 	public void simulateStep() {
-		
+		searchNodes = new ArrayList<SearchNode>();
 		int packetsSentThisStep = 0;
 		int packetsFinishedThisStep = 0;
 		
@@ -22,6 +24,7 @@ public class DepthFirstAlgorithm extends RoutingAlgorithm {
 			Node n = getGraph().getNodes().get(i);
 			for (int j = 0; j < n.getPackets().size(); j++) {
 				Packet p = n.getPackets().get(j);
+				
 				if (!p.isTransfered()) {
 					p.setTransfered(true);
 					packetsSentThisStep++;
@@ -31,16 +34,18 @@ public class DepthFirstAlgorithm extends RoutingAlgorithm {
 						packetsFinishedThisStep++;
 					}
 					
-					n.removePacket(p);
-					
-					Node next = findNextNodeDFS(n, p.getDestination());
-					
-					if (next != null) {
-						next.addPacket(p);
-					}
 					else {
-						// Found its destination
+						n.removePacket(p);
+						
+						Node next = findNextNodeDFS(n, p.getDestination());
+						
+						if (next != null) {
+							next.addPacket(p);
+						}
+						else {
+						}
 					}
+					
 				}
 			}
 		}
@@ -63,33 +68,50 @@ public class DepthFirstAlgorithm extends RoutingAlgorithm {
 		
 		// Enqueue the root.
 		SearchNode root = new SearchNode(currentPosition);
-		root.setDistance(0);
+		searchNodes.add(root);
 		stk.push(root);
+		
 		while (!stk.isEmpty()) {
 			SearchNode current = stk.pop();
+			
+			// If the destination node is found, follow the parents up until before the root and return.
+			if (current.getNode().equals(destination)) {
+				if (current.getParent() != null) {
+					while (current.getParent().getParent() != null) {
+						current = current.getParent();
+					}
+				}
+				return current.getNode();
+			}
+			
 			// If not discovered
 			if (current.getDistance() == -1) {
 				// Set to discovered.
 				current.setDistance(0);
 				
-				// If the destination node is found, follow the parents up until before the root and return.
-				if (current.getNode().equals(destination)) {
-					// Destination was current Position
-					SearchNode x = null; 
-					while (!stk.isEmpty()) {
-						x = stk.pop();
-					}
-					return x.getNode();
-				}
-				
+				// Add the unseen connections to the stack.
 				for (Node n : current.getNode().getConnections()) {
 					SearchNode bn = new SearchNode(n);
+					
+					
+					if (!searchNodes.contains(bn)) {
+						searchNodes.add(bn);
+					}
+					// Get the search node currently being kept track of.
+					else {
+						bn = searchNodes.get(searchNodes.indexOf(bn));
+					}
+
+					
+					// If it hasn't already been visited, 
 					if (bn.getDistance() == -1) {
+						bn.setParent(current);
 						stk.push(bn);
-					}	
+					}
 				}
 			}			
 		}
+		
 		return null;
 	}
 }

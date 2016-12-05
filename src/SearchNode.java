@@ -62,4 +62,22 @@ class SearchNode{
 		return node;
 	}
 	
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof SearchNode) {
+			Node n = ((SearchNode) o).getNode();
+			return this.node.equals(n);
+		}
+		return false;
+		
+	}
+	@Override
+	public int hashCode() {
+		return node.hashCode();
+	}
+	@Override
+	public String toString() {
+		return this.node.getName();
+	}
+	
 }
