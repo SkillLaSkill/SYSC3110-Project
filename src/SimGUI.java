@@ -122,10 +122,18 @@ public class SimGUI extends JFrame implements ViewStrategy
         refresh.addActionListener(controller);
         JMenuItem exit = new JMenuItem("Exit");
         exit.addActionListener(controller);
+        JMenuItem saveState = new JMenuItem("Save State");
+        saveState.addActionListener(controller);
+        JMenuItem importState = new JMenuItem("Import State");
+        importState.addActionListener(controller);
+       
         fileMenu.add(select);
         fileMenu.add(reset);
         fileMenu.add(refresh);
         fileMenu.add(exit);
+        fileMenu.add(saveState);
+        fileMenu.add(importState);
+  
         menuBar.add(fileMenu);
         JMenuItem clear = new JMenuItem("Clear Text");
         clear.addActionListener(controller);
@@ -319,18 +327,6 @@ public class SimGUI extends JFrame implements ViewStrategy
 	        deleteConnection.setActionCommand("Delete Connection");
 	        deleteConnection.addActionListener(controller);
 	        this.add(deleteConnection);
-	        
-	        //Remove Node
-	        JMenuItem saveState = new JMenuItem("Save State");
-	        saveState.setActionCommand("Save State");
-	        saveState.addActionListener(controller);
-	        this.add(saveState);
-	        
-	        //Remove Node
-	        JMenuItem importState = new JMenuItem("Import State");
-	        importState.setActionCommand("Import State");
-	        importState.addActionListener(controller);
-	        this.add(importState);
 	    }
 	}
 
