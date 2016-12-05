@@ -37,7 +37,6 @@ public class Graph {
 		}
 	}
 	
-	
 	/**
 	 * Gets a node given its name
 	 * 

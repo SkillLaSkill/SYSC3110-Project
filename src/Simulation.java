@@ -16,9 +16,6 @@ public class Simulation extends Thread {
 	private Metric metric;
 	private List<ViewStrategy> views;
 	private Random rand = new Random();
-	//private int stepCounter = 0;
-	//private int totalHops = 0;
-	//private int sendRate = 0;
 	
 	public Simulation(SimGUI v) {
 		this(new Graph());
@@ -45,6 +42,15 @@ public class Simulation extends Thread {
 	 */
 	public Graph getGraph() {
 		return graph;
+	}
+	
+	/**
+	 * Returns the metric information
+	 * 
+	 * @return Metric - Metrics that the simulation uses
+	 */
+	public Metric getMetric() {
+		return metric;
 	}
 	
 	/**
@@ -113,8 +119,10 @@ public class Simulation extends Thread {
 			}
 			source.addPacket(p);
 			source.addSeenPacket(p);
+			this.printPacketTransfer(source, destination, p);
 		}
 		notifyView();
+		this.printSimulationMetrics();
 	}
 	
 	/**
@@ -143,12 +151,13 @@ public class Simulation extends Thread {
 			}
 			source.addPacket(p);
 			source.addSeenPacket(p);
+			this.printPacketTransfer(source, destination, p);
 		}
 		notifyView();
 	}
 	
 	
-	/*
+	/**
 	 * Every time something has been changed notifyView calls view and
 	 * re-makes the GUI graph, thus updating the view. 
 	 */
@@ -158,13 +167,44 @@ public class Simulation extends Thread {
 			view.update();
 	}
 
+	/**
+	 * Gets the algorithm being used
+	 * 
+	 * @return RoutingAlgorithm - Algorithm being used
+	 */
 	public RoutingAlgorithm getAlgorithm() {
 		return alg;
 	}
 
+	/**
+	 * Sets the algorithm being used
+	 * 
+	 * @param alg (RoutingAlgorithm) - Algorithm wanted to be used
+	 */
 	public void setAlgorithm(RoutingAlgorithm alg) {
 		this.alg = alg;
 		alg.setGraph(graph);
 	}
 	
+	/**
+	 * Prints the packet being transfered information.
+	 * 
+	 * @param current (Node) - Current node packet is at
+	 * @param travelling (Node) - Next node
+	 * @param packet (Node) - Packet itself
+	 */
+	public void printPacketTransfer(Node current, Node travelling, Packet packet)
+	{
+		for(ViewStrategy view: views)
+			view.addText("Message: " + packet.getMessage() +" Leaving node: " + current.getName() + " Travelling to node: " + travelling.getName() + ". Current hops: " + packet.getHops());
+	}
+	
+	/**
+	 * Prints the simulation metrics such as average hops
+	 */
+	public void printSimulationMetrics()
+	{
+		for(ViewStrategy view: views)
+			view.addText("Average hops per transfer: " + metric.getAverageHopsPerTransfer());
+	}
 }

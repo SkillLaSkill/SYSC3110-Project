@@ -42,7 +42,8 @@ public class SimulationTest {
 	@Test
 	public void testReset() {
 		s.reset();
-		Assert.assertEquals("Simulator should be back at zero steps", 0, s.getSteps());
+		Assert.assertEquals("Simulator should have a new graph", 0, s.getGraph().getNodes().size());
+		Assert.assertEquals("Simulator should have new metrics", 0, s.getMetric().getCounter());
 	}
 }
 

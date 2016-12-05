@@ -57,7 +57,15 @@ public class PacketTest {
 	@Test
 	public void testResetId() {
 		t.resetId();
-		Assert.assertEquals("Count should be back at zero", 0, t.getId());
+		Assert.assertEquals("Count should be back at zero", 0, t.getCount());
 	}
 
+	/**
+	 * Tests the setTransfered by calling the method then making sure the value is set to true.
+	 */
+	@Test
+	public void testSetTransferred() {
+		t.setTransfered(true);
+		Assert.assertEquals("Count should be back at zero", true, t.isTransfered());
+	}
 }
