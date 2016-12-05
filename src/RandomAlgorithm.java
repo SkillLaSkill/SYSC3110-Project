@@ -31,7 +31,6 @@ public class RandomAlgorithm extends RoutingAlgorithm {
 					if (n.equals(p.getDestination())) {
 						packetsFinishedThisStep++;
 						n.removePacket(p);
-						return;
 					}
 					// If not destination, send packet to 
 					else {
