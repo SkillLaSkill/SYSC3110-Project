@@ -42,7 +42,7 @@ public class MetricTest {
 	@Test
 	public void testSetCounter() {
 		m.setCounter(5);
-		Assert.assertEquals("Counter should be at 5", 5, m.getTransfers());
+		Assert.assertEquals("Counter should be at 5", 5, m.getCounter());
 	}
 
 	@Test
