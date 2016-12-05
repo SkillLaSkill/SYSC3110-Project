@@ -17,6 +17,9 @@ public class Simulation extends Thread {
 	private List<ViewStrategy> views;
 	private Random rand = new Random();
 	
+	private List<Graph> history = new ArrayList<>();
+	private int historyIndex = 0;
+	
 	public Simulation(SimGUI v) {
 		this(new Graph());
 		views = new ArrayList<ViewStrategy>();
@@ -99,30 +102,45 @@ public class Simulation extends Thread {
 	 * @param sendRate (int) - Rate in which the packets are sent
 	 */
 	public void simulateStep() {
-		alg.setGraph(graph);
-		alg.setMetric(metric);
 		
-			
-		alg.simulateStep();
-		//stepCounter++;
+		// If back in history, just go forward without simulating again.
+		if (historyIndex < history.size() - 1) {
+			graph = history.get(historyIndex);
+		}
 		
-		// Packet reaches destination, new packet is made
-		if(!graph.packetsExist()) {
-			List<Node> nodes = graph.getNodes();
+		else {
+			alg.setGraph(graph);
+			alg.setMetric(metric);
 			
-			Node destination = nodes.get(rand.nextInt((int)	nodes.size()));
-			Node source = nodes.get(rand.nextInt((int)	nodes.size()));
+				
+			alg.simulateStep();
+			//stepCounter++;
 			
-			Packet p = new Packet("Message", destination);
-			while(destination.equals(source)) {
-				source = nodes.get(rand.nextInt((int)	nodes.size()));
+			// Packet reaches destination, new packet is made
+			if(!graph.packetsExist()) {
+				List<Node> nodes = graph.getNodes();
+				
+				Node destination = nodes.get(rand.nextInt((int)	nodes.size()));
+				Node source = nodes.get(rand.nextInt((int)	nodes.size()));
+				
+				Packet p = new Packet("Message", destination);
+				while(destination.equals(source)) {
+					source = nodes.get(rand.nextInt((int)	nodes.size()));
+				}
+				source.addPacket(p);
+				source.addSeenPacket(p);
+				this.printPacketTransfer(source, destination, p);
 			}
-			source.addPacket(p);
-			source.addSeenPacket(p);
-			this.printPacketTransfer(source, destination, p);
+			
+			// Need to export and import to create a new graph of that state.
+			Graph g = (Graph.importFromXMLObj(graph.exportToXmlObj()));
+			
+			history.add(g);
+			historyIndex++;
 		}
 		notifyView();
 		this.printSimulationMetrics();
+
 	}
 	
 	/**
