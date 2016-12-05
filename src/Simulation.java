@@ -100,8 +100,8 @@ public class Simulation extends Thread {
 		alg.simulateStep();
 		//stepCounter++;
 		
+		// Packet reaches destination, new packet is made
 		if(!graph.packetsExist()) {
-		//if(!graph.packetsExist() || (stepCounter % sendRate) == 0) {
 			List<Node> nodes = graph.getNodes();
 			
 			Node destination = nodes.get(rand.nextInt((int)	nodes.size()));
