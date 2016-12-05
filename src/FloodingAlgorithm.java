@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-import java.util.List;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -40,6 +38,12 @@ public class FloodingAlgorithm extends RoutingAlgorithm {
 					if (con.equals(p.getDestination())) {
 						packetsFinishedThisStep++;
 						con.removePacket(p);
+						for(Node n1 : getGraph().getNodes()) {
+							if(n1.containsPacket(p)) {
+								//ADD METRIC OUTPUT SAYING PACKET REACHED DESTINATION
+								n1.removePacket(p);
+							}
+						}
 						return;
 					}
 				}
@@ -73,6 +77,10 @@ public class FloodingAlgorithm extends RoutingAlgorithm {
 		
 			}
 		}
+	}
+	@Override
+	public Node findNextNode(Node currentPosition, Node destination) {
+		return null;
 	}
 }
 //add time to live in packet (starting at number, decreasing to 0)

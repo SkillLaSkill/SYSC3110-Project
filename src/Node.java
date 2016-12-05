@@ -66,7 +66,7 @@ public class Node {
 	 * @param p (Packet) - Packet you want to check
 	 * @return boolean - True if in list; False if not in list
 	 */
-	public boolean countainsPacket(Packet p) {
+	public boolean containsPacket(Packet p) {
 		return packets.contains(p);
 	}
 	

@@ -47,7 +47,7 @@ public class NodeTest {
 	 */
 	@Test
 	public void testAddPacket() {
-		Assert.assertEquals("Node A should contain packet", true, n.countainsPacket(p));
+		Assert.assertEquals("Node A should contain packet", true, n.containsPacket(p));
 	}
 	
 	/**
@@ -56,7 +56,7 @@ public class NodeTest {
 	@Test
 	public void testRemovePacket() {
 		n.removePacket(p);
-		Assert.assertEquals("Node A should not contain packet", false, n.countainsPacket(p));
+		Assert.assertEquals("Node A should not contain packet", false, n.containsPacket(p));
 	}
 	
 	/**
@@ -65,7 +65,7 @@ public class NodeTest {
 	@Test
 	public void testSetPackets() {
 		n.setPackets(pl);
-		Assert.assertEquals("Node A should contain both packets", true, n.countainsPacket(p) && n.countainsPacket(p1));
+		Assert.assertEquals("Node A should contain both packets", true, n.containsPacket(p) && n.containsPacket(p1));
 	}
 	
 	/**
