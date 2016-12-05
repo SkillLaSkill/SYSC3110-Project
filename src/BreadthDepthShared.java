@@ -25,17 +25,19 @@ public abstract class BreadthDepthShared extends RoutingAlgorithm {
 						n.removePacket(p);
 						packetsFinishedThisStep++;
 					}
-					
-					n.removePacket(p);
-					
-					Node next = findNextNode(n, p.getDestination());
-					
-					if (next != null) {
-						next.addPacket(p);
-					}
 					else {
-						// Something's wrong with graph?
+						n.removePacket(p);
+						
+						Node next = findNextNode(n, p.getDestination());
+						
+						if (next != null) {
+							next.addPacket(p);
+						}
+						else {
+							// Something's wrong with graph?
+						}	
 					}
+					
 				}
 			}
 		}
