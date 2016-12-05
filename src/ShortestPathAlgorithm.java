@@ -8,8 +8,6 @@ import java.util.Queue;
  * @author Team GetterDone
  */
 public class ShortestPathAlgorithm extends BreadthDepthShared { 
-
-
 	
 	/**
 	 * Finds the next node that the breath first method will go to

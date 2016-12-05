@@ -1,8 +1,3 @@
-
-import java.util.Random;
-
-import java.util.List;
-import java.util.ArrayList;
 /**
  * This class creates and manipulates Packets, which store the current node position, the destination and the message
  * 
@@ -101,6 +96,16 @@ public class Packet {
 	public int getHops()
 	{
 		return hops;
+	}
+	
+	/**
+	 * Return the count the Packet is at.
+	 * 
+	 * @return int - Count that you are at
+	 */
+	public int getCount()
+	{
+		return count;
 	}
 	
 	/**

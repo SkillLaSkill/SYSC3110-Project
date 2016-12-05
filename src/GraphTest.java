@@ -45,6 +45,17 @@ public class GraphTest extends Graph {
 	}
 	
 	/**
+	 * Tests to make sure that removeNOde works by adding a node, removing it, then making sure the size of the 
+	 * node list in graph is 0.
+	 */
+	@Test
+	public void testRemoveNode() {
+		g.addNode(n);
+		g.removeNode(n);
+		Assert.assertEquals("Size of Graph Node list should be 0.", 0, g.getNodes().size());
+	}
+	
+	/**
 	 * Tests getNode by adding a node to the graph and then comparing it to a new node that is exactly the same.
 	 */
 	@Test
@@ -91,5 +102,40 @@ public class GraphTest extends Graph {
 		g.addNode(n);
 		g.clear();
 		Assert.assertEquals("Size of Graph Node list should be 0.", 0, g.getNodes().size());
+	}
+	
+	/**
+	 * Tests to make sure that isConnected works by adding 2 nodes that are connected, then making sure the it
+	 * returns true given the nodes
+	 */
+	@Test
+	public void testIsConnectedNode() {
+		n.addConnection(n1);
+		g.addNode(n);
+		g.addNode(n1);
+		Assert.assertEquals("Node A should be connected to node B.", true, g.isConnected(n,n1));
+	}
+	
+	/**
+	 * Tests to make sure that isConnected works by adding 2 nodes that are connected, then making sure the it
+	 * returns true given the names
+	 */
+	@Test
+	public void testIsConnectedName() {
+		n.addConnection(n1);
+		g.addNode(n);
+		g.addNode(n1);
+		Assert.assertEquals("Node A should be connected to node B.", true, g.isConnected("A","B"));
+	}
+	
+	/**
+	 * Tests to make sure the packetExists method works
+	 */
+	public void testPacketExists() {
+		Packet p = new Packet("Ello", n);
+		n1.addPacket(p);
+		g.addNode(n);
+		g.addNode(n1);
+		Assert.assertEquals("Node B should contain the packet.", true, g.packetsExist());
 	}
 }

@@ -1,5 +1,5 @@
 /**
- * Interface the runs all of the different algorithms
+ * Interface the runs breadth and depth algorithms
  * 
  * @author Team GetterDone
  */

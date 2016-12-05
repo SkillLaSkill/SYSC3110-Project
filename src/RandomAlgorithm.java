@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -46,6 +44,11 @@ public class RandomAlgorithm extends RoutingAlgorithm {
 		getMetric().addHops(packetsSentThisStep);
 		getMetric().addCompleteTransfers(packetsFinishedThisStep);
 		resetTransfered();
+	}
+
+	@Override
+	public Node findNextNode(Node currentPosition, Node destination) {
+		return null;
 	}
 
 }
