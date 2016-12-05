@@ -1,4 +1,6 @@
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -18,6 +20,7 @@ public class FloodingAlgorithm extends RoutingAlgorithm {
 	public void simulateStep() {
 		int packetsSentThisStep = 0;
 		int packetsFinishedThisStep = 0;
+		List<String> stepTransferInfo = new LinkedList<>();
 		
 		for (int i = 0; i < getGraph().getNodes().size(); i++){
 			Node n = getGraph().getNodes().get(i);
@@ -33,6 +36,7 @@ public class FloodingAlgorithm extends RoutingAlgorithm {
 						con.addSeenPacket(p); //adds Packet to hasSeen list of Connection
 						p.incrementHops();
 						packetsSentThisStep++;
+						stepTransferInfo.add("Transfered " + p.getMessage() + " from node " + n.getName() + " to " + con.getName() + ".");
 					}
 					
 					// Packet has reached it's destination, so add its hops counter to the totalHops then remove it.
