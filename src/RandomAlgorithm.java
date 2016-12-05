@@ -1,3 +1,5 @@
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -16,7 +18,7 @@ public class RandomAlgorithm extends RoutingAlgorithm {
 	public void simulateStep() {
 		int packetsSentThisStep = 0;
 		int packetsFinishedThisStep = 0;
-		
+		List<String> stepTransferInfo = new LinkedList<>();
 		
 		for (int i = 0; i < getGraph().getNodes().size(); i++){
 			Node n = getGraph().getNodes().get(i);
@@ -35,7 +37,10 @@ public class RandomAlgorithm extends RoutingAlgorithm {
 					
 					int nextNodeIndex = rand.nextInt((n.getConnections().size()));
 					n.removePacket(p);
-					n.getConnections().get(nextNodeIndex).addPacket(p);
+					Node next = n.getConnections().get(nextNodeIndex);
+					next.addPacket(p);
+					
+					stepTransferInfo.add("Transfered " + p.getMessage() + " from node " + n.getName() + " to " + next.getName() + ".");
 					
 				}
 			}
@@ -43,6 +48,7 @@ public class RandomAlgorithm extends RoutingAlgorithm {
 		
 		getMetric().addHops(packetsSentThisStep);
 		getMetric().addCompleteTransfers(packetsFinishedThisStep);
+		getMetric().setTransferInfo(stepTransferInfo);
 		resetTransfered();
 	}
 

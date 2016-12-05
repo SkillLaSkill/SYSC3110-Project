@@ -1,3 +1,6 @@
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * Interface the runs breadth and depth algorithms
  * 
@@ -12,6 +15,7 @@ public abstract class BreadthDepthShared extends RoutingAlgorithm {
 	public void simulateStep() {
 		int packetsSentThisStep = 0;
 		int packetsFinishedThisStep = 0;
+		List<String> stepTransferInfo = new LinkedList<>();
 		
 		for (int i = 0; i < getGraph().getNodes().size(); i++){
 			Node n = getGraph().getNodes().get(i);
@@ -30,8 +34,10 @@ public abstract class BreadthDepthShared extends RoutingAlgorithm {
 						
 						Node next = findNextNode(n, p.getDestination());
 						
+						
 						if (next != null) {
 							next.addPacket(p);
+							stepTransferInfo.add("Transfered " + p.getMessage() + " from node " + n.getName() + " to " + next.getName() + ".");
 						}
 						else {
 							// Something's wrong with graph?
@@ -43,6 +49,7 @@ public abstract class BreadthDepthShared extends RoutingAlgorithm {
 		}
 		getMetric().addHops(packetsSentThisStep);
 		getMetric().addCompleteTransfers(packetsFinishedThisStep);
+		getMetric().setTransferInfo(stepTransferInfo);
 		resetTransfered();
 	}
 	
