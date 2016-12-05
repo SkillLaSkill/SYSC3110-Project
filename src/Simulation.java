@@ -149,9 +149,11 @@ public class Simulation extends Thread {
 	 * @param sendRate (int) - Rate in which the packets are sent
 	 */
 	public void simulateBackStep() {
-		historyIndex--;
-		graph = history.get(historyIndex);
-		notifyView();
+		if (historyIndex >= 0) {
+			historyIndex--;
+			graph = history.get(historyIndex);
+			notifyView();
+		}
 	}
 	
 	
