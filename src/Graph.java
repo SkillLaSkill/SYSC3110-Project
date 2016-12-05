@@ -322,9 +322,4 @@ public class Graph {
 		}
 	}
 	
-	public static void main(String[] args) {
-		File f = new File("C:\\Users\\Josh\\Desktop\\test.xml");
-		Graph g = Graph.importFromXMLFile(f);
-		System.out.println(g.toXML(0));
-	}
 }
