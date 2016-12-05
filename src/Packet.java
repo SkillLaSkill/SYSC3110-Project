@@ -8,7 +8,6 @@ public class Packet {
 	//private Node previousPostion;
 	private Node destination;
 	private String message;
-	private int timeToLive = 8; 
 	private int hops = 0;
 	private static int count = 0;
 	private boolean transferred = false;
