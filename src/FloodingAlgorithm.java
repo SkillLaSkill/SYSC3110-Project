@@ -1,11 +1,15 @@
 import java.util.HashSet;
-import java.util.LinkedList;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Map.Entry;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Set;
 
 /**
- * Runs the random search algorithm which keeps going to a random node until
- * it reaches the destination.
+ * Runs the Flooding search algorithm which passes each packet a node contains
+ * to all its neighboring nodes that haven't already been visited by the packet
  * 
  * @author Team GetterDone
  */
@@ -14,13 +18,14 @@ public class FloodingAlgorithm extends RoutingAlgorithm {
 	
 	private Set<Packet> packets = new HashSet<Packet>();
 	/**
-	 * Steps through the simulation using the random method
+	 * Steps through the simulation using the Flooding method
 	 */
 	@Override
 	public void simulateStep() {
 		int packetsSentThisStep = 0;
 		int packetsFinishedThisStep = 0;
 		List<String> stepTransferInfo = new LinkedList<>();
+		Map<Node, ArrayList<Packet>> packetAddMap = new HashMap<Node, ArrayList<Packet>>();
 		
 		for (int i = 0; i < getGraph().getNodes().size(); i++){
 			Node n = getGraph().getNodes().get(i);
@@ -32,8 +37,10 @@ public class FloodingAlgorithm extends RoutingAlgorithm {
 					Node con = n.getConnections().get(k);
 					
 					if(!con.hasSeenPacket(p)){ //checks if connection has seen the packet
-						//con.addPacket(p); 
 						con.addSeenPacket(p); //adds Packet to hasSeen list of Connection
+						packetAddMap.putIfAbsent(con, new ArrayList<Packet>());
+						packetAddMap.get(con).add(p);
+						
 						p.incrementHops();
 						packetsSentThisStep++;
 						stepTransferInfo.add("Transfered " + p.getMessage() + " from node " + n.getName() + " to " + con.getName() + ".");
@@ -44,24 +51,23 @@ public class FloodingAlgorithm extends RoutingAlgorithm {
 						packetsFinishedThisStep++;
 					}
 				}
+				//once packet has been sent to eligible connections, remove packet from node
+				n.removePacket(p);
 			}
 		}
 		//return metrics to the metric class
 		getMetric().addHops(packetsSentThisStep);
 		getMetric().addCompleteTransfers(packetsFinishedThisStep);
 		
-		//add Packets each Node has seen to its list of Packets
-		for(int i = 0; i < getGraph().getNodes().size(); i++) {
-			Node n = getGraph().getNodes().get(i);
-			
-			for(int j = 0; j < n.getPacketsSeen().size(); j++) {
-				Packet p = n.getPacketsSeen().get(j);
-				
-				if(!n.containsPacket(p)) {
-					n.addPacket(p);
-				}
+		//add required packets to each node 
+		for(Entry<Node, ArrayList<Packet>> mapEntry : packetAddMap.entrySet()) {
+			Node key = mapEntry.getKey();
+			ArrayList<Packet> packets = mapEntry.getValue();
+			for(Packet p : packets) {
+				key.addPacket(p);
 			}
 		}
+		
 		//creates a set of all packets in the graph
 		for(int i = 0; i < getGraph().getNodes().size(); i++) {
 			Node n = getGraph().getNodes().get(i);
@@ -71,29 +77,11 @@ public class FloodingAlgorithm extends RoutingAlgorithm {
 				packets.add(p);
 			}
 		}
-		//decrement the time to live of each packet
-		Object[] packetsArray = packets.toArray();
-		for(int i = 0; i < packetsArray.length; i++) {
-			Packet p = (Packet)packetsArray[i];
-			p.decrementTTL();
-			
-			//if packet has expired, remove all instances of of it from graph
-			if(p.getTTL() <= 0) { //if packet has expired, remove all instances of of it from graph
-				for(int j = 0; j < getGraph().getNodes().size(); j++) {
-					Node n = getGraph().getNodes().get(j);
-					if(n.hasSeenPacket(p)) n.removePacket(p);
-				}
-		
-			}
-		}
 	}
+	
 	@Override
 	public Node findNextNode(Node currentPosition, Node destination) {
 		return null;
 	}
 }
-//add time to live in packet (starting at number, decreasing to 0) - done
-//add time to live getter(getTimeToLive) - done
-//add packetsSeen array in Node - done
-//add hasSeen method in Node - done
-//add addHasSeen method in Node- done
+//can remove time to live stuff
