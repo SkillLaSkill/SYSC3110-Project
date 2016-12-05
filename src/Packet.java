@@ -156,23 +156,6 @@ public class Packet {
 		this.transferred = Transfered;
 	}
 	
-	/**
-	* Returns the Time To Live counter of the packet
-	* 
-	* @return timeToLive (int) - How many more steps before the packet is deleted.
-	*/
-		
-	public int getTTL() {
-		return this.timeToLive;
-	}
-		
-	/**
-	 * Decrement the timeToLive value of the Packet
-	 */
-	public void decrementTTL() {
-		this.timeToLive--;
-	}
-	
 	public static Packet importFromXMLObj(org.w3c.dom.NodeList nl) {
 		int count = Packet.count;
 		Packet p = new Packet("", new Node(""));
