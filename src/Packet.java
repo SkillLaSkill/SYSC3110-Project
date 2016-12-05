@@ -8,7 +8,6 @@ public class Packet {
 	//private Node previousPostion;
 	private Node destination;
 	private String message;
-	private int timeToLive = 8; 
 	private int hops = 0;
 	private static int count = 0;
 	private boolean transferred = false;
@@ -154,23 +153,6 @@ public class Packet {
 	 */
 	public void setTransfered(boolean Transfered) {
 		this.transferred = Transfered;
-	}
-	
-	/**
-	* Returns the Time To Live counter of the packet
-	* 
-	* @return timeToLive (int) - How many more steps before the packet is deleted.
-	*/
-		
-	public int getTTL() {
-		return this.timeToLive;
-	}
-		
-	/**
-	 * Decrement the timeToLive value of the Packet
-	 */
-	public void decrementTTL() {
-		this.timeToLive--;
 	}
 	
 	public static Packet importFromXMLObj(org.w3c.dom.NodeList nl) {
