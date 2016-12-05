@@ -133,9 +133,9 @@ public class Simulation extends Thread {
 			}
 			
 			// Need to export and import to create a new graph of that state.
-			//Graph g = (Graph.importFromXMLObj(graph.exportToXmlObj()));
+			Graph g = (Graph.importFromXMLObj(graph.exportToXmlObj()));
 			
-			//history.add(g);
+			history.add(g);
 			historyIndex++;
 		}
 		notifyView();
