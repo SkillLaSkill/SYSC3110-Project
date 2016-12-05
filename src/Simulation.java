@@ -139,8 +139,6 @@ public class Simulation extends Thread {
 			history.add(g);
 		}
 		notifyView();
-		this.printSimulationMetrics();
-
 	}
 	
 	/**
@@ -165,6 +163,7 @@ public class Simulation extends Thread {
 	{
 		for(ViewStrategy view: views)
 			view.update();
+		printSimulationMetrics();
 	}
 
 	/**
@@ -205,7 +204,7 @@ public class Simulation extends Thread {
 	public void printSimulationMetrics()
 	{
 		for(ViewStrategy view: views)
-			view.addText("Average hops per transfer: " + metric.getAverageHopsPerTransfer());
+			view.addText("Total hops: " + metric.getHops() + "\n" + "Average hops per transfer: " + metric.getAverageHopsPerTransfer());
 	}
 	
 	/**
