@@ -203,7 +203,7 @@ public class Simulation extends Thread {
 	public void printSimulationMetrics()
 	{
 		for(ViewStrategy view: views)
-			view.addText("Average hops per transfer: " + metric.getAverageHopsPerTransfer());
+			view.addText("Total hops: " + "Average hops per transfer: " + metric.getAverageHopsPerTransfer());
 	}
 	
 	/**
