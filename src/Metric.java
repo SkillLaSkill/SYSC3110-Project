@@ -4,7 +4,6 @@ public class Metric {
 	private int hops = 0;
 	private int transfers = 0;
 	private int stepCounter = 0;
-	private int sendRate = 0;
 	private List<String> stepTransfers;
 	
 	public void setTransferInfo(List<String> stepTransfers) {
@@ -41,15 +40,6 @@ public class Metric {
 		stepCounter = i;
 	}
 	
-	public void setSendRate(int i)
-	{
-		sendRate = i;
-	}
-	
-	public int getSendRate()
-	{
-		return sendRate;
-	}
 	
 	public int getCounter()
 	{

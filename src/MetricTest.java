@@ -45,10 +45,4 @@ public class MetricTest {
 		Assert.assertEquals("Counter should be at 5", 5, m.getCounter());
 	}
 
-	@Test
-	public void testSetSendRate() {
-		m.setSendRate(5);
-		Assert.assertEquals("Send rate should be at 5", 5, m.getSendRate());
-	}
-
 }
