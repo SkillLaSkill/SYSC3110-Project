@@ -16,9 +16,6 @@ public class Simulation extends Thread {
 	private Metric metric;
 	private List<ViewStrategy> views;
 	private Random rand = new Random();
-	//private int stepCounter = 0;
-	//private int totalHops = 0;
-	//private int sendRate = 0;
 	
 	public Simulation(SimGUI v) {
 		this(new Graph());
@@ -116,6 +113,7 @@ public class Simulation extends Thread {
 			this.printPacketTransfer(source, destination, p);
 		}
 		notifyView();
+		this.printSimulationMetrics();
 	}
 	
 	/**
