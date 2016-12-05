@@ -194,7 +194,7 @@ public class Graph {
 	public int exportToXmlFile(int stepNumber) {
 		try {
 			BufferedWriter out = new BufferedWriter(new FileWriter("PreviousSteps.xml"));
-			out.write(this.toXML(stepNumber));
+			out.write(this.toXML());
 			out.close();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -202,10 +202,10 @@ public class Graph {
 		return stepNumber++;
 	}
 	
-	public String toXML(int stepNumber) {
+	public String toXML() {
 		StringBuilder sb = new StringBuilder();
 		
-		sb.append("<Step" + stepNumber + ">\n");
+		sb.append("<Graph>\n");
 		
 		for (Node n : nodes) {
 			sb.append("\t<Node>\n");
@@ -239,8 +239,7 @@ public class Graph {
 			}
 			sb.append("\t</Node>\n");
 		}
-		sb.append("</Step" + stepNumber + ">\n");
-		stepNumber++;
+		sb.append("</Graph>\n");
 		return sb.toString();
 	}
 	
@@ -320,6 +319,20 @@ public class Graph {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	public org.w3c.dom.NodeList exportToXmlObj() {
+		try {
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder d = factory.newDocumentBuilder();
+			Document doc = d.parse(this.toXML());
+			return doc.getDocumentElement().getChildNodes();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	
 	}
 	
 }
