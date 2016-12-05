@@ -139,8 +139,6 @@ public class Simulation extends Thread {
 			historyIndex++;
 		}
 		notifyView();
-		this.printSimulationMetrics();
-
 	}
 	
 	/**
@@ -165,6 +163,7 @@ public class Simulation extends Thread {
 	{
 		for(ViewStrategy view: views)
 			view.update();
+		printSimulationMetrics();
 	}
 
 	/**
