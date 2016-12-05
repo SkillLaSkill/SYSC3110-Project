@@ -149,28 +149,8 @@ public class Simulation extends Thread {
 	 * @param sendRate (int) - Rate in which the packets are sent
 	 */
 	public void simulateBackStep() {
-		alg.setGraph(graph);
-		alg.setMetric(metric);
-		
-			
-		alg.simulateStep();
-		//stepCounter++;
-		
-		if(!graph.packetsExist()) {
-		//if(!graph.packetsExist() || (stepCounter % sendRate) == 0) {
-			List<Node> nodes = graph.getNodes();
-			
-			Node destination = nodes.get(rand.nextInt((int)	nodes.size()));
-			Node source = nodes.get(rand.nextInt((int)	nodes.size()));
-			
-			Packet p = new Packet("Message", destination);
-			while(destination.equals(source)) {
-				source = nodes.get(rand.nextInt((int)	nodes.size()));
-			}
-			source.addPacket(p);
-			source.addSeenPacket(p);
-			this.printPacketTransfer(source, destination, p);
-		}
+		historyIndex--;
+		graph = history.get(historyIndex);
 		notifyView();
 	}
 	
