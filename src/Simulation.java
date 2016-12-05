@@ -16,9 +16,6 @@ public class Simulation extends Thread {
 	private Metric metric;
 	private List<ViewStrategy> views;
 	private Random rand = new Random();
-	//private int stepCounter = 0;
-	//private int totalHops = 0;
-	//private int sendRate = 0;
 	
 	public Simulation(SimGUI v) {
 		this(new Graph());
@@ -113,8 +110,10 @@ public class Simulation extends Thread {
 			}
 			source.addPacket(p);
 			source.addSeenPacket(p);
+			this.printPacketTransfer(source, destination, p);
 		}
 		notifyView();
+		this.printSimulationMetrics();
 	}
 	
 	/**
@@ -143,6 +142,7 @@ public class Simulation extends Thread {
 			}
 			source.addPacket(p);
 			source.addSeenPacket(p);
+			this.printPacketTransfer(source, destination, p);
 		}
 		notifyView();
 	}
@@ -165,6 +165,18 @@ public class Simulation extends Thread {
 	public void setAlgorithm(RoutingAlgorithm alg) {
 		this.alg = alg;
 		alg.setGraph(graph);
+	}
+	
+	public void printPacketTransfer(Node current, Node travelling, Packet packet)
+	{
+		for(ViewStrategy view: views)
+			view.addText("Message: " + packet.getMessage() +" Leaving node: " + current.getName() + " Travelling to node: " + travelling.getName() + ". Current hops: " + packet.getHops());
+	}
+	
+	public void printSimulationMetrics()
+	{
+		for(ViewStrategy view: views)
+			view.addText("Average hops per transfer: " + metric.getAverageHopsPerTransfer());
 	}
 	
 }

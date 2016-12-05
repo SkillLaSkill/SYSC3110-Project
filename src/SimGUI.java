@@ -97,7 +97,7 @@ public class SimGUI extends JFrame implements ViewStrategy
 		metrics = new JTextArea("Metrics");
 		JPanel display = new JPanel();
 		metrics.setEditable(false);
-		metrics.setText("Will display important information");
+		metrics.setText("Please build a graph and start a simulation");
 		JScrollPane scroll = new JScrollPane(metrics);
 		scroll.setPreferredSize(new Dimension(200, 350));
 		display.add(scroll);
@@ -113,6 +113,7 @@ public class SimGUI extends JFrame implements ViewStrategy
 	//Menu Bar setup
 		JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
+        JMenu textMenu = new JMenu("Edit");
         JMenuItem select = new JMenuItem("Select Algorithm");
         select.addActionListener(controller);
         JMenuItem reset = new JMenuItem("Reset");
@@ -126,7 +127,12 @@ public class SimGUI extends JFrame implements ViewStrategy
         fileMenu.add(refresh);
         fileMenu.add(exit);
         menuBar.add(fileMenu);
+        JMenuItem clear = new JMenuItem("Clear Text");
+        clear.addActionListener(controller);
+        textMenu.add(clear);
+        menuBar.add(textMenu);
         this.setJMenuBar(menuBar);
+        
         
      //Final settings
       	this.setSize(750, 500);
@@ -286,7 +292,7 @@ public class SimGUI extends JFrame implements ViewStrategy
 		JMenuItem createNode;
 		
 		/**
-		 * Creates the right click menu
+		 * Right click menu for the graph
 		 */
 	    public RightClickMenu(){
 	    	
@@ -315,6 +321,7 @@ public class SimGUI extends JFrame implements ViewStrategy
 	        this.add(deleteConnection);
 	    }
 	}
+
 	
 	/**
 	 * Creates a mouse listener for the right click menu

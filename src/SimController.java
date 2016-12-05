@@ -238,6 +238,11 @@ public class SimController implements ActionListener {
 		view.close();
 	}
 	
+	private void clear()
+	{
+		view.clearText();
+	}
+	
 	/**
 	 * Checks that action the user wants to take, then acts accordingly
 	 */
@@ -258,6 +263,8 @@ public class SimController implements ActionListener {
 		else if(actionCommand.equals("Refresh")) view.update();
 		//Exits the program
 		else if(actionCommand.equals("Exit")) exit();
+		//Clears the text field
+		else if(actionCommand.equals("Clear Text")) clear();
 		// Calls private method to start the simulation
 		else if(actionCommand.equals("Select Algorithm")) selectAlg();
 		// Starts the simulation
