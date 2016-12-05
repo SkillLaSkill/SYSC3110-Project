@@ -319,6 +319,18 @@ public class SimGUI extends JFrame implements ViewStrategy
 	        deleteConnection.setActionCommand("Delete Connection");
 	        deleteConnection.addActionListener(controller);
 	        this.add(deleteConnection);
+	        
+	        //Remove Node
+	        JMenuItem saveState = new JMenuItem("Save State");
+	        saveState.setActionCommand("Save State");
+	        saveState.addActionListener(controller);
+	        this.add(saveState);
+	        
+	        //Remove Node
+	        JMenuItem importState = new JMenuItem("Import State");
+	        importState.setActionCommand("Import State");
+	        importState.addActionListener(controller);
+	        this.add(importState);
 	    }
 	}
 

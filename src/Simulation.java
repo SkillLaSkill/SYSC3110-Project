@@ -205,4 +205,13 @@ public class Simulation extends Thread {
 		for(ViewStrategy view: views)
 			view.addText("Average hops per transfer: " + metric.getAverageHopsPerTransfer());
 	}
+	
+	/**
+	 * Sets the graph to the given graph
+	 * 
+	 * @param g (Graph) - Graph you want used
+	 */
+	public void setGraph(Graph g) {
+		graph = g;
+	}
 }

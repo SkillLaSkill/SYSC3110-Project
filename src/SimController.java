@@ -1,5 +1,6 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 /** 
  * Creates a instance of a simulation controller
@@ -10,6 +11,7 @@ public class SimController implements ActionListener {
 	
 	private SimGUI view;
 	private Simulation model;
+	String fileName = "ImportExport";
 
 	/**
 	 * Simulation controller constructor (initializes view and model)
@@ -242,6 +244,7 @@ public class SimController implements ActionListener {
 	/**
 	 * Checks that action the user wants to take, then acts accordingly
 	 */
+	@SuppressWarnings("static-access")
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		String actionCommand = arg0.getActionCommand();
@@ -267,9 +270,11 @@ public class SimController implements ActionListener {
 		else if(actionCommand.equals("Start Simulation")) startSim();
 		// Steps once into the simulation
 		else if(actionCommand.equals("Step Simulation")) stepSim();
-		else if(actionCommand.equals("Step Simulation")) stepBack();
-		// Calls private method to step once through the simulation
-		//else if(actionCommand.equals("Simulate Step"))	startSim(1, view.createPrompt("Enter send rate (ms)"));		
-
+		// Steps back once in the simulation
+		else if(actionCommand.equals("Step Back")) stepBack();
+		// Exports the topology view information into a XML
+		else if(actionCommand.equals("Save State")) model.getGraph().exportToXmlFile(fileName);
+		// Imports topology view from the XML file
+		else if(actionCommand.equals("Import State")) model.setGraph(model.getGraph().importFromXMLFile(new File(fileName+".xml")));
 	}
 }

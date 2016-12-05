@@ -191,15 +191,14 @@ public class Graph {
 		}
 	}
 	
-	public int exportToXmlFile(int stepNumber) {
+	public void exportToXmlFile(String fileName) {
 		try {
-			BufferedWriter out = new BufferedWriter(new FileWriter("PreviousSteps.xml"));
+			BufferedWriter out = new BufferedWriter(new FileWriter(fileName + ".xml"));
 			out.write(this.toXML());
 			out.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return stepNumber++;
 	}
 	
 	public String toXML() {

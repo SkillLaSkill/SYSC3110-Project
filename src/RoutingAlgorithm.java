@@ -6,7 +6,6 @@
 public abstract class RoutingAlgorithm { 
 	private Graph graph;
 	private Metric metric;
-	private int stepNumber = 0;
 	
 	/**
 	 * Sets the metric to the given metric
@@ -47,7 +46,6 @@ public abstract class RoutingAlgorithm {
 	 */
 	public void simulate(int steps) {
 		while (steps-- > 0) {
-			stepNumber = graph.exportToXmlFile(stepNumber);
 			simulateStep();
 		}
 	}
