@@ -44,7 +44,6 @@ public class FloodingAlgorithm extends RoutingAlgorithm {
 								n1.removePacket(p);
 							}
 						}
-						return;
 					}
 				}
 			}
@@ -66,10 +65,10 @@ public class FloodingAlgorithm extends RoutingAlgorithm {
 		Object[] packetsArray = packets.toArray();
 		for(int i = 0; i < packetsArray.length; i++) {
 			Packet p = (Packet)packetsArray[i];
-			//p.decrementTimeToLive();
+			p.decrementTTL();
 			
 			//if packet has expired, remove all instances of of it from graph
-			if(true) { //if packet has expired, remove all instances of of it from graph
+			if(p.getTTL() <= 0) { //if packet has expired, remove all instances of of it from graph
 				for(int j = 0; j < getGraph().getNodes().size(); j++) {
 					Node n = getGraph().getNodes().get(j);
 					if(n.hasSeenPacket(p)) n.removePacket(p);
@@ -83,8 +82,8 @@ public class FloodingAlgorithm extends RoutingAlgorithm {
 		return null;
 	}
 }
-//add time to live in packet (starting at number, decreasing to 0)
-//add time to live getter(getTimeToLive)
-//add packetsSeen array in Node
-//add hasSeen method in Node
-//add addHasSeen method in Node
+//add time to live in packet (starting at number, decreasing to 0) - done
+//add time to live getter(getTimeToLive) - done
+//add packetsSeen array in Node - done
+//add hasSeen method in Node - done
+//add addHasSeen method in Node- done

@@ -9,6 +9,7 @@ public class Packet {
 	private Node destination;
 	private String message;
 	private int hops = 0;
+	private int timeToLive = 8;
 	private static int count = 0;
 	private final int id;
 	private boolean Transfered = false;
@@ -154,5 +155,22 @@ public class Packet {
 	 */
 	public void setTransfered(boolean Transfered) {
 		this.Transfered = Transfered;
+	}
+	
+	/**
+	 * Returns the Time To Live counter of the packet
+	 * 
+	 * @return timeToLive (int) - How many more steps before the packet is deleted.
+	 */
+	
+	public int getTTL() {
+		return this.timeToLive;
+	}
+	
+	/**
+	 * Decrement the timeToLive value of the Packet
+	 */
+	public void decrementTTL() {
+		this.timeToLive--;
 	}
 }
