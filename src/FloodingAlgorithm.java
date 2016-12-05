@@ -9,6 +9,7 @@ import java.util.Set;
  */
 public class FloodingAlgorithm extends RoutingAlgorithm { 
 	
+	
 	private Set<Packet> packets = new HashSet<Packet>();
 	/**
 	 * Steps through the simulation using the random method
@@ -28,7 +29,7 @@ public class FloodingAlgorithm extends RoutingAlgorithm {
 					Node con = n.getConnections().get(k);
 					
 					if(!con.hasSeenPacket(p)){ //checks if connection has seen the packet
-						con.addPacket(p); 
+						//con.addPacket(p); 
 						con.addSeenPacket(p); //adds Packet to hasSeen list of Connection
 						p.incrementHops();
 						packetsSentThisStep++;
@@ -37,13 +38,6 @@ public class FloodingAlgorithm extends RoutingAlgorithm {
 					// Packet has reached it's destination, so add its hops counter to the totalHops then remove it.
 					if (con.equals(p.getDestination())) {
 						packetsFinishedThisStep++;
-						con.removePacket(p);
-						for(Node n1 : getGraph().getNodes()) {
-							if(n1.containsPacket(p)) {
-								//ADD METRIC OUTPUT SAYING PACKET REACHED DESTINATION
-								n1.removePacket(p);
-							}
-						}
 					}
 				}
 			}
@@ -52,6 +46,18 @@ public class FloodingAlgorithm extends RoutingAlgorithm {
 		getMetric().addHops(packetsSentThisStep);
 		getMetric().addCompleteTransfers(packetsFinishedThisStep);
 		
+		//add Packets each Node has seen to its list of Packets
+		for(int i = 0; i < getGraph().getNodes().size(); i++) {
+			Node n = getGraph().getNodes().get(i);
+			
+			for(int j = 0; j < n.getPacketsSeen().size(); j++) {
+				Packet p = n.getPacketsSeen().get(j);
+				
+				if(!n.containsPacket(p)) {
+					n.addPacket(p);
+				}
+			}
+		}
 		//creates a set of all packets in the graph
 		for(int i = 0; i < getGraph().getNodes().size(); i++) {
 			Node n = getGraph().getNodes().get(i);

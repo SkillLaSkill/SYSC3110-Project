@@ -90,6 +90,15 @@ public class Node {
 	}
 	
 	/**
+	 * Gets a list of all packets the node has seen
+	 * 
+	 * @return List<Packet> - List of packets node has seen
+	 */
+	public List<Packet> getPacketsSeen() {
+		return packetsSeen;
+	}
+	
+	/**
 	 * Return the nodes name 
 	 * 
 	 * @return String - Name of the node
