@@ -198,7 +198,7 @@ public class Packet {
 				p.hops = Integer.parseInt(value);
 				break;
 			case "Count":
-				// Probably don't need this field at all.
+				Packet.count = Integer.parseInt(value);
 			case "Transferred":
 				p.transferred = Boolean.parseBoolean(xmlNode.getTextContent());
 				break;
