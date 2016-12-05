@@ -1,8 +1,14 @@
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
 
 /**
  * The Graph in which the list of nodes is stored and accessed by the simulation
@@ -208,7 +214,7 @@ public class Graph {
 				sb.append("\t\t" + "<Connection>" + con.getName() + "</Connection>" + "\n");
 			}
 			for(Packet p : n.getPackets()) {
-				sb.append("\t\t" + "<Packet>");
+				sb.append("\t\t" + "<Packet>\n");
 				sb.append("\t\t\t" + "<ID>" + p.getId() + "</ID>" + "\n");
 				sb.append("\t\t\t" + "<Destination>" + p.getDestination().getName() + "</Destination>" + "\n");
 				sb.append("\t\t\t" + "<Message>" + p.getMessage() + "</PacketID>" + "\n");
@@ -216,11 +222,11 @@ public class Graph {
 				sb.append("\t\t\t" + "<Count>" + p.getCount() + "</PacketID>" + "\n");
 				if (p.isTransfered()) sb.append("\t\t\t" + "<Transferred>" + "true" + "</PacketID>" + "\n");
 				else sb.append("\t\t\t" + "<Transferred>" + "false" + "</PacketID>" + "\n");
-				sb.append("\t\t" + "</Packet>");
+				sb.append("\t\t" + "</Packet>\n");
 			}
 			
 			for(Packet p1 : n.getSeenPackets()) {
-				sb.append("\t\t" + "<SeenPacket>");
+				sb.append("\t\t" + "<SeenPacket>\n");
 				sb.append("\t\t\t" + "<ID>" + p1.getId() + "</ID>" + "\n");
 				sb.append("\t\t\t" + "<Destination>" + p1.getDestination().getName() + "</Destination>" + "\n");
 				sb.append("\t\t\t" + "<Message>" + p1.getMessage() + "</Message>" + "\n");
@@ -236,5 +242,89 @@ public class Graph {
 		sb.append("</Step" + stepNumber + ">\n");
 		stepNumber++;
 		return sb.toString();
+	}
+	
+	/**
+	 * 
+	 * @param doc
+	 * @return
+	 */
+	public static Graph importFromXMLObj(org.w3c.dom.NodeList nl) {
+		Graph g = new Graph();
+		for (int i = 0; i < nl.getLength(); i++) {
+			// This should be the <Node></Node>
+			org.w3c.dom.Node xmlNode = (org.w3c.dom.Node)nl.item(i);
+			
+			org.w3c.dom.NodeList nodeNodeList = xmlNode.getChildNodes();
+			Node n = new Node("");
+			for (int j = 0; j < nodeNodeList.getLength(); j++) {
+				org.w3c.dom.Node xmlNodeNode = (org.w3c.dom.Node)nodeNodeList.item(j);
+				
+				
+				// Build up graph with nodes/connections
+			
+				String name = xmlNodeNode.getNodeName();
+				String value = xmlNodeNode.getTextContent();
+				
+				switch(name) {
+				case "Name":
+					n.setName(value);
+					break;
+				case "Connection":
+					n.addConnection(new Node(value));
+					break;
+				case "Packet":
+					org.w3c.dom.NodeList pnl = xmlNodeNode.getChildNodes();	
+					
+					// Delegate packet XML importing to Packet class.
+					Packet p = Packet.importFromXMLObj(pnl);
+					n.addPacket(p);
+					break;
+
+				case "SeenPacket": 
+					//<SeenPacket>
+					org.w3c.dom.NodeList seennl = xmlNodeNode.getChildNodes();
+					for (int k = 0; k < seennl.getLength(); k++) {
+						//<Packet>
+						org.w3c.dom.Node xmlSeenNode = (org.w3c.dom.Node)seennl.item(k);
+						// The nodeList used as an argument contains the fields within <Packet></Packet>
+						Packet p2 = Packet.importFromXMLObj(xmlSeenNode.getChildNodes());
+						n.addSeenPacket(p2);
+					}
+					break;
+				default: break;	
+				}
+				
+			}
+			if (!n.getName().isEmpty())
+				g.addNode(n);
+		}
+
+		return g;
+	}
+	/**
+	 * 
+	 * @param f
+	 */
+	public static Graph importFromXMLFile(File f) {
+		try {
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder d = factory.newDocumentBuilder();
+			Document doc = d.parse(f);
+
+			// root, <Graph>
+			org.w3c.dom.Node graph = (org.w3c.dom.Node) doc.getDocumentElement().getChildNodes();
+
+			return importFromXMLObj(graph.getChildNodes());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public static void main(String[] args) {
+		File f = new File("C:\\Users\\Josh\\Desktop\\test.xml");
+		Graph g = Graph.importFromXMLFile(f);
+		System.out.println(g.toXML(0));
 	}
 }

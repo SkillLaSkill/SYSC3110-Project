@@ -4,14 +4,14 @@
  * @author Team GetterDone
  */
 public class Packet {
-	private final int id;
+	private int id;
 	//private Node previousPostion;
 	private Node destination;
 	private String message;
 	private int timeToLive = 8; 
 	private int hops = 0;
 	private static int count = 0;
-	private boolean Transfered = false;
+	private boolean transferred = false;
 	
 	/**
 	 * Creates new Packet based on the given graph.
@@ -37,7 +37,7 @@ public class Packet {
 		this.message = t.message;
 		this.hops = t.hops;
 		this.id = t.id;
-		this.Transfered = t.Transfered;
+		this.transferred = t.transferred;
 	}
 
 	/**
@@ -144,7 +144,7 @@ public class Packet {
 	 * @return transfered (Boolean) - Status of whether packet has been transfered True = has been transfered; False = has not been transfered
 	 */
 	public boolean isTransfered() {
-		return Transfered;
+		return transferred;
 	}
 	
 	/**
@@ -153,7 +153,7 @@ public class Packet {
 	 * @param Transfered (Boolean) - Sets status of whether packet has been transfered
 	 */
 	public void setTransfered(boolean Transfered) {
-		this.Transfered = Transfered;
+		this.transferred = Transfered;
 	}
 	
 	/**
@@ -171,5 +171,41 @@ public class Packet {
 	 */
 	public void decrementTTL() {
 		this.timeToLive--;
+	}
+	
+	public static Packet importFromXMLObj(org.w3c.dom.NodeList nl) {
+		
+		Packet p = new Packet("", new Node(""));
+		// Get all the fields for Packet
+		for (int i = 0; i < nl.getLength(); i++) {
+			org.w3c.dom.Node xmlNode = (org.w3c.dom.Node) nl.item(i);
+
+			String name = xmlNode.getNodeName();
+			String value = xmlNode.getTextContent();
+			
+			switch (name) {
+			case "ID":
+				// Not sure about this.
+				p.id = Integer.parseInt(value);
+				break;
+			case "Destination":
+				p.destination = new Node(value);
+				break;
+			case "Message":
+				p.message = value;
+				break;
+			case "Hops":
+				p.hops = Integer.parseInt(value);
+				break;
+			case "Count":
+				// Probably don't need this field at all.
+			case "Transferred":
+				p.transferred = Boolean.parseBoolean(xmlNode.getTextContent());
+				break;
+			default: break;
+			}
+
+		}
+		return p;
 	}
 }
