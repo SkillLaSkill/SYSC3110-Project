@@ -22,7 +22,7 @@ public class DepthFirstAlgorithm extends BreadthDepthShared {
 	@Override
 	public Node findNextNode(Node currentPosition, Node destination) {
 		Stack<SearchNode> stk = new Stack<SearchNode>();
-		
+		searchNodes = new ArrayList<>();
 		// Enqueue the root.
 		SearchNode root = new SearchNode(currentPosition);
 		searchNodes.add(root);
