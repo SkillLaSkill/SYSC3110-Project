@@ -225,7 +225,7 @@ public class Graph {
 				sb.append("\t\t" + "</Packet>\n");
 			}
 			
-			for(Packet p1 : n.getSeenPackets()) {
+			for(Packet p1 : n.getPacketsSeen()) {
 				sb.append("\t\t" + "<SeenPacket>\n");
 				sb.append("\t\t\t" + "<ID>" + p1.getId() + "</ID>" + "\n");
 				sb.append("\t\t\t" + "<Destination>" + p1.getDestination().getName() + "</Destination>" + "\n");

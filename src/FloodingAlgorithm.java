@@ -36,12 +36,12 @@ public class FloodingAlgorithm extends RoutingAlgorithm {
 				for( int k = 0; k < n.getConnections().size(); k++) {
 					Node con = n.getConnections().get(k);
 					
-					if(!con.hasSeenPacket(p)){ //checks if connection has seen the packet
-						con.addSeenPacket(p); //adds Packet to hasSeen list of Connection
+					//checks if connection has seen the packet. If not, add to its list of seenPackets, and add/create Map between node and the packet.
+					if(!con.hasSeenPacket(p)){ 
+						con.addSeenPacket(p); 
 						packetAddMap.putIfAbsent(con, new ArrayList<Packet>());
 						packetAddMap.get(con).add(p);
 						
-						p.incrementHops();
 						packetsSentThisStep++;
 						stepTransferInfo.add("Transfered " + p.getMessage() + " from node " + n.getName() + " to " + con.getName() + ".");
 					}

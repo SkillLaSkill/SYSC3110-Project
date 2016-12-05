@@ -26,7 +26,6 @@ public class RandomAlgorithm extends RoutingAlgorithm {
 				Packet p = n.getPackets().get(j);
 				if (!p.isTransfered()) {
 					p.setTransfered(true);
-					p.incrementHops();
 					packetsSentThisStep++;
 					// Packet has reached it's destination, so add its hops counter to the totalHops then remove it.
 					if (n.equals(p.getDestination())) {
@@ -34,14 +33,14 @@ public class RandomAlgorithm extends RoutingAlgorithm {
 						n.removePacket(p);
 						return;
 					}
-					
-					int nextNodeIndex = rand.nextInt((n.getConnections().size()));
-					n.removePacket(p);
-					Node next = n.getConnections().get(nextNodeIndex);
-					next.addPacket(p);
-					
-					stepTransferInfo.add("Transfered " + p.getMessage() + " from node " + n.getName() + " to " + next.getName() + ".");
-					
+					// If not destination, send packet to 
+					else {
+						int nextNodeIndex = rand.nextInt((n.getConnections().size()));
+						n.removePacket(p);
+						Node next = n.getConnections().get(nextNodeIndex);
+						next.addPacket(p);
+						stepTransferInfo.add("Transfered " + p.getMessage() + " from node " + n.getName() + " to " + next.getName() + ".");
+					}
 				}
 			}
 		}
