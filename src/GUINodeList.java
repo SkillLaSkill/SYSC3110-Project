@@ -1,8 +1,6 @@
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
-import java.awt.geom.Line2D.Double;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -86,7 +84,7 @@ public class GUINodeList implements Iterable<String> {
 			nodeNames.clear();
 			nodes.clear();
 			graphConnections.clear();
-			for (List l : nodeMessages) {
+			for (List<String> l : nodeMessages) {
 				l.clear();
 			}
 			nodeMessages.clear();

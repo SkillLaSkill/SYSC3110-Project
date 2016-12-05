@@ -5,8 +5,8 @@ public class Metric {
 	private int stepCounter = 0;
 	private int sendRate = 0;
 	
-	public void addHops(int hops) {
-		hops += hops;
+	public void addHops(int h) {
+		hops += h;
 	}
 	public void addCompleteTransfers(int completeTransfers) {
 		transfers += completeTransfers;
@@ -46,4 +46,11 @@ public class Metric {
 		return stepCounter;
 	}
 	
+	public int getHops() {
+		return hops;
+	}
+	
+	public int getTransfers() {
+		return transfers;
+	}
 }
