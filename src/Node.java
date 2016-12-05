@@ -51,6 +51,15 @@ public class Node {
 	}
 	
 	/**
+	 * Gets a list of all the seen packets
+	 * 
+	 * @return List<Packet> - List of all seen packets
+	 */
+	public List<Packet> getSeenPackets() {
+		return packetsSeen;
+	}
+	
+	/**
 	 * Sets the list of all the current packets
 	 * 
 	 * @param packets (List<Packet>) - List of all current packets
@@ -87,15 +96,6 @@ public class Node {
 	 */
 	public boolean hasSeenPacket(Packet p) {
 		return packetsSeen.contains(p);
-	}
-	
-	/**
-	 * Gets a list of all packets the node has seen
-	 * 
-	 * @return List<Packet> - List of packets node has seen
-	 */
-	public List<Packet> getPacketsSeen() {
-		return packetsSeen;
 	}
 	
 	/**

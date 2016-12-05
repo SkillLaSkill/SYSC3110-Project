@@ -1,3 +1,7 @@
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
 /**
  * Interface the runs all of the different algorithms
  * 
@@ -6,6 +10,7 @@
 public abstract class RoutingAlgorithm { 
 	private Graph graph;
 	private Metric metric;
+	private int stepNumber = 0;
 	
 	/**
 	 * Sets the metric to the given metric
@@ -45,7 +50,10 @@ public abstract class RoutingAlgorithm {
 	 * @param steps (int) - Number of steps you wish to do
 	 */
 	public void simulate(int steps) {
-		while (steps-- > 0) simulateStep();
+		while (steps-- > 0) {
+			this.exportToXmlFile();
+			simulateStep();
+		}
 	}
 	
 	/**
@@ -66,6 +74,57 @@ public abstract class RoutingAlgorithm {
 				p.setTransfered(false);
 			}
 		}
+	}
+	
+	public void exportToXmlFile() {
+		try {
+			BufferedWriter out = new BufferedWriter(new FileWriter("PreviousSteps.xml"));
+			out.write(this.toXML());
+			out.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public String toXML() {
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append("<Step" + stepNumber + ">\n");
+		
+		for (Node n : graph.getNodes()) {
+			sb.append("\t<Node>\n");
+			sb.append("\t\t" + "<Name>" + n.getName() + "</Name>" + "\n");
+			for (Node con : n.getConnections()) {
+				sb.append("\t\t" + "<Connection>" + con.getName() + "</Connection>" + "\n");
+			}
+			for(Packet p : n.getPackets()) {
+				sb.append("\t\t" + "<Packet>");
+				sb.append("\t\t\t" + "<ID>" + p.getId() + "</ID>" + "\n");
+				sb.append("\t\t\t" + "<Destination>" + p.getDestination().getName() + "</Destination>" + "\n");
+				sb.append("\t\t\t" + "<Message>" + p.getMessage() + "</PacketID>" + "\n");
+				sb.append("\t\t\t" + "<Hops>" + p.getHops() + "</PacketID>" + "\n");
+				sb.append("\t\t\t" + "<Count>" + p.getCount() + "</PacketID>" + "\n");
+				if (p.isTransfered()) sb.append("\t\t\t" + "<Transferred>" + "true" + "</PacketID>" + "\n");
+				else sb.append("\t\t\t" + "<Transferred>" + "false" + "</PacketID>" + "\n");
+				sb.append("\t\t" + "</Packet>");
+			}
+			
+			for(Packet p1 : n.getSeenPackets()) {
+				sb.append("\t\t" + "<SeenPacket>");
+				sb.append("\t\t\t" + "<ID>" + p1.getId() + "</ID>" + "\n");
+				sb.append("\t\t\t" + "<Destination>" + p1.getDestination().getName() + "</Destination>" + "\n");
+				sb.append("\t\t\t" + "<Message>" + p1.getMessage() + "</PacketID>" + "\n");
+				sb.append("\t\t\t" + "<Hops>" + p1.getHops() + "</PacketID>" + "\n");
+				sb.append("\t\t\t" + "<Count>" + p1.getCount() + "</PacketID>" + "\n");
+				if (p1.isTransfered()) sb.append("\t\t\t" + "<Transferred>" + "true" + "</PacketID>" + "\n");
+				else sb.append("\t\t\t" + "<Transferred>" + "false" + "</PacketID>" + "\n");
+				sb.append("\t\t" + "</Packet>");
+			}
+			sb.append("\t</Node>\n");
+		}
+		sb.append("</Step" + stepNumber + ">\n");
+		stepNumber++;
+		return sb.toString();
 	}
 
 	public abstract Node findNextNode(Node currentPosition, Node destination);
