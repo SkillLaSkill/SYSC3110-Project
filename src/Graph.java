@@ -233,7 +233,6 @@ public class Graph {
 				sb.append("\t\t\t" + "<Message>" + p1.getMessage() + "</Message>" + "\n");
 				sb.append("\t\t\t" + "<Hops>" + p1.getHops() + "</Hops>" + "\n");
 				sb.append("\t\t\t" + "<Count>" + p1.getCount() + "</Count>" + "\n");
-				sb.append("\t\t\t" + "<TimeToLive>" + p1.getTTL() + "</TimeToLive>" + "\n");
 				if (p1.isTransfered()) sb.append("\t\t\t" + "<Transferred>" + "true" + "</Transferred>" + "\n");
 				else sb.append("\t\t\t" + "<Transferred>" + "false" + "</Transferred>" + "\n");
 				sb.append("\t\t" + "</SeenPacket>");
