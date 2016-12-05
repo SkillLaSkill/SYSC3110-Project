@@ -2,6 +2,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
 
 /**
  * The Graph in which the list of nodes is stored and accessed by the simulation
@@ -217,11 +219,11 @@ public class Graph {
 				sb.append("\t\t" + "<Packet>\n");
 				sb.append("\t\t\t" + "<ID>" + p.getId() + "</ID>" + "\n");
 				sb.append("\t\t\t" + "<Destination>" + p.getDestination().getName() + "</Destination>" + "\n");
-				sb.append("\t\t\t" + "<Message>" + p.getMessage() + "</PacketID>" + "\n");
-				sb.append("\t\t\t" + "<Hops>" + p.getHops() + "</PacketID>" + "\n");
-				sb.append("\t\t\t" + "<Count>" + p.getCount() + "</PacketID>" + "\n");
-				if (p.isTransfered()) sb.append("\t\t\t" + "<Transferred>" + "true" + "</PacketID>" + "\n");
-				else sb.append("\t\t\t" + "<Transferred>" + "false" + "</PacketID>" + "\n");
+				sb.append("\t\t\t" + "<Message>" + p.getMessage() + "</Message>" + "\n");
+				sb.append("\t\t\t" + "<Hops>" + p.getHops() + "</Hops>" + "\n");
+				sb.append("\t\t\t" + "<Count>" + p.getCount() + "</Count>" + "\n");
+				if (p.isTransfered()) sb.append("\t\t\t" + "<Transferred>" + "true" + "</Transferred>" + "\n");
+				else sb.append("\t\t\t" + "<Transferred>" + "false" + "</Transferred>" + "\n");
 				sb.append("\t\t" + "</Packet>\n");
 			}
 			
@@ -235,7 +237,7 @@ public class Graph {
 				sb.append("\t\t\t" + "<TimeToLive>" + p1.getTTL() + "</TimeToLive>" + "\n");
 				if (p1.isTransfered()) sb.append("\t\t\t" + "<Transferred>" + "true" + "</Transferred>" + "\n");
 				else sb.append("\t\t\t" + "<Transferred>" + "false" + "</Transferred>" + "\n");
-				sb.append("\t\t" + "</Packet>");
+				sb.append("\t\t" + "</SeenPacket>");
 			}
 			sb.append("\t</Node>\n");
 		}
@@ -325,7 +327,10 @@ public class Graph {
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder d = factory.newDocumentBuilder();
-			Document doc = d.parse(this.toXML());
+			InputSource is = new InputSource();
+			is.setCharacterStream(new StringReader(this.toXML()));
+			
+			Document doc = d.parse(is);
 			return doc.getDocumentElement().getChildNodes();
 		}
 		catch (Exception e) {
