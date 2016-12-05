@@ -104,7 +104,7 @@ public class Simulation extends Thread {
 	public void simulateStep() {
 		
 		// If back in history, just go forward without simulating again.
-		if (historyIndex < history.size() - 1) {
+		if (historyIndex < (history.size() - 1)) {
 			graph = history.get(historyIndex);
 		}
 		
@@ -133,9 +133,9 @@ public class Simulation extends Thread {
 			}
 			
 			// Need to export and import to create a new graph of that state.
-			Graph g = (Graph.importFromXMLObj(graph.exportToXmlObj()));
+			//Graph g = (Graph.importFromXMLObj(graph.exportToXmlObj()));
 			
-			history.add(g);
+			//history.add(g);
 			historyIndex++;
 		}
 		notifyView();
