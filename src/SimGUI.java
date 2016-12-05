@@ -130,9 +130,9 @@ public class SimGUI extends JFrame implements ViewStrategy
         fileMenu.add(select);
         fileMenu.add(reset);
         fileMenu.add(refresh);
-        fileMenu.add(exit);
         fileMenu.add(saveState);
         fileMenu.add(importState);
+        fileMenu.add(exit);
   
         menuBar.add(fileMenu);
         JMenuItem clear = new JMenuItem("Clear Text");
