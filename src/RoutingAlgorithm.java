@@ -67,4 +67,6 @@ public abstract class RoutingAlgorithm {
 			}
 		}
 	}
+
+	public abstract Node findNextNode(Node currentPosition, Node destination);
 }
