@@ -174,7 +174,7 @@ public class Packet {
 	}
 	
 	public static Packet importFromXMLObj(org.w3c.dom.NodeList nl) {
-		
+		int count = Packet.count;
 		Packet p = new Packet("", new Node(""));
 		// Get all the fields for Packet
 		for (int i = 0; i < nl.getLength(); i++) {
@@ -206,6 +206,7 @@ public class Packet {
 			}
 
 		}
+		Packet.count = count;
 		return p;
 	}
 }
