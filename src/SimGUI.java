@@ -44,7 +44,7 @@ public class SimGUI extends JFrame implements ViewStrategy
 	public SimGUI()
 	{
 	//Frame Icon (Kappa TM)
-		ImageIcon img = new ImageIcon("src/218.png");
+		ImageIcon img = new ImageIcon("src/666.png");
 		this.setIconImage(img.getImage());
 		
 	//Variable initializations
