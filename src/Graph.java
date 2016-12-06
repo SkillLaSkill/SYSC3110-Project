@@ -225,18 +225,19 @@ public class Graph {
 				else sb.append("\t\t\t" + "<Transferred>" + "false" + "</Transferred>" + "\n");
 				sb.append("\t\t" + "</Packet>\n");
 			}
-			
+			sb.append("\t\t<SeenPacket>\n");
 			for(Packet p1 : n.getPacketsSeen()) {
-				sb.append("\t\t" + "<SeenPacket>\n");
-				sb.append("\t\t\t" + "<ID>" + p1.getId() + "</ID>" + "\n");
-				sb.append("\t\t\t" + "<Destination>" + p1.getDestination().getName() + "</Destination>" + "\n");
-				sb.append("\t\t\t" + "<Message>" + p1.getMessage() + "</Message>" + "\n");
-				sb.append("\t\t\t" + "<Hops>" + p1.getHops() + "</Hops>" + "\n");
-				sb.append("\t\t\t" + "<Count>" + p1.getCount() + "</Count>" + "\n");
+				sb.append("\t\t\t" + "<Packet>\n");
+				sb.append("\t\t\t\t" + "<ID>" + p1.getId() + "</ID>" + "\n");
+				sb.append("\t\t\t\t" + "<Destination>" + p1.getDestination().getName() + "</Destination>" + "\n");
+				sb.append("\t\t\t\t" + "<Message>" + p1.getMessage() + "</Message>" + "\n");
+				sb.append("\t\t\t\t" + "<Hops>" + p1.getHops() + "</Hops>" + "\n");
+				sb.append("\t\t\t\t" + "<Count>" + p1.getCount() + "</Count>" + "\n");
 				if (p1.isTransfered()) sb.append("\t\t\t" + "<Transferred>" + "true" + "</Transferred>" + "\n");
-				else sb.append("\t\t\t" + "<Transferred>" + "false" + "</Transferred>" + "\n");
-				sb.append("\t\t" + "</SeenPacket>");
+				else sb.append("\t\t\t\t" + "<Transferred>" + "false" + "</Transferred>" + "\n");
+				sb.append("\t\t\t" + "</Packet>\n");
 			}
+			sb.append("\t\t</SeenPacket>\n");
 			sb.append("\t</Node>\n");
 		}
 		sb.append("</Graph>\n");
