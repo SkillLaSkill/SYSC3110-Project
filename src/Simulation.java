@@ -18,7 +18,7 @@ public class Simulation extends Thread {
 	private Random rand = new Random();
 	
 	private List<Graph> history = new ArrayList<>();
-	private int historyIndex = -1;
+	private int historyPosition = 0;
 	
 	public Simulation(SimGUI v) {
 		this(new Graph());
@@ -101,12 +101,12 @@ public class Simulation extends Thread {
 	 *
 	 * @param sendRate (int) - Rate in which the packets are sent
 	 */
-	public void simulateStep() {
+	public void simulateStep(int sendRate) {
+		// If back in history, just go forward without simulating again.
 		
-		if (historyIndex < (history.size() - 1)) {
-			historyIndex++;
-			graph = history.get(historyIndex);
-			
+		if (historyPosition > 0) {
+			graph = history.get(history.size() - historyPosition);
+			historyPosition--;
 		}
 		
 		// Will only simulate if not in history.
@@ -134,16 +134,10 @@ public class Simulation extends Thread {
 				this.printPacketTransfer(source, destination, p);
 			}
 			
-			
 			// Need to export and import to create a new graph of that state.
 			Graph g = (Graph.importFromXMLObj(graph.exportToXmlObj()));
 			
-			if (historyIndex == history.size() - 1) {
-				history.add(g);
-				historyIndex++;
-				// Keep with size;
-			}
-			
+			history.add(g);
 		}
 		notifyView();
 	}
@@ -154,11 +148,10 @@ public class Simulation extends Thread {
 	 * @param sendRate (int) - Rate in which the packets are sent
 	 */
 	public void simulateBackStep() {
-		System.out.println(historyIndex);
-		if (historyIndex > 0) {
+		if (historyPosition != (history.size() - 1)) {
 			
-			historyIndex--;
-			graph = history.get(historyIndex);
+			historyPosition++;
+			graph = history.get(history.size() - 1 - historyPosition);
 			notifyView();
 		}
 	}
