@@ -52,7 +52,7 @@ public class Metric {
 	}
 	
 	public double getAverageHopsPerTransfer() {
-		if(transfers == 0)
+		if(transfers <= 0)
 			return 0;
 		return round((double) hops / transfers, 2);
 	}
