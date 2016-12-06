@@ -211,8 +211,14 @@ public class Simulation extends Thread {
 	 */
 	public void printSimulationMetrics()
 	{
-		for(ViewStrategy view: views)
-			view.addText("Total hops: " + metric.getHops() + "\n" + "Average hops per transfer: " + metric.getAverageHopsPerTransfer());
+		if(metric.isValid())
+		{
+			for(ViewStrategy view: views)
+				view.addText("Total hops: " + metric.getHops() + "\n" + "Average hops per transfer: " + metric.getAverageHopsPerTransfer());
+		}
+		else
+			for(ViewStrategy view: views)
+				view.addText("Metrics not available in History!");
 	}
 	
 	/**

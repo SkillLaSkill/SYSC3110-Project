@@ -364,7 +364,7 @@ public class Graph {
 			return doc.getDocumentElement().getChildNodes();
 		}
 		catch (Exception e) {
-			e.printStackTrace();
+			e.printStackTrace(); 
 			return null;
 		}
 	
