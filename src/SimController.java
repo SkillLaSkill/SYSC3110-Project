@@ -280,6 +280,9 @@ public class SimController implements ActionListener {
 		// Exports the topology view information into a XML
 		else if(actionCommand.equals("Save State")) model.getGraph().exportToXmlFile(fileName);
 		// Imports topology view from the XML file
-		else if(actionCommand.equals("Import State")) model.setGraph(model.getGraph().importFromXMLFile(new File(fileName+".xml")));
+		else if(actionCommand.equals("Import State")) {
+			model.setGraph(model.getGraph().importFromXMLFile(new File(fileName+".xml")));
+			view.update(); 
+		}
 	}
 }
