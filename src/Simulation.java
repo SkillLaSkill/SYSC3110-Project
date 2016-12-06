@@ -115,7 +115,9 @@ public class Simulation extends Thread {
 		// Will only simulate if not in history.
 		else {
 			alg.setGraph(graph);
+			metric.setValid(true);
 			alg.setMetric(metric);
+			
 			
 				
 			alg.simulateStep();
@@ -151,6 +153,7 @@ public class Simulation extends Thread {
 	 * @param sendRate (int) - Rate in which the packets are sent
 	 */
 	public void simulateBackStep() {
+		metric.setValid(false);
 		if (historyPosition != (history.size() - 1)) {
 			
 			historyPosition++;

@@ -7,6 +7,7 @@ public class Metric {
 	private int transfers = 0;
 	private int stepCounter = 0;
 	private List<String> stepTransfers;
+	private boolean valid = true;
 	
 	public void setTransferInfo(List<String> stepTransfers) {
 		this.stepTransfers = stepTransfers;
@@ -63,5 +64,13 @@ public class Metric {
 	    BigDecimal bd = new BigDecimal(value);
 	    bd = bd.setScale(places, RoundingMode.HALF_UP);
 	    return bd.doubleValue();
+	}
+
+	public boolean isValid() {
+		return valid;
+	}
+
+	public void setValid(boolean valid) {
+		this.valid = valid;
 	}
 }
