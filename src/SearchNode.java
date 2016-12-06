@@ -62,6 +62,11 @@ class SearchNode{
 		return node;
 	}
 	
+	/**
+	 * Checks if objects are the same
+	 * 
+	 * @return - True if same; false if not
+	 */
 	@Override
 	public boolean equals(Object o) {
 		if (o instanceof SearchNode) {

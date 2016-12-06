@@ -193,6 +193,11 @@ public class Graph {
 		}
 	}
 	
+	/**
+	 * Exports graph to a XML file
+	 * 
+	 * @param fileName (String) - File you want to store the graph xml.
+	 */
 	public void exportToXmlFile(String fileName) {
 		try {
 			BufferedWriter out = new BufferedWriter(new FileWriter(fileName + ".xml"));
@@ -203,6 +208,11 @@ public class Graph {
 		}
 	}
 	
+	/**
+	 * Converts the Graph to the xml format
+	 * 
+	 * @return String - Graph in xml
+	 */
 	public String toXML() {
 		StringBuilder sb = new StringBuilder();
 		
@@ -245,9 +255,10 @@ public class Graph {
 	}
 	
 	/**
+	 * Imports the xml object into a graph object
 	 * 
-	 * @param doc
-	 * @return
+	 * @param nl (NodeList) 
+	 * @return Graph - The imported graph
 	 */
 	public static Graph importFromXMLObj(org.w3c.dom.NodeList nl) {
 		Graph g = new Graph();
@@ -334,8 +345,10 @@ public class Graph {
 		return g;
 	}
 	/**
+	 * Imports graph from an xml file
 	 * 
-	 * @param f
+	 * @param f (File) - xml file graph is in
+	 * @return Graph - Imported grpah
 	 */
 	public static Graph importFromXMLFile(File f) {
 		try {
@@ -353,6 +366,11 @@ public class Graph {
 		}
 	}
 
+	/**
+	 * Exports a graph object
+	 * 
+	 * @return NodeList
+	 */
 	public org.w3c.dom.NodeList exportToXmlObj() {
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -370,6 +388,11 @@ public class Graph {
 	
 	}
 	
+	/**
+	 * Checks if the graph has no nodes
+	 * 
+	 * @return boolean - True if empty; False if not
+	 */
 	public boolean isEmpty()
 	{
 		return nodes.isEmpty();
