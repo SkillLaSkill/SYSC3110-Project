@@ -154,7 +154,7 @@ public class Simulation extends Thread {
 	 */
 	public void simulateBackStep() {
 		metric.setValid(false);
-		if (historyPosition != (history.size() - 1)) {
+		if (historyPosition < (history.size() - 1)) {
 			
 			historyPosition++;
 			graph = history.get(history.size() - 1 - historyPosition);
