@@ -41,7 +41,9 @@ To begin the simulation, press the button labeled "Start Simulation". If an algo
 Note: The number of steps and the send rate must both be positive integers. 
       The Send Rate dicates how many steps must be performed before a new packet is created.
 
-Pressing the button labeled "Simulate Step" will performed one step (i.e. each existing packet will be transfered once) into the simulation. The user will be prompted for a sendRate and algorhithm if none are already set.
+Pressing the button labeled "Simulate Step" will perform one step (i.e. each existing packet will be transfered once) into the simulation. The user will be prompted for a sendRate and algorhithm if none are already set.
+
+Pressing the button labeled "Step Back" will perform one step backwards through the simulation (reversing the steps already performing).
 
 A textArea on the right of the interface is used to display the metrics from the simulation. The textArea is updated after each step is completed, displaying the total number of packets transfered between nodes (i.e. a packet moving between one node and a connection).
 
@@ -59,7 +61,7 @@ Added functionality to step back through simulation.
 Fixed the Flooding algorithm.
 Fixed the test that was failing.
 Fixed the Depth-First-Search algorhithm.
-Both metrics are now properly displayed.
+Both metrics are now displayed.
 All tests pass.
 
 <B>Known Issues </B>
