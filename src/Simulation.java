@@ -103,8 +103,9 @@ public class Simulation extends Thread {
 	 */
 	public void simulateStep() {
 		// If back in history, just go forward without simulating again.
-		if (historyPosition != 0) {
-			graph = history.get(history.size() - 1 - historyPosition);
+		
+		if (historyPosition > 0) {
+			graph = history.get(history.size() - historyPosition);
 			historyPosition--;
 		}
 		
@@ -148,6 +149,7 @@ public class Simulation extends Thread {
 	 */
 	public void simulateBackStep() {
 		if (historyPosition != (history.size() - 1)) {
+			
 			historyPosition++;
 			graph = history.get(history.size() - 1 - historyPosition);
 			notifyView();
