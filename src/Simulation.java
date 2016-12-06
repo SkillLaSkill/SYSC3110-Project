@@ -17,6 +17,8 @@ public class Simulation extends Thread {
 	private List<ViewStrategy> views;
 	private Random rand = new Random();
 	
+	private int sendRate;
+	
 	private List<Graph> history = new ArrayList<>();
 	private int historyPosition = 0;
 	
@@ -77,21 +79,21 @@ public class Simulation extends Thread {
 	 * Sets the send rate of the simulation
 	 * 
 	 * @param sendRate (int) - Desired send rate
-	 *
+	 */
 	public void setSendRate(int sendRate) {
 		this.sendRate = sendRate;
-	}*/
+	}
 	
 	/**
 	 * Checks if the simulation has a send rate
 	 * 
 	 * @return boolean - True = has a send rate; False = doesn't have a send rate
-	 *
+	 */
 	public boolean hasSendRate()
 	{
 		if(sendRate <= 0) return false;
 		else return true;
-	}*/
+	}
 	
 	@Override
 	public void run() {}
@@ -101,7 +103,7 @@ public class Simulation extends Thread {
 	 *
 	 * @param sendRate (int) - Rate in which the packets are sent
 	 */
-	public void simulateStep(int sendRate) {
+	public void simulateStep() {
 		// If back in history, just go forward without simulating again.
 		
 		if (historyPosition > 0) {
