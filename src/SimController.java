@@ -166,7 +166,7 @@ public class SimController implements ActionListener {
 	{
 		if(model.getAlgorithm() == null) this.selectAlg();
 		if(!(model.getAlgorithm() == null))
-			model.simulateStep();
+			model.simulateBackStep();
 	}
 	
 	/**
