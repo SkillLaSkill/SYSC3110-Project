@@ -68,6 +68,7 @@ All tests pass.
 Simulation requires a connected graph to function properly.
 Deleting a node or connection after simulating can cause errors.
 Metrics display invalid value while Stepping Back through simulation. Once the simulalation returns to the point where it was initial Stepped Backwards, the metrics become valid again, as they aren't updated while stepping back and forth through the history of the simulation. The output displays the validity of the metrics.
+If the XML file "ImportExport.xml" is invalid or doesn't exist, exceptions will thrown.
 
 <B>Distribution of Work</B>
 
