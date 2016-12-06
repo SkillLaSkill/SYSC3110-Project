@@ -9,6 +9,21 @@ import java.io.File;
  */
 public class SimController implements ActionListener {
 	
+	private static final String IMPORT_STATE = "Import State";
+	private static final String SAVE_STATE = "Save State";
+	private static final String STEP_BACK = "Step Back";
+	private static final String STEP_SIMULATION = "Step Simulation";
+	private static final String START_SIMULATION = "Start Simulation";
+	private static final String SELECT_ALGORITHM = "Select Algorithm";
+	private static final String CONSTRUCT_GRAPH = "Construct Graph";
+	private static final String CLEAR_TEXT = "Clear Text";
+	private static final String EXIT = "Exit";
+	private static final String REFRESH = "Refresh";
+	private static final String RESET = "Reset";
+	private static final String DELETE_CONNECTION = "Delete Connection";
+	private static final String DELETE_NODE = "Delete Node";
+	private static final String ADD_CONNECTION = "Add Connection";
+	private static final String CREATE_NODES = "Create Nodes";
 	private SimGUI view;
 	private Simulation model;
 	String fileName = "ImportExport";
@@ -257,35 +272,35 @@ public class SimController implements ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		String actionCommand = arg0.getActionCommand();
 		// Calls the private method to deal with Node creation in both model and view
-		if(actionCommand.equals("Create Nodes")) createNodes();
+		if(actionCommand.equals(CREATE_NODES)) createNodes();
 		// Calls private method to deal with Connection establishment in both model and view
-		else if(actionCommand.equals("Add Connection")) makeConnection();
+		else if(actionCommand.equals(ADD_CONNECTION)) makeConnection();
 		// Calls Private method to deal with Node removal in both model and view
-		else if(actionCommand.equals("Delete Node")) removeNode();
+		else if(actionCommand.equals(DELETE_NODE)) removeNode();
 		// Calls private method to deal with Connection removal in both model and view
-		else if(actionCommand.equals("Delete Connection"))	removeConnection();
+		else if(actionCommand.equals(DELETE_CONNECTION))	removeConnection();
 		// Calls private method to deal with reset on both model and view
-		else if(actionCommand.equals("Reset"))	reset();
+		else if(actionCommand.equals(RESET))	reset();
 		//Hard refresh
-		else if(actionCommand.equals("Refresh")) view.update();
+		else if(actionCommand.equals(REFRESH)) view.update();
 		//Exits the program
-		else if(actionCommand.equals("Exit")) exit();
+		else if(actionCommand.equals(EXIT)) exit();
 		//Clears the text field
-		else if(actionCommand.equals("Clear Text")) clear();
+		else if(actionCommand.equals(CLEAR_TEXT)) clear();
 		//Constructs a graph
-		else if(actionCommand.equals("Construct Graph")) construct();
+		else if(actionCommand.equals(CONSTRUCT_GRAPH)) construct();
 		// Calls private method to start the simulation
-		else if(actionCommand.equals("Select Algorithm")) selectAlg();
+		else if(actionCommand.equals(SELECT_ALGORITHM)) selectAlg();
 		// Starts the simulation
-		else if(actionCommand.equals("Start Simulation")) startSim();
+		else if(actionCommand.equals(START_SIMULATION)) startSim();
 		// Steps once into the simulation
-		else if(actionCommand.equals("Step Simulation")) stepSim();
+		else if(actionCommand.equals(STEP_SIMULATION)) stepSim();
 		// Steps back once in the simulation
-		else if(actionCommand.equals("Step Back")) stepBack();
+		else if(actionCommand.equals(STEP_BACK)) stepBack();
 		// Exports the topology view information into a XML
-		else if(actionCommand.equals("Save State")) model.getGraph().exportToXmlFile(fileName);
+		else if(actionCommand.equals(SAVE_STATE)) model.getGraph().exportToXmlFile(fileName);
 		// Imports topology view from the XML file
-		else if(actionCommand.equals("Import State")) {
+		else if(actionCommand.equals(IMPORT_STATE)) {
 			model.setGraph(model.getGraph().importFromXMLFile(new File(fileName+".xml")));
 			view.update(); 
 		}
