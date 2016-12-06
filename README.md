@@ -55,29 +55,25 @@ Flooding: floods the network with the packet by sending it to all connections of
 
 <B>Changes made since last milestone</B>
 
-Updated the Model-View-Controller to better follow the design pattern (view can model can communicate).
-Nodes and connections can now be created and deleted by right clicking on the gui interface.
-Updated UML to show inner classes.
-SimTopologyView was replaced with SimGUI and GUINodeList to break up the responsibilities.
-Packets are now displayed before their first hop.
-Flooding, Breadth-First-Search, Depth-First-Search were implemented.
-Added second metric.
+Added functionality to step back through simulation.
+Fixed the Flooding algorithm.
+Fixed the test that was failing.
+Fixed the Depth-First-Search algorhithm.
+Both metrics are now properly displayed.
+All tests pass.
 
 <B>Known Issues </B>
-Shouldn't be able to have sendRate less than 1.
-Simulation requires a complete graph to function properly.
-Deleting a node or connection after simulating can cause errors
-Trying to delete connection with improper parameters can cause errors
-Flooding: routing algorithm packets get stuck at dead end nodes (class needs to be overhauled).
-Number of hops before packets in flooding are destroyed should be based on graph traversal length. (it is arbitrarily set as 6)
+Simulation requires a connected graph to function properly.
+Deleting a node or connection after simulating can cause errors.
+Metrics display invalid value while Stepping Back through simulation. Once the simulalation returns to the point where it was initial Stepped Backwards, the metrics become valid again, as they aren't updated while stepping back and forth through the history of the simulation. The output displays the validity of the metrics.
 
 <B>Distribution of Work</B>
 
 Ben - Thoroughly updated MVC, View and Controller
 
-Dan - Created the UML diagram,worked on UniTTests JAVADOC, Graph and Node
+Dan - Created the UML diagram,worked on UniTTests, JAVADOC, ExportingXML
 
-Josh - Worked on the Depth algorhithm, View Graphics, Breadth algorhithm and Metrics.
+Josh - Worked on the Depth algorhithm, Model, ImportingXML, StepBack
 
-Thomas - Worked on the Model, Packet, Documentation, Flooding algorithm and Metrics.
+Thomas - Worked on the Model, StepBack, Documentation, Flooding algorithm and Metrics.
 
