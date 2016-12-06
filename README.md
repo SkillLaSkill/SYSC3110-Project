@@ -83,5 +83,5 @@ Dan - Created the UML diagram,worked on UniTTests, JAVADOC, ExportingXML
 
 Josh - Worked on the Depth algorhithm, Model, ImportingXML, StepBack
 
-Thomas - Worked on the Model, StepBack, Documentation, Flooding algorithm and Metrics.
+Thomas - Worked on the Model, StepBack, ReadMe, Flooding algorithm and Metrics.
 
