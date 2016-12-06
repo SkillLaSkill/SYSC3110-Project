@@ -63,6 +63,8 @@ Flooding: floods the network with the packet by sending it to all connections of
       <li>Improved the Depth-First-Search algorhithm.</li>
       <li>Both metrics are now displayed.</li>
       <li>All tests pass.</li>
+      <li>Reduced duplication of code between algorhithms.</li>
+      <li>Removed magic strings in controller.</li>
 </ul>
 
 <B>Known Issues </B>
