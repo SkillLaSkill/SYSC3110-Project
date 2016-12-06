@@ -56,13 +56,16 @@ Depth-First-Search: uses a DFS technique to determine a path to the destination.
 Flooding: floods the network with the packet by sending it to all connections of a node, and all their connections.
 
 <B>Changes made since last milestone</B>
-
-Added functionality to step back through simulation.
-Fixed the Flooding algorithm.
-Fixed the test that was failing.
-Fixed the Depth-First-Search algorhithm.
-Both metrics are now displayed.
-All tests pass.
+<ul>
+      <li>Added functionality to step back through simulation.</li>
+      <li>Fixed the Flooding algorithm.</li>
+      <li>Fixed the test that was failing.</li>
+      <li>Improved the Depth-First-Search algorhithm.</li>
+      <li>Both metrics are now displayed.</li>
+      <li>All tests pass.</li>
+      <li>Reduced duplication of code between algorhithms.</li>
+      <li>Removed magic strings in controller.</li>
+</ul>
 
 <B>Known Issues </B>
 <ul>
@@ -70,6 +73,7 @@ All tests pass.
       <li>Deleting a node or connection after simulating can cause errors.</li>
       <li> Metrics display invalid value while Stepping Back through simulation. Once the simulalation returns to the point where it was initial Stepped Backwards, the metrics become valid again, as they aren't updated while stepping back and forth through the history of the simulation. The output displays the validity of the metrics.</li>
       <li>If the XML file "ImportExport.xml" is invalid or doesn't exist, exceptions will thrown.</li>
+      <li>In specific cases, packets can become stuck in a loop between two nodes while usingDepth-First-Search.</li>
 </ul>
 <B>Distribution of Work</B>
 
@@ -79,5 +83,5 @@ Dan - Created the UML diagram,worked on UniTTests, JAVADOC, ExportingXML
 
 Josh - Worked on the Depth algorhithm, Model, ImportingXML, StepBack
 
-Thomas - Worked on the Model, StepBack, Documentation, Flooding algorithm and Metrics.
+Thomas - Worked on the Model, StepBack, ReadMe, Flooding algorithm and Metrics.
 
