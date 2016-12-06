@@ -133,14 +133,23 @@ public class SimController implements ActionListener {
 			this.selectAlg();
 		if(model.getAlgorithm() == null)
 			return;
-		String s = view.createPrompt("Enter number of steps");
-		if(s == null || s.isEmpty() )
+		String s1 = view.createPrompt("Enter number of steps");
+		if(s1 == null || s1.isEmpty() )
 			return;
-		if(	!(this.isNumeric(s)) )	
+		if(	!(this.isNumeric(s1)) )	
 			return;
 		
-		int steps = Integer.parseInt(s);
-		if(!(steps > 0)	)
+		
+		String s2 = view.createPrompt("Enter send rate");
+		if(s2 == null || s2.isEmpty() )
+			return;
+		if(	!(this.isNumeric(s2)) )	
+			return;
+		
+		
+		int steps = Integer.parseInt(s1);
+		int rate = Integer.parseInt(s2);
+		if(!(steps > 0 && rate > 0)	)
 		{
 			System.out.println("Sendrate and steps must be above zero!");
 			return;

@@ -101,7 +101,7 @@ public class Simulation extends Thread {
 	 *
 	 * @param sendRate (int) - Rate in which the packets are sent
 	 */
-	public void simulateStep() {
+	public void simulateStep(Int sendRate) {
 		// If back in history, just go forward without simulating again.
 		
 		if (historyPosition > 0) {
