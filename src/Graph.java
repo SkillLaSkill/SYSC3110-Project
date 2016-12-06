@@ -370,4 +370,9 @@ public class Graph {
 	
 	}
 	
+	public boolean isEmpty()
+	{
+		return nodes.isEmpty();
+	}
+	
 }

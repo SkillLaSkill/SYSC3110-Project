@@ -129,6 +129,8 @@ public class SimController implements ActionListener {
 	 */ 
 	private void startSim()
 	{
+		if(model.getGraph().isEmpty())
+			return;
 		if(model.getAlgorithm() == null)
 			this.selectAlg();
 		if(model.getAlgorithm() == null)
@@ -154,7 +156,8 @@ public class SimController implements ActionListener {
 	 */
 	private void stepSim()
 	{
-		
+		if(model.getGraph().isEmpty())
+			return;
 		if(!model.hasSendRate())
 		{
 			String s2 = view.createPrompt("Enter send rate");
@@ -181,6 +184,8 @@ public class SimController implements ActionListener {
 	 */
 	private void stepBack()
 	{
+		if(model.getGraph().isEmpty())
+			return;
 		if(model.getAlgorithm() == null) this.selectAlg();
 		if(!(model.getAlgorithm() == null))
 			model.simulateBackStep();
