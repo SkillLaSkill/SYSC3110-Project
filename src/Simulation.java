@@ -18,6 +18,7 @@ public class Simulation extends Thread {
 	private Random rand = new Random();
 	
 	private List<Graph> history = new ArrayList<>();
+	private int historyPosition = 0;
 	
 	public Simulation(SimGUI v) {
 		this(new Graph());
@@ -102,16 +103,14 @@ public class Simulation extends Thread {
 	 */
 	public void simulateStep() {
 		// If back in history, just go forward without simulating again.
-		/*System.out.println(graph.toXML());
-		if (historyPosition != 0) {
-			graph = history.get(history.size() - 1 - historyPosition);
+		
+		if (historyPosition > 0) {
+			graph = history.get(history.size() - historyPosition);
 			historyPosition--;
-			System.out.println(graph.toXML());
-		}*/
+		}
 		
 		// Will only simulate if not in history.
-		//else {
-			System.out.println(graph.toXML());
+		else {
 			alg.setGraph(graph);
 			alg.setMetric(metric);
 			
@@ -139,7 +138,7 @@ public class Simulation extends Thread {
 			Graph g = (Graph.importFromXMLObj(graph.exportToXmlObj()));
 			
 			history.add(g);
-		//}
+		}
 		notifyView();
 	}
 	
@@ -149,11 +148,12 @@ public class Simulation extends Thread {
 	 * @param sendRate (int) - Rate in which the packets are sent
 	 */
 	public void simulateBackStep() {
-		if (history.size() != 0) {
-			graph = history.remove(history.size()-1);
+		if (historyPosition != (history.size() - 1)) {
+			
+			historyPosition++;
+			graph = history.get(history.size() - 1 - historyPosition);
 			notifyView();
 		}
-		
 	}
 	
 	
