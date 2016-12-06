@@ -79,26 +79,6 @@ public class SimController implements ActionListener {
 	}
 	
 	/**
-	 * Create connections from the node to all the nodes in the list from two string the user gives.
-	 */
-	
-	/*private void makeConnections() 
-	{
-		String node = view.createPrompt("Enter node name");
-		String[] s = view.createPrompt("Enter nodes you would like to connect to").split(" ");
-		for (String con : s) {
-			Node n = model.getGraph()
-			if(model.getGraph().contains(node) && model.getGraph().contains(con))
-			{
-				model.getGraph().getNode(node).addConnection(con);
-			}
-			else System.out.println("A node pair was not connected!");
-		}	
-		model.notifyView();
-	}*/
-	
-	
-	/**
 	 * Removes a connection between 2 nodes from two string the user gives.
 	 */
 	private void removeConnection()
@@ -123,7 +103,8 @@ public class SimController implements ActionListener {
 	{
 		String[] choices = {"Random", "Flood", "Breadth-first", "Depth-first" };
 		String choice = view.comboPrompt(choices);
-		if(choice == null) return;
+		if(choice == null || choice.isEmpty()) 
+			return;
 		if(choice.equals("Random")) {
 			model.setAlgorithm(new RandomAlgorithm());
 		}
@@ -150,20 +131,15 @@ public class SimController implements ActionListener {
 	{
 		if(model.getAlgorithm() == null)
 			this.selectAlg();
+		if(model.getAlgorithm() == null)
+			return;
 		String s = view.createPrompt("Enter number of steps");
-		/*if(!model.hasSendRate())
-		{
-			String r = view.createPrompt("Enter send rate");
-			if(!(this.isNumeric(r)))
-				return;
-			int sendRate = Integer.parseInt(r);
-			model.setSendRate(sendRate);
-		}*/
-		//Change below here if needed
-		if(	!(this.isNumeric(s)) )	return;
+		if(s == null || s.isEmpty() )
+			return;
+		if(	!(this.isNumeric(s)) )	
+			return;
 		
 		int steps = Integer.parseInt(s);
-		
 		if(!(steps > 0)	)
 		{
 			System.out.println("Sendrate and steps must be above zero!");
@@ -178,17 +154,9 @@ public class SimController implements ActionListener {
 	 */
 	private void stepSim()
 	{
-		/*if(!model.hasSendRate())
-		{
-			String r = view.createPrompt("Enter send rate");
-			if(!(this.isNumeric(r)))
-				return;
-			//int sendRate = Integer.parseInt(r);
-			//model.setSendRate(sendRate);
-		}*/
-
 		if(model.getAlgorithm() == null) this.selectAlg();
-		model.simulateStep();
+		if(!(model.getAlgorithm() == null))
+			model.simulateStep();
 	}
 	
 	/**
@@ -197,7 +165,8 @@ public class SimController implements ActionListener {
 	private void stepBack()
 	{
 		if(model.getAlgorithm() == null) this.selectAlg();
-		model.simulateBackStep();
+		if(!(model.getAlgorithm() == null))
+			model.simulateStep();
 	}
 	
 	/**
@@ -241,6 +210,23 @@ public class SimController implements ActionListener {
 		view.clearText();
 	}
 	
+	private void construct()
+	{
+		Node A = new Node("1");
+		Node B = new Node("2");
+		Node C = new Node("3");
+		Node D = new Node("4");
+		A.addConnection(B);
+		A.addConnection(C);
+		A.addConnection(D);
+		C.addConnection(D);
+		model.getGraph().addNode(A);
+		model.getGraph().addNode(B);
+		model.getGraph().addNode(C);
+		model.getGraph().addNode(D);
+		model.notifyView();
+	}
+	
 	/**
 	 * Checks that action the user wants to take, then acts accordingly
 	 */
@@ -264,6 +250,8 @@ public class SimController implements ActionListener {
 		else if(actionCommand.equals("Exit")) exit();
 		//Clears the text field
 		else if(actionCommand.equals("Clear Text")) clear();
+		//Constructs a graph
+		else if(actionCommand.equals("Construct Graph")) construct();
 		// Calls private method to start the simulation
 		else if(actionCommand.equals("Select Algorithm")) selectAlg();
 		// Starts the simulation

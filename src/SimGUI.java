@@ -137,7 +137,10 @@ public class SimGUI extends JFrame implements ViewStrategy
         menuBar.add(fileMenu);
         JMenuItem clear = new JMenuItem("Clear Text");
         clear.addActionListener(controller);
+        JMenuItem construct = new JMenuItem("Construct Graph");
+        construct.addActionListener(controller);
         textMenu.add(clear);
+        textMenu.add(construct);
         menuBar.add(textMenu);
         this.setJMenuBar(menuBar);
         
