@@ -261,7 +261,7 @@ public class Graph {
 				org.w3c.dom.Node xmlNodeNode = (org.w3c.dom.Node)nodeNodeList.item(j);
 				
 				
-				// Build up graph with nodes/connections
+				// Build up graph with nodes
 			
 				String name = xmlNodeNode.getNodeName();
 				String value = xmlNodeNode.getTextContent();
@@ -269,9 +269,6 @@ public class Graph {
 				switch(name) {
 				case "Name":
 					n.setName(value);
-					break;
-				case "Connection":
-					n.addConnection(new Node(value));
 					break;
 				case "Packet":
 					org.w3c.dom.NodeList pnl = xmlNodeNode.getChildNodes();	
@@ -300,6 +297,40 @@ public class Graph {
 				g.addNode(n);
 		}
 
+		// Connect up the nodes.
+		for (int i = 0; i < nl.getLength(); i++) {
+			// This should be the <Node></Node>
+			org.w3c.dom.Node xmlNode = (org.w3c.dom.Node)nl.item(i);
+			
+			org.w3c.dom.NodeList nodeNodeList = xmlNode.getChildNodes();
+			Node n = null;
+			for (int j = 0; j < nodeNodeList.getLength(); j++) {
+				org.w3c.dom.Node xmlNodeNode = (org.w3c.dom.Node)nodeNodeList.item(j);
+			
+				// Build up graph with connections
+			
+				String name = xmlNodeNode.getNodeName();
+				String value = xmlNodeNode.getTextContent();
+				
+				switch(name) {
+				case "Name":
+					n = g.getNode(value);
+					break;
+				case "Connection":
+					if (n == null) {
+						j = -1; // Go through the loop again to find name.
+					}
+					else {
+						n.addConnection(g.getNode(value));
+					}
+					
+					break;
+				default: break;	
+				}
+				
+			}
+		}
+		
 		return g;
 	}
 	/**
@@ -337,6 +368,11 @@ public class Graph {
 			return null;
 		}
 	
+	}
+	
+	public boolean isEmpty()
+	{
+		return nodes.isEmpty();
 	}
 	
 }

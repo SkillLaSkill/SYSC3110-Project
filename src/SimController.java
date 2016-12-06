@@ -129,20 +129,22 @@ public class SimController implements ActionListener {
 	 */ 
 	private void startSim()
 	{
+		if(model.getGraph().isEmpty())
+			return;
 		if(model.getAlgorithm() == null)
 			this.selectAlg();
 		if(model.getAlgorithm() == null)
 			return;
-		String s = view.createPrompt("Enter number of steps");
-		if(s == null || s.isEmpty() )
+		String s1 = view.createPrompt("Enter number of steps");
+		if(s1 == null || s1.isEmpty() )
 			return;
-		if(	!(this.isNumeric(s)) )	
+		if(	!(this.isNumeric(s1)) )	
 			return;
+		int steps = Integer.parseInt(s1);
 		
-		int steps = Integer.parseInt(s);
-		if(!(steps > 0)	)
+		if(!(steps > 0))
 		{
-			System.out.println("Sendrate and steps must be above zero!");
+			System.out.println("Steps must be above zero!");
 			return;
 		}
 		for(int i = 0; i < steps; i++) 
@@ -154,6 +156,24 @@ public class SimController implements ActionListener {
 	 */
 	private void stepSim()
 	{
+		if(model.getGraph().isEmpty())
+			return;
+		if(!model.hasSendRate())
+		{
+			String s2 = view.createPrompt("Enter send rate");
+			if(s2 == null || s2.isEmpty() )
+				return;
+			if(	!(this.isNumeric(s2)) )	
+				return;
+			int rate = Integer.parseInt(s2);
+			if(!(rate > 0))
+			{
+				System.out.println("Send rate must be above zero!");
+				return;
+			}
+			model.setSendRate(rate);
+		}
+			
 		if(model.getAlgorithm() == null) this.selectAlg();
 		if(!(model.getAlgorithm() == null))
 			model.simulateStep();
@@ -164,6 +184,8 @@ public class SimController implements ActionListener {
 	 */
 	private void stepBack()
 	{
+		if(model.getGraph().isEmpty())
+			return;
 		if(model.getAlgorithm() == null) this.selectAlg();
 		if(!(model.getAlgorithm() == null))
 			model.simulateBackStep();
@@ -263,6 +285,9 @@ public class SimController implements ActionListener {
 		// Exports the topology view information into a XML
 		else if(actionCommand.equals("Save State")) model.getGraph().exportToXmlFile(fileName);
 		// Imports topology view from the XML file
-		else if(actionCommand.equals("Import State")) model.setGraph(model.getGraph().importFromXMLFile(new File(fileName+".xml")));
+		else if(actionCommand.equals("Import State")) {
+			model.setGraph(model.getGraph().importFromXMLFile(new File(fileName+".xml")));
+			view.update(); 
+		}
 	}
 }

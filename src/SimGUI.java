@@ -110,7 +110,7 @@ public class SimGUI extends JFrame implements ViewStrategy
 	//Right click menu
 		topologyCanvas.addMouseListener(new RightClickListener());		
 		
-	//Menu Bar setup
+	//Menu Bar setup 
 		JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
         JMenu textMenu = new JMenu("Edit");
